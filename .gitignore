@@ -42,3 +42,12 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# debugging stuff
+/originalGitAuthorName.txt
+
+# the Firebase's backend
+/backend
+
+# Google Services
+/app/google-services.json
