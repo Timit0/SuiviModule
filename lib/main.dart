@@ -1,8 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
+import 'infrastructure/firebase_db_service.dart';
+
+import 'models/eleve.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +18,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // creation d'un eleve dummy
+    Eleve dummyEleve = Eleve.base();
+    Eleve dummyEleveUpdated =
+        Eleve(id: dummyEleve.id, name: 'name', firstname: 'yey');
+    FirebaseDBService.instance
+        .updateEleve(dummyEleveUpdated)
+        .then((value) => print(value));
     return const Placeholder();
   }
 }

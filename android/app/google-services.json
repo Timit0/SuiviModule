@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "406285362095",
+    "firebase_url": "https://suivimodule-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "suivimodule",
+    "storage_bucket": "suivimodule.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406285362095:android:e8ccc13da016ebe0a9c55a",
+        "android_client_info": {
+          "package_name": "com.example.suivi_de_module"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406285362095-um3s2d231t7u8nfv9660inaljnsb0dll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN_lsr0DImShGI20HNJHdrjKIjx2sUQYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406285362095-um3s2d231t7u8nfv9660inaljnsb0dll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
