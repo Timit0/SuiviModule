@@ -22,9 +22,7 @@ class MyApp extends StatelessWidget {
     Eleve dummyEleve = Eleve.base();
     Eleve dummyEleveUpdated =
         Eleve(id: dummyEleve.id, name: 'name', firstname: 'yey');
-    FirebaseDBService.instance
-        .updateEleve(dummyEleveUpdated)
-        .then((value) => print(value));
+    FirebaseDBService.instance.removeEleve(dummyEleveUpdated);
     return const Placeholder();
   }
 }

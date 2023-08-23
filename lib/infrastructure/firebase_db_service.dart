@@ -44,6 +44,12 @@ class FirebaseDBService {
     return eleve;
   }
 
+  Future<void> removeEleve(Eleve eleve) async {
+    _ref.child('eleves/${eleve.id}').remove().then((_) => null).catchError((e) {
+      dev.log(e);
+    });
+  }
+
   Future<List<Eleve>> getAllEleves() async {
     final snapshot = await _ref.child('eleves').get();
 
