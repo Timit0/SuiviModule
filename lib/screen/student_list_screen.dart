@@ -2,6 +2,7 @@ import 'dart:html' as html; // window.reload.location.reload();
 
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
+import 'package:suivi_de_module/screen/student_summary_screen.dart';
 
 import '../widget/student_card.dart';
 
@@ -56,7 +57,10 @@ class _StudentListScreenState extends State<StudentListScreen> {
           width: 900,
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-            itemCount: widget.studentList.length, itemBuilder: (context, index) => StudentCard(eleve: widget.studentList[index])),
+            itemCount: widget.studentList.length, itemBuilder: (context, index) => InkWell(onTap: () {
+              StudentSummaryScreen.eleve = widget.studentList[index];
+              Navigator.of(context).pushNamed(StudentSummaryScreen.routeName);
+            }, child: StudentCard(eleve: widget.studentList[index]))),
         ),
       ),
     ), floatingActionButton: FloatingActionButton(onPressed: () {

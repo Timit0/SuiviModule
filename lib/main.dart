@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:suivi_de_module/screen/student_summary_screen.dart';
 import 'firebase_options.dart';
 
 import 'infrastructure/firebase_db_service.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
     //   instance.addEleve(dummy);
     // }
 
-    return MaterialApp(debugShowCheckedModeBanner: false, home: StudentListScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, routes: {
+      '/':(context) => StudentListScreen(),
+      StudentSummaryScreen.routeName:(context) => StudentSummaryScreen()
+    });
   }
 }
