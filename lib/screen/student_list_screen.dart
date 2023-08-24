@@ -58,7 +58,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
     ), floatingActionButton: FloatingActionButton(onPressed: () {
         showDialog(context: context, builder: (context) => AlertDialog(
         scrollable: true,
-        title: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [const Text('Ajout d\'un élève'), IconButton(onPressed: (){}, icon: const Icon(Icons.close))]),
+        title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Ajout d\'un élève'), IconButton(onPressed: (){}, icon: const Icon(Icons.close))]),
         content: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('identifiant', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempID = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('nom', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempName = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
