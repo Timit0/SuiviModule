@@ -44,7 +44,10 @@ app.*.map.json
 /android/app/release
 
 # debugging stuff
-/originalGitAuthorName.txt
+/pubget.bat
+/runFirebase.bat
+/clean.bat
+/TODOLIST.txt
 
 # the Firebase's backend
 /backend

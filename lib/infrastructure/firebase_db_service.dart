@@ -20,7 +20,6 @@ class FirebaseDBService {
   }
 
   // =================================| CRUD pour Eleve|=================================
-
   Future<Eleve> addEleve(Eleve eleve) async {
     _ref.child('eleves/${eleve.id}').set(eleve.toJson()).then((_) {
       return eleve.copyWith(id: eleve.id);
@@ -60,13 +59,13 @@ class FirebaseDBService {
         final tempID = v.key.toString();
         final tempMap = v.value as Map<String, dynamic>;
 
-        eleves.add(Eleve.fromJson(tempMap).copyWith(id: tempID));
+        eleves.add(Eleve.fromJson(tempMap));
+
       }
       return eleves;
     }
 
     return [];
   }
-
   // ====================================================================================
 }

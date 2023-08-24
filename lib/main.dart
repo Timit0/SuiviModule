@@ -7,6 +7,8 @@ import 'infrastructure/firebase_db_service.dart';
 
 import 'models/eleve.dart';
 
+import 'screen/student_list_screen.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -18,11 +20,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // creation d'un eleve dummy
-    Eleve dummyEleve = Eleve.base();
-    Eleve dummyEleveUpdated =
-        Eleve(id: dummyEleve.id, name: 'name', firstname: 'yey');
-    FirebaseDBService.instance.removeEleve(dummyEleveUpdated);
-    return const Placeholder();
+
+    // TODO: a retirer apres le premier run!
+
+    // uniquement pour le debuggage
+    // final instance = FirebaseDBService.instance;
+    // for (var i = 0; i < 99; i++) {
+    //   Eleve dummy = Eleve(
+    //       id: 'cp-$i',
+    //       name: i.toString(),
+    //       firstname: (i * 2).toString(),
+    //       photoFilename: 'assets/img/placeholderImage.png');
+    //   instance.addEleve(dummy);
+    // }
+
+    return MaterialApp(debugShowCheckedModeBanner: false, home: StudentListScreen());
   }
 }
