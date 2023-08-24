@@ -15,6 +15,13 @@ class StudentListScreen extends StatefulWidget {
   bool loaded = false;
   List<Eleve> studentList = [];
 
+  final _formKey = GlobalKey();
+
+  late String tempID;
+  late String tempName;
+  late String tempNickname;
+  late String tempPhotoUrl;
+
   @override
   State<StudentListScreen> createState() => _StudentListScreenState();
 }
@@ -48,6 +55,19 @@ class _StudentListScreenState extends State<StudentListScreen> {
             itemCount: widget.studentList.length, itemBuilder: (context, index) => StudentCard(eleve: widget.studentList[index])),
         ),
       ),
-    ), );
+    ), floatingActionButton: FloatingActionButton(onPressed: () {
+        showDialog(context: context, builder: (context) => AlertDialog(
+        scrollable: true,
+        title: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [const Text('Ajout d\'un élève'), IconButton(onPressed: (){}, icon: const Icon(Icons.close))]),
+        content: Column(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('identifiant', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempID = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('nom', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempName = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('prénom', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempNickname = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('URL de l\'image', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempPhotoUrl = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
+
+          TextButton(onPressed: (){}, style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.grey), foregroundColor: MaterialStateProperty.all(Colors.white)), child: const Text('OK'))
+        ])
+      ));
+    }, backgroundColor: const Color.fromARGB(255, 73, 73, 73), child: const Icon(Icons.person_add)));
   }
 }
