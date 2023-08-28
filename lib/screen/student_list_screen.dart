@@ -35,11 +35,13 @@ class _StudentListScreenState extends State<StudentListScreen> {
 
   @override
   void didChangeDependencies() async {
+    
+    final arguments = ModalRoute.of(context)?.settings.arguments;
 
     if (!widget.loaded)
     {
       widget.studentList.clear();
-      widget.studentList = await widget.db.getAllEleves();
+      widget.studentList = await widget.db.getAllEleves(arguments.toString());
       setState(() {
         widget.loaded = true;
       });

@@ -54,8 +54,8 @@ class FirebaseDBService implements Service {
     });
   }
 
-  Future<List<Eleve>> getAllEleves() async {
-    final snapshot = await _ref.child('eleves').get();
+  Future<List<Eleve>> getAllEleves(String id) async {
+    final snapshot = await _ref.child('$moduleNode/$id/eleve').get();
 
     if (snapshot.exists) {
       final eleves = <Eleve>[];

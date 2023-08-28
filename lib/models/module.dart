@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/models/eleve.dart';
@@ -22,15 +24,13 @@ class Module{
 
   factory Module.fromJson(Map<dynamic, dynamic> json)
   {
-    // dev.log("===========================================");
-    // dev.log(json["eleve"]["cp-21tih"]);
-    // dev.log("===========================================");
-
-    // var list = json["eleve"]["cp-21tih"] as List;
-    // List<Eleve> i = list.map((e) => Eleve.fromJson(e)).toList();
 
     List<Eleve> temp = [];
-    temp.add(Eleve.fromJson(json["eleve"]["cp-21tih"]));    
+
+    for (var element in json['eleve']) {
+      temp.add(Eleve.fromJson(element));
+    }
+
 
     return Module(
       nom: json["nom"], 
