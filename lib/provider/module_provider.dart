@@ -6,8 +6,8 @@ import 'package:suivi_de_module/models/module.dart';
 class ModuleProvider with ChangeNotifier{
   final List<Module> _modules = [];
 
-  ModuleProvider(this.service);
-  Service service;
+  // ModuleProvider(this.service);
+  // Service service;
 
   List<Module> get modules{
     return [..._modules];
@@ -23,6 +23,7 @@ class ModuleProvider with ChangeNotifier{
   Future<void> createModule(Module module) async{
     await FirebaseDbService.instance.addModule(module);
     _modules.add(module);
+    fetchAndSetModules();
     notifyListeners();
   }
 

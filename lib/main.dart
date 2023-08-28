@@ -5,12 +5,13 @@ import 'package:suivi_de_module/firebase_options.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 import 'package:suivi_de_module/infrastructure/service.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/screen/login_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,10 +20,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     //FirebaseDbService.instance.addData();
-    final service = FirebaseDbService.instance;
+    //final service = FirebaseDbService.instance;
 
     return ChangeNotifierProvider(
-      create: (context) => ModuleProvider(service),
+      // create: (context) => ModuleProvider(service),
+      create: (context) => ModuleProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: ModuleScreen(),
+        home: const ModuleScreen(),
+        // home: LoginScreen(),
       ),
     );
   }

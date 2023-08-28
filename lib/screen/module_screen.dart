@@ -49,7 +49,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
 
       body: _isLoading ? const Center(child: CircularProgressIndicator())
           : Padding(
-        padding: EdgeInsets.only(top: 50),
+        padding: const EdgeInsets.only(top: 50),
         child: Padding(
           padding: const EdgeInsets.only(left: 100, right: 100),
           child: ListView.builder(
