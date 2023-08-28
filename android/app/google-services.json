@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "446650857393",
+    "firebase_url": "https://suivi-de-module-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "suivi-de-module",
+    "storage_bucket": "suivi-de-module.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446650857393:android:51a0291df93b1c0e26af90",
+        "android_client_info": {
+          "package_name": "com.example.suivi_de_module"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446650857393-obua0k9tpl00hkgmin2k6itngvuvdmt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoax5K_GNjSQy2SbXB8rxe6PmeaLX_JUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446650857393-obua0k9tpl00hkgmin2k6itngvuvdmt5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

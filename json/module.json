@@ -1,0 +1,20 @@
+[
+    {
+        "nom":"ICH-322",
+        "description":"Concevoir et implémenter des interfaces utilisateurs",
+        "horaire":"Jeudi - 9:15 - 10:45",
+        "classe":"ICH-2 (14 élèves)"
+    },
+    {
+        "nom":"ICH-323",
+        "description":"Programmer de manière fonctionnelle",
+        "horaire":"Vendredi - 12:25 - 13:55",
+        "classe":"ICH-3 (12 élèves)"
+    },
+    {
+        "nom":"ICH-450",
+        "description":"Tester des applications",
+        "horaire":"Vendredi - 14:05 - 15:35",
+        "classe":"ICH-3 (12 élèves)"
+    }
+]
