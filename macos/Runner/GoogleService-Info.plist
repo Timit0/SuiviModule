@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>446650857393-26d65emdj8f4gbg212ltkg2s4m3s29q2.apps.googleusercontent.com</string>
+	<string>406285362095-dce3agr45cdajql6vakndm2oukss1o0t.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.446650857393-26d65emdj8f4gbg212ltkg2s4m3s29q2</string>
+	<string>com.googleusercontent.apps.406285362095-dce3agr45cdajql6vakndm2oukss1o0t</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB4kXXLVNeOGESK67NsLxNdnQEmaV9gqWU</string>
+	<string>AIzaSyDGBRVgi6tOYq4ENRPZ-oHunL0x4c1g5Ik</string>
 	<key>GCM_SENDER_ID</key>
-	<string>446650857393</string>
+	<string>406285362095</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.suiviDeModule.RunnerTests</string>
 	<key>PROJECT_ID</key>
-	<string>suivi-de-module</string>
+	<string>suivimodule</string>
 	<key>STORAGE_BUCKET</key>
-	<string>suivi-de-module.appspot.com</string>
+	<string>suivimodule.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:446650857393:ios:3153fa93d26c042526af90</string>
+	<string>1:406285362095:ios:295bed508150da84a9c55a</string>
 	<key>DATABASE_URL</key>
-	<string>https://suivi-de-module-default-rtdb.europe-west1.firebasedatabase.app</string>
+	<string>https://suivimodule-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

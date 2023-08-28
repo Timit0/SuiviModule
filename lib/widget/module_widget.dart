@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/models/module.dart';
+import 'package:suivi_de_module/screen/student_list_screen.dart';
 
 class ModuleWidget extends Module{
   ModuleWidget({
     required super.nom, 
     required super.description, 
     required super.horaire, 
-    required super.classe
+    required super.classe,
   });
+
+  late BuildContext context;
+
+  void setContext(BuildContext context){
+    this.context = context;
+  }
 
   //final String nom;
 
 
-  Widget buildWidget(){
+  Widget buildWidget(BuildContext context){
+    this.context = context;
     return Draggable(
       feedback:  Card(
           color: Color.fromARGB(255, 216, 216, 216),
@@ -87,7 +95,7 @@ class ModuleWidget extends Module{
         ),
       child: GestureDetector(
         onTap: () {
-          print("Tap");
+          Navigator.of(context).pushNamed(StudentListScreen.routeName);
         },
         child: Card(
           color: Color.fromARGB(255, 216, 216, 216),
