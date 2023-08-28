@@ -15,20 +15,20 @@ class ModuleProvider with ChangeNotifier{
 
   Future<void> fetchAndSetModules() async {
     _modules.clear();
-    final data = await FirebaseDbService.instance.getAll();
+    final data = await FirebaseDBService.instance.getAll();
     _modules.addAll(data);
     notifyListeners();
   }
 
   Future<void> createModule(Module module) async{
-    await FirebaseDbService.instance.addModule(module);
+    await FirebaseDBService.instance.addModule(module);
     _modules.add(module);
     fetchAndSetModules();
     notifyListeners();
   }
 
   Future<void> editModule(Module module) async{
-    await FirebaseDbService.instance.addModule(module);
+    await FirebaseDBService.instance.addModule(module);
     for(var v in _modules){
       if(v.nom == module.nom){
         v = module;

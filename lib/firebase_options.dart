@@ -21,11 +21,20 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for android - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,43 +53,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAdrxRVrd7_jDJxRneJSzY0Xh4BHjGVWaM',
-    appId: '1:446650857393:web:2802281a43b23b7d26af90',
-    messagingSenderId: '446650857393',
-    projectId: 'suivi-de-module',
-    authDomain: 'suivi-de-module.firebaseapp.com',
-    databaseURL: 'https://suivi-de-module-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'suivi-de-module.appspot.com',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAoax5K_GNjSQy2SbXB8rxe6PmeaLX_JUw',
-    appId: '1:446650857393:android:51a0291df93b1c0e26af90',
-    messagingSenderId: '446650857393',
-    projectId: 'suivi-de-module',
-    databaseURL: 'https://suivi-de-module-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'suivi-de-module.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB4kXXLVNeOGESK67NsLxNdnQEmaV9gqWU',
-    appId: '1:446650857393:ios:7f7731c9ee9b7ba926af90',
-    messagingSenderId: '446650857393',
-    projectId: 'suivi-de-module',
-    databaseURL: 'https://suivi-de-module-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'suivi-de-module.appspot.com',
-    iosClientId: '446650857393-kovhju3gqnfjouggjuqqusuoqg8ms753.apps.googleusercontent.com',
-    iosBundleId: 'com.example.suiviDeModule',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB4kXXLVNeOGESK67NsLxNdnQEmaV9gqWU',
-    appId: '1:446650857393:ios:3153fa93d26c042526af90',
-    messagingSenderId: '446650857393',
-    projectId: 'suivi-de-module',
-    databaseURL: 'https://suivi-de-module-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'suivi-de-module.appspot.com',
-    iosClientId: '446650857393-26d65emdj8f4gbg212ltkg2s4m3s29q2.apps.googleusercontent.com',
-    iosBundleId: 'com.example.suiviDeModule.RunnerTests',
+    apiKey: 'AIzaSyDnH-fDUX7_T9afTlmm5Dv6YOmhPYJOSyY',
+    appId: '1:406285362095:web:eaabff3c6ccb346fa9c55a',
+    messagingSenderId: '406285362095',
+    projectId: 'suivimodule',
+    authDomain: 'suivimodule.firebaseapp.com',
+    databaseURL: 'https://suivimodule-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'suivimodule.appspot.com',
   );
 }

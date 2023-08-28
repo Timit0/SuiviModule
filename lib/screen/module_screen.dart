@@ -61,7 +61,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                   nom: moduleProvider.modules[index].nom, 
                   description: moduleProvider.modules[index].description, 
                   horaire: moduleProvider.modules[index].horaire, 
-                  classe: moduleProvider.modules[index].classe).buildWidget(),
+                  classe: moduleProvider.modules[index].classe).buildWidget(context),
               );
             },
           ),

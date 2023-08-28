@@ -3,6 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
+<<<<<<< HEAD
 	<string>446650857393-kovhju3gqnfjouggjuqqusuoqg8ms753.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.446650857393-kovhju3gqnfjouggjuqqusuoqg8ms753</string>
@@ -10,14 +11,29 @@
 	<string>AIzaSyB4kXXLVNeOGESK67NsLxNdnQEmaV9gqWU</string>
 	<key>GCM_SENDER_ID</key>
 	<string>446650857393</string>
+=======
+	<string>406285362095-d69062sr644u8ftpn54isrhhle8q8r8d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.406285362095-d69062sr644u8ftpn54isrhhle8q8r8d</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDGBRVgi6tOYq4ENRPZ-oHunL0x4c1g5Ik</string>
+	<key>GCM_SENDER_ID</key>
+	<string>406285362095</string>
+>>>>>>> Ogan
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.suiviDeModule</string>
 	<key>PROJECT_ID</key>
+<<<<<<< HEAD
 	<string>suivi-de-module</string>
 	<key>STORAGE_BUCKET</key>
 	<string>suivi-de-module.appspot.com</string>
+=======
+	<string>suivimodule</string>
+	<key>STORAGE_BUCKET</key>
+	<string>suivimodule.appspot.com</string>
+>>>>>>> Ogan
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +45,14 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
+<<<<<<< HEAD
 	<string>1:446650857393:ios:7f7731c9ee9b7ba926af90</string>
 	<key>DATABASE_URL</key>
 	<string>https://suivi-de-module-default-rtdb.europe-west1.firebasedatabase.app</string>
+=======
+	<string>1:406285362095:ios:564470ffc67d4261a9c55a</string>
+	<key>DATABASE_URL</key>
+	<string>https://suivimodule-default-rtdb.europe-west1.firebasedatabase.app</string>
+>>>>>>> Ogan
 </dict>
 </plist>
