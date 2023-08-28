@@ -23,7 +23,7 @@ class ModuleProvider with ChangeNotifier{
   Future<void> createModule(Module module) async{
     await FirebaseDBService.instance.addModule(module);
     _modules.add(module);
-    fetchAndSetModules();
+    //fetchAndSetModules();
     notifyListeners();
   }
 

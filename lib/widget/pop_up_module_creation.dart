@@ -133,7 +133,8 @@ class PopUpModuleCreation{
       nom: getNom.text, 
       description: getDescription.text, 
       horaire: getHoraire.text, 
-      classe: getClasse.text
+      classe: getClasse.text,
+      eleve: null,
     );
 
     if(createNewModule){

@@ -50,6 +50,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)?.settings.arguments;
     return Scaffold(body: !widget.loaded ? const Center(child: Text('Chargement en cours...')) : Padding(
       padding: const EdgeInsets.only(top: 50.0),
       child: Center(
@@ -84,8 +85,10 @@ class _StudentListScreenState extends State<StudentListScreen> {
               {
                 Eleve newEleve = Eleve(id: widget.tempID, name: widget.tempName, firstname: widget.tempNickname, photoFilename: widget.tempPhotoUrl == "" ? "assets/img/placeholderImage.png" : widget.tempPhotoUrl);
         
-                widget.db.addEleve(newEleve);
+                //widget.db.addEleve(newEleve);
                 widget.valid = true;
+
+                FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
                 
                 Navigator.of(context).pop();
 

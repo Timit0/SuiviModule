@@ -7,7 +7,8 @@ class ModuleWidget extends Module{
     required super.nom, 
     required super.description, 
     required super.horaire, 
-    required super.classe,
+    required super.classe, 
+    required super.eleve,
   });
 
   late BuildContext context;
@@ -95,7 +96,7 @@ class ModuleWidget extends Module{
         ),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(StudentListScreen.routeName);
+          Navigator.of(context).pushNamed(StudentListScreen.routeName, arguments: this.nom);
         },
         child: Card(
           color: Color.fromARGB(255, 216, 216, 216),

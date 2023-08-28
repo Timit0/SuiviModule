@@ -1,4 +1,5 @@
 import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:suivi_de_module/models/eleve.dart';
@@ -24,8 +25,8 @@ class FirebaseDBService implements Service {
   }
 
   // =================================| CRUD pour Eleve|=================================
-  Future<Eleve> addEleve(Eleve eleve) async {
-    _ref.child('eleves/${eleve.id}').set(eleve.toJson()).then((_) {
+  Future<Eleve> addEleve(Eleve eleve, String id) async {
+    _ref.child('$moduleNode/$id/eleve/${eleve.id}').set(eleve.toJson()).then((_) {
       return eleve.copyWith(id: eleve.id);
     }).catchError((e) {
       dev.log(e.toString());
@@ -101,7 +102,8 @@ class FirebaseDBService implements Service {
     final data = await _ref.child("$moduleNode/").get();
     
     if(data.exists){
-      final modules = <Module>[];
+      
+      var modules = <Module>[];
 
       for(dynamic v in data.children){
         modules.add(Module.fromJson(v.value));
