@@ -99,19 +99,18 @@ class FirebaseDBService implements Service {
 
   @override
   Future<List<Module>> getAll() async {
-    final data = await _ref.child("$moduleNode/").get();
-    
-    if(data.exists){
-      
-      var modules = <Module>[];
+      final data = await _ref.child("$moduleNode/").get();
 
-      for(dynamic v in data.children){
-        modules.add(Module.fromJson(v.value));
+      if(data.exists){
+ 
+        var modules = <Module>[];
+
+        for(dynamic v in data.children){
+          modules.add(Module.fromJson(v.value));
+        }
+        return modules;
       }
-      return modules;
-    }
-
-    return [];
+      return [];
   }
   
 

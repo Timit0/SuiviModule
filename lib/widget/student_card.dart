@@ -9,24 +9,20 @@ class StudentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    print(eleve.photoFilename);
-
-    try
-    {
     return Card(child: Column(children: [
-      Image.network(eleve.photoFilename),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: ClipOval(
+          child: CachedNetworkImage(imageUrl: "https://pbs.twimg.com/profile_images/945853318273761280/0U40alJG_400x400.jpg",
+            width: 100.0,
+            height: 100.0,
+            placeholder: (context, url) => Image.asset("assets/img/placeholderImage.png"),
+            errorWidget: (context, url, error) => Image.asset("assets/img/errorImage.png"),
+          ),
+        ),
+      ),
       Text(eleve.firstname),
       Text(eleve.name)
     ]));
-    }
-    catch (e)
-    {
-      return Card(child: Column(children: [
-        Image.asset(Eleve.error().photoFilename),
-        Text(Eleve.error().firstname),
-        Text(Eleve.error().name)
-      ]));
-    }
   }
 }

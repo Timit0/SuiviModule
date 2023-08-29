@@ -5,20 +5,20 @@
         "horaire":"Jeudi - 9:15 - 10:45",
         "classe":"ICH-2 (14 élèves)",
         "eleve": 
-        [
-            {
+        {
+            "cp-21tih": {
                 "id": "cp-21tih",
                 "name": "Ha",
                 "nickname": "Tim",
                 "photoFilename": "Hello World!"
             },
-            {
+            "cp-20ogo": {
                 "id": "cp-20ogo",
                 "name": "Oezkul",
                 "nickname": "Ogan",
                 "photoFilename": "Hello Land!"
             }
-        ]
+        }
     },
     {
         "nom":"ICH-323",
@@ -26,20 +26,20 @@
         "horaire":"Vendredi - 12:25 - 13:55",
         "classe":"ICH-3 (12 élèves)",
         "eleve": 
-        [
-            {
+        {
+            "cp-21tih": {
                 "id": "cp-21tih",
                 "name": "Ha",
                 "nickname": "Tim",
                 "photoFilename": "Hello World!"
             },
-            {
+            "cp-20ogo": {
                 "id": "cp-20ogo",
                 "name": "Oezkul",
                 "nickname": "Ogan",
                 "photoFilename": "Hello Land!"
             }
-        ]
+        }
     },
     {
         "nom":"ICH-450",
@@ -47,19 +47,19 @@
         "horaire":"Vendredi - 14:05 - 15:35",
         "classe":"ICH-3 (12 élèves)",
         "eleve": 
-        [
-            {
+        {
+            "cp-21tih": {
                 "id": "cp-21tih",
                 "name": "Ha",
                 "nickname": "Tim",
-                "photoFilename": "https://www.marketplace.org/wp-content/uploads/2020/08/Windows_Internet_Explorer_Logo.png?fit=602%2C602"
+                "photoFilename": "Hello World!"
             },
-            {
+            "cp-20ogo": {
                 "id": "cp-20ogo",
                 "name": "Oezkul",
                 "nickname": "Ogan",
-                "photoFilename": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png"
+                "photoFilename": "Hello Land!"
             }
-        ]
+        }
     }
 ]

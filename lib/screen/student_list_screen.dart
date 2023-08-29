@@ -53,18 +53,36 @@ class _StudentListScreenState extends State<StudentListScreen> {
   @override
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)?.settings.arguments;
-    return Scaffold(body: !widget.loaded ? const Center(child: Text('Chargement en cours...')) : Padding(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Placeholder"),
+        centerTitle: true,
+        backgroundColor: Colors.grey,
+      ),
+      body: !widget.loaded ? const Center(child: Text('Chargement en cours...')) : Padding(
       padding: const EdgeInsets.only(top: 50.0),
-      child: Center(
-        child: SizedBox(
-          width: 900,
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-            itemCount: widget.studentList.length, itemBuilder: (context, index) => InkWell(onTap: () {
-              StudentSummaryScreen.eleve = widget.studentList[index];
-              Navigator.of(context).pushNamed(StudentSummaryScreen.routeName);
-            }, child: StudentCard(eleve: widget.studentList[index]))),
-        ),
+      child: Column(
+        children: [
+          Container(width: 900),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: 900,
+                child: Wrap(
+                  alignment: WrapAlignment.end,
+                  children: [GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: (widget.studentList.length < 3) ? 2 : 4, mainAxisSpacing: 100),
+                    itemCount: widget.studentList.length, itemBuilder: (context, index) => InkWell(onTap: () {
+                      StudentSummaryScreen.eleve = widget.studentList[index];
+                      Navigator.of(context).pushNamed(StudentSummaryScreen.routeName);
+                    }, child: StudentCard(eleve: widget.studentList[index])))],
+                ),
+              ),
+            ),
+          ),
+          Container(width: 900),
+        ],
       ),
     ), floatingActionButton: FloatingActionButton(onPressed: () {
         showDialog(context: context, builder: (context) => StatefulBuilder( // afin qu'on puisse faire un setState mais QUE pour ce widget - là
