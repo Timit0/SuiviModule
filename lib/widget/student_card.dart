@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/models/eleve.dart';
+import 'package:suivi_de_module/screen/details_student_screen.dart';
 
 import '../infrastructure/firebase_db_service.dart';
 
@@ -12,6 +13,7 @@ class StudentCard extends StatelessWidget {
   StudentCard({super.key, required this.eleve, this.dbInstance});
 
   final Eleve eleve;
+  late BuildContext context;
 
   FirebaseDBService? dbInstance;
 
@@ -63,5 +65,14 @@ class StudentCard extends StatelessWidget {
       Text(eleve.firstname),
       Text(eleve.name)
     ]));
+  }
+
+  void gonOnDetailStudentScreen(BuildContext context){
+    Navigator.of(context).pushNamed(DetailsStudentScreen.routeName, arguments: Eleve(
+      id: eleve.id, 
+      name: eleve.name, 
+      firstname: eleve.firstname, 
+      photoFilename: eleve.photoFilename,),
+    );
   }
 }
