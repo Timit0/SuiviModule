@@ -6,17 +6,91 @@
         "classe":"ICH-2 (14 élèves)",
         "eleve": 
         {
-            "cp-21tih": {
-                "id": "cp-21tih",
-                "name": "Ha",
-                "nickname": "Tim",
-                "photoFilename": "Hello World!"
+            "cp-21tih": 
+            {
+                "devoir":
+                {
+                    "devoir01":{
+                        "id":"devoir01",
+                        "done":"true"
+                    },
+                    "devoir02":{
+                        "id":"devoir02",
+                        "done":"false"
+                    }
+                },
+
+                "test":
+                {
+                    "test01": {
+                        "id":"test01",
+                        "done":"false",
+                        "note": 0
+                    },
+                    "test02": {
+                        "id":"test02",
+                        "done":"false",
+                        "note": 0
+                    }
+                }
             },
-            "cp-20ogo": {
-                "id": "cp-20ogo",
-                "name": "Oezkul",
-                "nickname": "Ogan",
-                "photoFilename": "Hello Land!"
+            "cp-20ogo": 
+            {
+                "devoir":
+                {
+                    "devoir01":{
+                        "id":"devoir01",
+                        "done":"true"
+                    },
+                    "devoir02":{
+                        "id":"devoir02",
+                        "done":"false"
+                    }
+                },
+
+                "test":
+                {
+                    "test01": {
+                        "id":"test01",
+                        "done":"false",
+                        "note": 0
+                    },
+                    "test02": {
+                        "id":"test02",
+                        "done":"false",
+                        "note": 0
+                    }
+                }
+            }
+        },
+        "devoir": {
+            "devoir01": {
+                "id": "devoir01",
+                "nom": "premier devoir",
+                "description": "",
+                "done": "false",
+                "date": "12.12.2023"
+            },
+            "devoir02": {
+                "id": "devoir02",
+                "nom": "premier devoir",
+                "description": "",
+                "done": "false",
+                "date": "15.10.2023"
+            }
+        },
+        "test": {
+            "test01": {
+                "id": "test01",
+                "nom": "premier test",
+                "description": "",
+                "done": "false"
+            },
+            "test02": {
+                "id": "test02",
+                "nom": "deuxieme test",
+                "description": "",
+                "done": "false"
             }
         }
     },
@@ -27,17 +101,61 @@
         "classe":"ICH-3 (12 élèves)",
         "eleve": 
         {
-            "cp-21tih": {
-                "id": "cp-21tih",
-                "name": "Ha",
-                "nickname": "Tim",
-                "photoFilename": "Hello World!"
+            "cp-21tih": 
+            {
+                "devoir":
+                {
+                    "devoir01":{
+                        "id":"devoir01",
+                        "done":"true"
+                    },
+                    "devoir02":{
+                        "id":"devoir02",
+                        "done":"false"
+                    }
+                },
+
+                "test":
+                {
+                    "test01": {
+                        "id":"test01",
+                        "done":"false",
+                        "note": 0
+                    },
+                    "test02": {
+                        "id":"test02",
+                        "done":"false",
+                        "note": 0
+                    }
+                }
             },
-            "cp-20ogo": {
-                "id": "cp-20ogo",
-                "name": "Oezkul",
-                "nickname": "Ogan",
-                "photoFilename": "Hello Land!"
+            "cp-20ogo": 
+            {
+                "devoir":
+                {
+                    "devoir01":{
+                        "id":"devoir01",
+                        "done":"true"
+                    },
+                    "devoir02":{
+                        "id":"devoir02",
+                        "done":"false"
+                    }
+                },
+
+                "test":
+                {
+                    "test01": {
+                        "id":"test01",
+                        "done":"false",
+                        "note": 0
+                    },
+                    "test02": {
+                        "id":"test02",
+                        "done":"false",
+                        "note": 0
+                    }
+                }
             }
         }
     },
@@ -48,17 +166,89 @@
         "classe":"ICH-3 (12 élèves)",
         "eleve": 
         {
-            "cp-21tih": {
-                "id": "cp-21tih",
-                "name": "Ha",
-                "nickname": "Tim",
-                "photoFilename": "Hello World!"
+            "cp-21tih": 
+            {
+                "devoir": 
+                [
+                    {
+                        "devoir01": {
+                            "id": "devoir01"
+                        },
+                        "devoir02": {
+                            "id":"devoir02"
+                        }
+                    }
+                ],
+
+                "test":
+                [
+                    {
+                        "test01": {
+                            "id":"test01"
+                        },
+                        "test02": {
+                            "id":"test02"
+                        }
+                    }
+                ]
             },
-            "cp-20ogo": {
-                "id": "cp-20ogo",
-                "name": "Oezkul",
-                "nickname": "Ogan",
-                "photoFilename": "Hello Land!"
+            "cp-20ogo": 
+            {
+                "devoir":
+                [
+                    {
+                        "devoir01": {
+                            "id":"devoir01"
+                        },
+                        "devoir02": {
+                            "id":"devoir02"
+                        }
+                    }
+                ],
+
+                "test":
+                [
+                    {
+                        "test01": {
+                            "id":"test01"
+                        },
+                        "test02": {
+                            "id":"test02"
+                        }
+                    }
+                ]
+            },
+            "devoir":
+            {
+                "devoir01": {
+                    "id": "devoir01",
+                    "nom": "premier devoir",
+                    "description": "",
+                    "done": "false",
+                    "date": "05.02.2023"
+                },
+                "devoir02": {
+                    "id": "devoir02",
+                    "nom": "deuxieme devoir",
+                    "description": "",
+                    "done": "true",
+                    "date": "13.01.2023"
+                }
+            },
+            "test":
+            {
+                "test01": {
+                    "id": "test01",
+                    "nom": "premier test",
+                    "description": "",
+                    "done": "true"
+                },
+                "test02": {
+                    "id": "test02",
+                    "nom":"deuxieme test",
+                    "description": "",
+                    "done": "false"
+                }
             }
         }
     }

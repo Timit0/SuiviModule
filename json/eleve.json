@@ -1,0 +1,17 @@
+{
+    "eleve": {
+        "cp-20ogo":{
+            "id":"cp-20ogo",
+            "name": "Oezkul",
+            "nickname": "Ogan",
+            "photoFilename": ""
+        },
+
+        "cp-21tih":{
+            "id":"cp-21tih",
+            "name": "Ha",
+            "nickname": "Tim",
+            "photoFilename": ""
+        }
+    }
+}

@@ -22,9 +22,6 @@ class Module{
     List<Eleve> temp = [];
     Map<String, dynamic> json2 = json['eleve'];
 
-    // debug
-    // print(json2['cp-20ogo']);
-
     json2.forEach((key, value) {temp.add(Eleve.fromJson(json['eleve'][key])); });
 
     return Module(

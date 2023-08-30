@@ -48,7 +48,7 @@ app.*.map.json
 /runFirebase.bat
 /clean.bat
 /TODOLIST.txt
-/json
+#/json
 
 # the Firebase's backend
 /backend

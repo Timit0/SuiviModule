@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // FirebaseDBService.instance.addData();
+     FirebaseDBService.instance.addData();
     //final service = FirebaseDbService.instance;
 
     return ChangeNotifierProvider(

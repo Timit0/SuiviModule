@@ -35,12 +35,17 @@ class _StudentListScreenState extends State<StudentListScreen> {
 
   @override
   void didChangeDependencies() async {
+    widget.loaded = false;
     
     final arguments = ModalRoute.of(context)?.settings.arguments;
 
+    
+
     if (!widget.loaded)
     {
-      widget.studentList.clear();
+      // debug
+      // print(arguments.toString());
+      widget.studentList = [];
       widget.studentList = await widget.db.getAllEleves(arguments.toString());
       setState(() {
         widget.loaded = true;
@@ -50,13 +55,17 @@ class _StudentListScreenState extends State<StudentListScreen> {
     super.didChangeDependencies();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)?.settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Placeholder"),
+        title: const Text("Placeholder", style: TextStyle(color: Colors.white)),
         centerTitle: true,
+        foregroundColor: Colors.white
+        ,
         backgroundColor: Colors.grey,
       ),
       body: !widget.loaded ? const Center(child: Text('Chargement en cours...')) : Padding(
@@ -76,7 +85,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
                     itemCount: widget.studentList.length, itemBuilder: (context, index) => InkWell(onTap: () {
                       StudentSummaryScreen.eleve = widget.studentList[index];
                       Navigator.of(context).pushNamed(StudentSummaryScreen.routeName);
-                    }, child: StudentCard(eleve: widget.studentList[index])))],
+                    }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db)))],
                 ),
               ),
             ),
@@ -126,6 +135,6 @@ class _StudentListScreenState extends State<StudentListScreen> {
           ])
               ),
         ));
-    }, backgroundColor: const Color.fromARGB(255, 73, 73, 73), child: const Icon(Icons.person_add)));
+    }, backgroundColor: const Color.fromARGB(255, 73, 73, 73), child: const Icon(Icons.person_add, color: Colors.white,)));
   }
 }
