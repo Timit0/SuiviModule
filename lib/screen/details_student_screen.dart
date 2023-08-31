@@ -342,38 +342,49 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 */
 
   Widget addCard(){
-    return Card(
-      elevation: 4,
-      color: const Color.fromARGB(255, 255, 255, 255),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25)
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          const SizedBox(
-            height: 230,
-            width: 230,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25)
-              ),
-              color: const Color.fromARGB(255, 201, 201, 201),
-              child: const SizedBox(
-                width: 230,
-                height: 230,
+    return GestureDetector(
+      onTap: (){
+        showDialog(context: context, builder: (context) => AlertDialog(
+          scrollable: true,
+          title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Ajout d\'un contenu'), IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.close))]),
+          content: Column(children: [
+            // TODO: eventuellement a faire
+          ]),
+        ));
+      },
+      child: Card(
+        elevation: 4,
+        color: const Color.fromARGB(255, 255, 255, 255),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25)
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            const SizedBox(
+              height: 230,
+              width: 230,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25)
+                ),
+                color: const Color.fromARGB(255, 201, 201, 201),
+                child: const SizedBox(
+                  width: 230,
+                  height: 230,
+                ),
               ),
             ),
-          ),
-          const Icon(
-            Icons.add,
-            size: 100,
-            color: Colors.white,
-          ),
-        ],
+            const Icon(
+              Icons.add,
+              size: 100,
+              color: Colors.white,
+            ),
+          ],
+        ),
       ),
     );
   }

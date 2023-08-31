@@ -23,15 +23,22 @@ class FirebaseDBService {
     _ref = db.ref();
   }
 
-  // =================================| CRUD pour Eleve|=================================
+  // =================================| CRUD pour Eleve |=======================================
   Future<Eleve> addEleve(Eleve eleve, String id) async {
 
-    await _ref.child("eleve/${eleve.id}").set(eleve.toJson()).then((_) {
+      await _ref.child("eleve/${eleve.id}").set(eleve.toJson());
+      await _ref.child("$moduleNode/$id/eleve${eleve.id}").set({
+        'devoir': null,
+          'test': null
+      }).then((value) { dev.log("done"); return eleve.copyWith(id: eleve.id);}).onError((error, stackTrace) { dev.log(error.toString()); return Eleve.error(); });
+      
+      /*.then((_) {
+      dev.log("phase 00");
       _ref.child("$moduleNode/$id/eleve/${eleve.id}").set(<String, dynamic> {
           'devoir': null,
           'test': null
-      }).then((value) {return eleve.copyWith(id: eleve.id);}).catchError((e) {dev.log(e);});
-    }).catchError((e) {dev.log(e);});
+      }).then((value) { dev.log("phase 02 (gone)"); return eleve.copyWith(id: eleve.id);}).catchError((e) {dev.log(e);});
+    }).catchError((e) {dev.log(e);});*/
 
 /*
     await _ref.child("eleve/${eleve.id}").set(eleve.toJson()).then((_) {

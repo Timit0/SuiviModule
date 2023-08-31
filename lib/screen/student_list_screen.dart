@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
-import 'package:suivi_de_module/screen/student_summary_screen.dart';
 import 'package:suivi_de_module/widget/program_action_button.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
 
@@ -97,7 +96,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
                 ),
               ),
             ),
-            Container(width: 900),
+            Container(width: 900)
           ],
         ),
       ), floatingActionButton: ProgramActionButton(func: () {
@@ -126,7 +125,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
     
                   FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
                   
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
     
                   // vue qu'on fait sur le web
                   html.window.location.reload();

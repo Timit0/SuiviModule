@@ -1,3 +1,4 @@
+===============================================================================| FAIT! |===============================================================================
 ° redesign des StudentCards
 
 ° en faire du FloatingActionButton que t'as fais en un widget a pars entière avec la signature suivante
@@ -18,7 +19,14 @@
 
 ° placer les cards représentant les exams/devoirs dans un widget a pars entiere afin de pouvoir rendre le code de detail_student_screen.dart plus propre :)
 
-° faire passer les variable du student lorsqu'on va se diriger vers la screen detail_student_screen
+° faire passer les variable du student lorsqu'on va se diriger vers la screen detail_student_screen.dart
+=======================================================================================================================================================================
 
+==============================================================================| A FAIRE |==============================================================================
 ° resolution du probleme du "Error: Expected a value of type 'Map<String, dynamic>' but got one of type 'Null' lors de l'ajout d'un nouvel eleve. C'est a dire
     - faire pas mal de modif pour la methode addEleve dans FirebaseDBService car celui - ci n'ajoutais que le nouvel élève dans la reference mais pas dans les modules
+    - grossomodo: le premier ajout de donnée se fais mais pas la deuxieme (meme si on separe bien les deux phase en 2 lignes de code (avec une "await" pour chacun))
+    - GIGA URGENT!!!!
+
+° faire le dialog d'insertion de devoirs/tests (optionnelle)
+=======================================================================================================================================================================
