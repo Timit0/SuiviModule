@@ -1,8 +1,10 @@
-import 'dart:ui';
+// import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:suivi_de_module/models/eleve.dart';
+import 'package:suivi_de_module/widget/moyenne_widget.dart';
 
-
+// ;)
 enum CardState {
   Test,
   Devoir,
@@ -16,11 +18,16 @@ class DetailsStudentScreen extends StatefulWidget {
 
   @override
   State<DetailsStudentScreen> createState() => _DetailsStudentScreenState();
+
 }
 
 class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
   @override
   Widget build(BuildContext context) {
+
+    Eleve args = Eleve.base();
+
+    if (ModalRoute.of(context)?.settings.arguments != null) { args = ModalRoute.of(context)?.settings.arguments as Eleve; }
 
     final ScrollController controllerDevoir = ScrollController();
     final ScrollController controllerTest = ScrollController();
@@ -70,19 +77,19 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                           child: avatar(),
                         ),
                         Text(
-                          "Ogan",
+                          args.firstname,//"Ogan",
                           style: TextStyle(
                             fontSize: 45
                           ),
                         ),
                         Text(
-                          "Ozkul",
+                          args.name,//"Ozkul",
                           style: TextStyle(
                             fontSize: 25
                           ),
                         ),
 
-                        moyennneWidget(),
+                        MoyenneWidget()
                       ], 
                     ),
                   ),
@@ -301,7 +308,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          ClipOval(
+          const ClipOval(
             child: SizedBox(
               height: 210,
               width: 210,
@@ -316,7 +323,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
               height: 200,
               child: Stack(
                 children: [
-                  SizedBox.expand(
+                  const SizedBox.expand(
                     child: ColoredBox(color: Colors.white),
                   ),
                   Image.network("https://upload.wikimedia.org/wikipedia/fr/thumb/a/a1/Logo_FC_Barcelona.svg/800px-Logo_FC_Barcelona.svg.png"),
@@ -339,7 +346,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 230,
             width: 230,
           ),
@@ -350,13 +357,13 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                 borderRadius: BorderRadius.circular(25)
               ),
               color: const Color.fromARGB(255, 201, 201, 201),
-              child: SizedBox(
+              child: const SizedBox(
                 width: 230,
                 height: 230,
               ),
             ),
           ),
-          Icon(
+          const Icon(
             Icons.add,
             size: 100,
             color: Colors.white,
@@ -366,6 +373,9 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
     );
   }
 
+
+// pq ne pas l'avoir mis dans un fichier .dart a pars entiere? :))
+/*
   Widget moyennneWidget(){
     double border = 7;
     return Padding(
@@ -387,7 +397,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
           )
         ),
 
-        child: Text(
+        child: const Text(
           "6",
           style: TextStyle(
             fontSize: 115
@@ -396,4 +406,5 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       ),
     );
   }
+  */
 }
