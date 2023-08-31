@@ -89,8 +89,9 @@ class _StudentListScreenState extends State<StudentListScreen> {
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: (widget.studentList.length < 3) ? 2 : 4, mainAxisSpacing: 100),
                       itemCount: widget.studentList.length, itemBuilder: (context, index) => InkWell(onTap: () {
-                        StudentSummaryScreen.eleve = widget.studentList[index];
-                        Navigator.of(context).pushNamed(DetailsStudentScreen.routeName);
+                        //StudentSummaryScreen.eleve = widget.studentList[index];
+
+                        Navigator.of(context).pushNamed(DetailsStudentScreen.routeName, arguments: widget.studentList[index]);
                       }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db)))],
                   ),
                 ),
