@@ -89,7 +89,10 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                           ),
                         ),
 
-                        MoyenneWidget()
+                        Padding(
+                          padding: const EdgeInsets.only(top: 58.0),
+                          child: MoyenneWidget(),
+                        )
                       ], 
                     ),
                   ),
