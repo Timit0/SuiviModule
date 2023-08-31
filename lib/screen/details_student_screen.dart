@@ -5,6 +5,7 @@ import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/widget/moyenne_widget.dart';
 import 'package:suivi_de_module/widget/avatar_widget.dart';
+import 'package:suivi_de_module/widget/widget_card.dart';
 
 
 class DetailsStudentScreen extends StatefulWidget {
@@ -137,7 +138,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                         ),
                       ),
                     ),
-                    listOf(widgetCard(CardState.Devoir), controllerDevoir, varDebug, paddingList),
+                    listOf(CardWidget(type: CardState.Devoir), controllerDevoir, varDebug, paddingList),
                     
                   ],
                 ),
@@ -153,7 +154,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                         ),
                       ),
                     ),
-                    listOf(widgetCard(CardState.Test), controllerTest, varDebug, paddingList),
+                    listOf(CardWidget(type: CardState.Test), controllerTest, varDebug, paddingList),
                   ],
                 ),
               ],
@@ -196,6 +197,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
   }
 
   // devoirs/tests
+  /*
   Widget widgetCard(CardState cardState){
     late Color color;
     if(cardState == CardState.Devoir){
@@ -259,6 +261,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       ),
     );
   }
+  */
 
   Widget checkWidget(){
     bool checkState = false;
