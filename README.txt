@@ -6,3 +6,4 @@
 ° changement des contenus de la screen DetailsStudentScreen selon l'eleve qui a etait appuye dans la screen StudentListScreen avec sécurité anti null
     - c'est à dire -> si les arguments passés retournes un null -> afficher les details de l'objet "Eleve.base()"
 ° modification du widget permettant d'afficher la moyenne au style que je t'avais parle precedemment
+° creation d'un provider pour les students
