@@ -2,13 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/models/eleve.dart';
+import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/widget/moyenne_widget.dart';
-
-// ;)
-enum CardState {
-  Test,
-  Devoir,
-}
+import 'package:suivi_de_module/widget/avatar_widget.dart';
 
 
 class DetailsStudentScreen extends StatefulWidget {
@@ -37,7 +33,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Devoir - Test",
         ),
         centerTitle: true,
@@ -74,17 +70,17 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                       children: [
                       
                         Center(
-                          child: avatar(),
+                          child: AvatarWidget(photoUrl: args.photoFilename),
                         ),
                         Text(
                           args.firstname,//"Ogan",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 45
                           ),
                         ),
                         Text(
                           args.name,//"Ozkul",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 25
                           ),
                         ),
@@ -109,7 +105,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                   child: Container(
                     alignment: Alignment.center,
                     width: 150,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       border: Border(
                         top: BorderSide(
                           color: Colors.black,
@@ -199,6 +195,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
     );
   }
 
+  // devoirs/tests
   Widget widgetCard(CardState cardState){
     late Color color;
     if(cardState == CardState.Devoir){
@@ -226,12 +223,12 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: ClipOval(
                       clipBehavior: Clip.antiAlias,
                       child: Stack(
                         children: [ 
-                          SizedBox(
+                          const SizedBox(
                             height: 40,
                             width: 40,
                             child: ColoredBox(
@@ -254,7 +251,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
             ],
           ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 250,
             width: 250,
           ),
@@ -289,12 +286,12 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
   Widget? isChecked(bool b){
     if(b){
-      return Icon(
+      return const Icon(
         Icons.check,
         size: 40,
       );
     }else{
-      return ClipOval(
+      return const ClipOval(
         child: SizedBox(
           width: 40,
           height: 40,
@@ -305,6 +302,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
   }
 
+/*
   Widget avatar(){
     return Padding(
       padding: const EdgeInsets.only(top: 30, bottom: 10),
@@ -338,11 +336,12 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       ),
     );
   }
+*/
 
   Widget addCard(){
     return Card(
       elevation: 4,
-      color: Color.fromARGB(255, 255, 255, 255),
+      color: const Color.fromARGB(255, 255, 255, 255),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25)
       ),

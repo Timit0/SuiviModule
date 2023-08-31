@@ -8,7 +8,7 @@ class MoyenneWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container( decoration: const BoxDecoration(color: Colors.white),
+    return Container( decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Colors.black, width: 3)),
       child: Column(children: [
         Container(decoration: const BoxDecoration(color: Colors.green), child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 28, vertical: 10),

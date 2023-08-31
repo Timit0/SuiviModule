@@ -1,5 +1,4 @@
 import 'dart:developer' as dev;
-import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:suivi_de_module/models/eleve.dart';
@@ -26,12 +25,33 @@ class FirebaseDBService {
 
   // =================================| CRUD pour Eleve|=================================
   Future<Eleve> addEleve(Eleve eleve, String id) async {
+
+    await _ref.child("eleve/${eleve.id}").set(eleve.toJson()).then((_) {
+      _ref.child("$moduleNode/$id/eleve/${eleve.id}").set(<String, dynamic> {
+          'devoir': null,
+          'test': null
+      }).then((value) {return eleve.copyWith(id: eleve.id);}).catchError((e) {dev.log(e);});
+    }).catchError((e) {dev.log(e);});
+
+/*
+    await _ref.child("eleve/${eleve.id}").set(eleve.toJson()).then((_) {
+      _ref.child("$moduleNode/$id/eleve/${eleve.id}").set(<String, dynamic> {
+        'devoir': {},
+        'test': {}
+      }).then((_) {
+        return eleve.copyWith(id: eleve.id);
+      }).catchError((_) { return Eleve.error(); });
+    }).catchError((_) { return Eleve.error(); });
+    */
+
+    /*
     _ref.child('$moduleNode/$id/eleve/${eleve.id}').set(eleve.toJson()).then((_) {
       return eleve.copyWith(id: eleve.id);
     }).catchError((e) {
       dev.log(e.toString());
       return Eleve.error();
     });
+    */
 
     return Eleve.base();
   }
@@ -123,6 +143,7 @@ class FirebaseDBService {
         for(dynamic v in data.children){
           modules.add(Module.fromJson(v.value));
         }
+
         return modules;
       }
       return [];
