@@ -1,0 +1,2 @@
+° faire un git push dans ma branche (Ogan) (a faire a la fin de la journee)
+    - noter tout ce qui a etait fait pendant la journee dans un README.txt

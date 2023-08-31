@@ -12,11 +12,11 @@
                 {
                     "devoir01":{
                         "id":"devoir01",
-                        "done":"true"
+                        "done":true
                     },
                     "devoir02":{
                         "id":"devoir02",
-                        "done":"false"
+                        "done":false
                     }
                 },
 
@@ -24,12 +24,12 @@
                 {
                     "test01": {
                         "id":"test01",
-                        "done":"false",
+                        "done":false,
                         "note": 0
                     },
                     "test02": {
                         "id":"test02",
-                        "done":"false",
+                        "done":false,
                         "note": 0
                     }
                 }
@@ -40,11 +40,11 @@
                 {
                     "devoir01":{
                         "id":"devoir01",
-                        "done":"true"
+                        "done":true
                     },
                     "devoir02":{
                         "id":"devoir02",
-                        "done":"false"
+                        "done":false
                     }
                 },
 
@@ -52,12 +52,12 @@
                 {
                     "test01": {
                         "id":"test01",
-                        "done":"false",
+                        "done":false,
                         "note": 0
                     },
                     "test02": {
                         "id":"test02",
-                        "done":"false",
+                        "done":false,
                         "note": 0
                     }
                 }
@@ -68,14 +68,14 @@
                 "id": "devoir01",
                 "nom": "premier devoir",
                 "description": "",
-                "done": "false",
+                "done": false,
                 "date": "12.12.2023"
             },
             "devoir02": {
                 "id": "devoir02",
                 "nom": "premier devoir",
                 "description": "",
-                "done": "false",
+                "done": false,
                 "date": "15.10.2023"
             }
         },
@@ -84,13 +84,13 @@
                 "id": "test01",
                 "nom": "premier test",
                 "description": "",
-                "done": "false"
+                "done": false
             },
             "test02": {
                 "id": "test02",
                 "nom": "deuxieme test",
                 "description": "",
-                "done": "false"
+                "done": false
             }
         }
     },
@@ -107,11 +107,11 @@
                 {
                     "devoir01":{
                         "id":"devoir01",
-                        "done":"true"
+                        "done":true
                     },
                     "devoir02":{
                         "id":"devoir02",
-                        "done":"false"
+                        "done":false
                     }
                 },
 
@@ -119,12 +119,12 @@
                 {
                     "test01": {
                         "id":"test01",
-                        "done":"false",
+                        "done":false,
                         "note": 0
                     },
                     "test02": {
                         "id":"test02",
-                        "done":"false",
+                        "done":false,
                         "note": 0
                     }
                 }
@@ -135,11 +135,11 @@
                 {
                     "devoir01":{
                         "id":"devoir01",
-                        "done":"true"
+                        "done":true
                     },
                     "devoir02":{
                         "id":"devoir02",
-                        "done":"false"
+                        "done":false
                     }
                 },
 
@@ -147,15 +147,46 @@
                 {
                     "test01": {
                         "id":"test01",
-                        "done":"false",
+                        "done":false,
                         "note": 0
                     },
                     "test02": {
                         "id":"test02",
-                        "done":"false",
+                        "done":false,
                         "note": 0
                     }
                 }
+                
+            }
+        },
+        "devoir": {
+            "devoir01": {
+                "id": "devoir01",
+                "nom": "premier devoir",
+                "description": "",
+                "done": false,
+                "date": "12.12.2023"
+            },
+            "devoir02": {
+                "id": "devoir02",
+                "nom": "premier devoir",
+                "description": "",
+                "done": false,
+                "date": "15.10.2023"
+            }
+        },
+        "test": {
+            "test01": {
+                "id": "test01",
+                "nom": "premier test",
+                "description": "",
+                "done": false
+            },
+            "test02": {
+                "id": "test02",
+                "nom": "deuxieme test",
+                "description": "",
+                "done": false
             }
         }
     },
@@ -169,69 +200,62 @@
             "cp-21tih": 
             {
                 "devoir": 
-                [
-                    {
-                        "devoir01": {
-                            "id": "devoir01"
-                        },
-                        "devoir02": {
-                            "id":"devoir02"
-                        }
+                {
+                    "devoir01": {
+                        "id": "devoir01"
+                    },
+                    "devoir02": {
+                        "id":"devoir02"
                     }
-                ],
+                },
 
                 "test":
-                [
-                    {
-                        "test01": {
-                            "id":"test01"
-                        },
-                        "test02": {
-                            "id":"test02"
-                        }
+                {
+                    "test01": {
+                        "id":"test01"
+                    },
+                    "test02": {
+                        "id":"test02"
                     }
-                ]
+                }
             },
             "cp-20ogo": 
             {
                 "devoir":
-                [
-                    {
-                        "devoir01": {
-                            "id":"devoir01"
-                        },
-                        "devoir02": {
-                            "id":"devoir02"
-                        }
+                {
+                    "devoir01": {
+                        "id":"devoir01"
+                    },
+                    "devoir02": {
+                        "id":"devoir02"
                     }
-                ],
+                },
 
                 "test":
-                [
-                    {
-                        "test01": {
-                            "id":"test01"
-                        },
-                        "test02": {
-                            "id":"test02"
-                        }
+                {
+                    "test01": {
+                        "id":"test01"
+                    },
+                    "test02": {
+                        "id":"test02"
                     }
-                ]
-            },
-            "devoir":
+                }
+            }
+        },
+        "devoir":
             {
                 "devoir01": {
                     "id": "devoir01",
                     "nom": "premier devoir",
                     "description": "",
-                    "done": "false",
+                    "done": false,
                     "date": "05.02.2023"
                 },
                 "devoir02": {
                     "id": "devoir02",
                     "nom": "deuxieme devoir",
                     "description": "",
-                    "done": "true",
+                    "done": true,
                     "date": "13.01.2023"
                 }
             },
@@ -241,15 +265,14 @@
                     "id": "test01",
                     "nom": "premier test",
                     "description": "",
-                    "done": "true"
+                    "done": true
                 },
                 "test02": {
                     "id": "test02",
                     "nom":"deuxieme test",
                     "description": "",
-                    "done": "false"
+                    "done": false
                 }
             }
-        }
     }
 ]

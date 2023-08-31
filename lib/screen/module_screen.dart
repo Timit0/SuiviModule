@@ -1,10 +1,11 @@
-import 'dart:js_util';
+// import 'dart:js_util';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
+import 'package:suivi_de_module/widget/program_action_button.dart';
 
 class ModuleScreen extends StatefulWidget {
   const ModuleScreen({super.key});
@@ -69,12 +70,12 @@ class _ModuleScreenState extends State<ModuleScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.large(
+      floatingActionButton: ProgramActionButton(func: createModule, icon: Icons.add)/*FloatingActionButton.large(
         onPressed: createModule,
         elevation: 2,
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
-      ),
+      ),*/
     );
   }
 

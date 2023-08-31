@@ -5,10 +5,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/module.dart';
-import 'package:suivi_de_module/infrastructure/service.dart';
 
-class FirebaseDBService implements Service {
+class FirebaseDBService {
   // pour traiter les donnees de l'eleve -> /eleve
   // final url = 'http://10.0.2.2:9000/';
   // final dbName = '/?ns=suivimodule-default-rtdb';
@@ -58,15 +58,20 @@ class FirebaseDBService implements Service {
     final snapshot = await _ref.child('$moduleNode/$id/eleve').get();
 
     if (snapshot.exists) {
+
+      final eleveRefs = <EleveReference>[];
       final eleves = <Eleve>[];
 
-      for (dynamic v in snapshot.children) {
+      for (dynamic v in snapshot.children)
+      {
         final tempID = v.key.toString();
-        final tempMap = v.value as Map<String, dynamic>;
+        print(tempID);
 
-        eleves.add(Eleve.fromJson(tempMap));
+        final DataSnapshot tempSnapshot = await _ref.child("$eleveNode/$tempID").get();
 
+        eleves.add(Eleve.fromJson(tempSnapshot.value as Map<String, dynamic>));
       }
+
       return eleves;
     }
 
@@ -108,7 +113,7 @@ class FirebaseDBService implements Service {
   }
 
   @override
-  Future<List<Module>> getAll() async {
+  Future<List<Module>> getAllModule() async {
       final data = await _ref.child("$moduleNode/").get();
 
       if(data.exists){

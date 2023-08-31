@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
 class Test
 {
   String id;
   String nom;
   String description;
   DateTime date;
-  Float? note;
+  /*Float?*/ var note; // <- moyenne
   bool done;
 
   Test({
@@ -22,7 +20,7 @@ class Test
     id: json['id'], 
     nom: json['nom'], 
     description: json['description'],
-    note: json['note'],
+    note: json['note'] ?? 0,
     date: json['date'],
     done: json['done']
   );

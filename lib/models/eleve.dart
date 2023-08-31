@@ -37,7 +37,7 @@ class Eleve {
       id: json['id'],
       name: json['name'],
       firstname: json['nickname'],
-      photoFilename: json['photoFilename']);
+      photoFilename: json['photoFilename'] ?? "");
 
   factory Eleve.base() => Eleve(
       id: 'cp-99abc',

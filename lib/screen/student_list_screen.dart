@@ -2,7 +2,9 @@ import 'dart:html' as html; // window.reload.location.reload();
 
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
+import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/student_summary_screen.dart';
+import 'package:suivi_de_module/widget/program_action_button.dart';
 
 import '../widget/student_card.dart';
 
@@ -84,7 +86,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: (widget.studentList.length < 3) ? 2 : 4, mainAxisSpacing: 100),
                     itemCount: widget.studentList.length, itemBuilder: (context, index) => InkWell(onTap: () {
                       StudentSummaryScreen.eleve = widget.studentList[index];
-                      Navigator.of(context).pushNamed(StudentSummaryScreen.routeName);
+                      Navigator.of(context).pushNamed(DetailsStudentScreen.routeName);
                     }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db)))],
                 ),
               ),
@@ -93,7 +95,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
           Container(width: 900),
         ],
       ),
-    ), floatingActionButton: FloatingActionButton(onPressed: () {
+    ), floatingActionButton: ProgramActionButton(func: () {
         showDialog(context: context, builder: (context) => StatefulBuilder( // afin qu'on puisse faire un setState mais QUE pour ce widget - là
           builder:(context, setState) => AlertDialog(
           scrollable: true,
@@ -135,6 +137,6 @@ class _StudentListScreenState extends State<StudentListScreen> {
           ])
               ),
         ));
-    }, backgroundColor: const Color.fromARGB(255, 73, 73, 73), child: const Icon(Icons.person_add, color: Colors.white,)));
+    }, icon: Icons.person_add));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:suivi_de_module/models/eleve.dart';
+import 'package:suivi_de_module/models/eleve_reference.dart';
 
 class Module{
   
@@ -6,7 +7,7 @@ class Module{
   final String description;
   final String horaire;
   final String classe;
-  final List<Eleve>? eleve;
+  final List<EleveReference>? eleve;
 
   Module({
     required this.nom,
@@ -19,10 +20,10 @@ class Module{
   factory Module.fromJson(Map<dynamic, dynamic> json)
   {
 
-    List<Eleve> temp = [];
+    List<EleveReference> temp = [];
     Map<String, dynamic> json2 = json['eleve'];
 
-    json2.forEach((key, value) {temp.add(Eleve.fromJson(json['eleve'][key])); });
+    json2.forEach((key, value) {temp.add(EleveReference.fromJson(json['eleve'][key])); });
 
     return Module(
       nom: json["nom"], 
