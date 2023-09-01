@@ -27,10 +27,25 @@ class FirebaseDBService {
   Future<Eleve> addEleve(Eleve eleve, String id) async {
 
       await _ref.child("eleve/${eleve.id}").set(eleve.toJson());
-      await _ref.child("$moduleNode/$id/eleve${eleve.id}").set({
-        'devoir': null,
-          'test': null
-      }).then((value) { dev.log("done"); return eleve.copyWith(id: eleve.id);}).onError((error, stackTrace) { dev.log(error.toString()); return Eleve.error(); });
+      // await _ref.child("$moduleNode/$id/eleve${eleve.id}").set({
+      //   'devoir': null,
+      //     'test': null
+      // }).then(
+      //   (value) 
+      //   { 
+      //     dev.log("done"); return eleve.copyWith(id: eleve.id);
+      //   })
+      //   .onError((error, stackTrace) 
+      //   { 
+      //     dev.log(error.toString()); return Eleve.error(); 
+      //   });
+
+
+      //eleve.copyWith(id: eleve.id);
+      print(EleveReference.base().toString());
+      
+      await _ref.child("$moduleNode/$id/$eleveNode/${eleve.id}").update(EleveReference.base().toJson());
+      print("done");
       
       /*.then((_) {
       dev.log("phase 00");
@@ -61,6 +76,7 @@ class FirebaseDBService {
     */
 
     return Eleve.base();
+    //return eleve;
   }
 
   Future<Eleve> updateEleve(Eleve eleve) async {

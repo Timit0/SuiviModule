@@ -22,11 +22,20 @@
 ° faire passer les variable du student lorsqu'on va se diriger vers la screen detail_student_screen.dart
 =======================================================================================================================================================================
 
-==============================================================================| A FAIRE |==============================================================================
+===========================================================================|Fait mais c'est du bricolage|==============================================================
+
 ° resolution du probleme du "Error: Expected a value of type 'Map<String, dynamic>' but got one of type 'Null' lors de l'ajout d'un nouvel eleve. C'est a dire
     - faire pas mal de modif pour la methode addEleve dans FirebaseDBService car celui - ci n'ajoutais que le nouvel élève dans la reference mais pas dans les modules
     - grossomodo: le premier ajout de donnée se fais mais pas la deuxieme (meme si on separe bien les deux phase en 2 lignes de code (avec une "await" pour chacun))
     - GIGA URGENT!!!!
 
+=======================================================================================================================================================================
+
+==============================================================================| A FAIRE |==============================================================================
 ° faire le dialog d'insertion de devoirs/tests (optionnelle)
+° Navigation Rail
+° Créer une nouvelle screen pour l'ajout des Student
+° Implementer supression délève
+° Login screen
+° Prendre ALAD1
 =======================================================================================================================================================================

@@ -70,12 +70,25 @@ class _ModuleScreenState extends State<ModuleScreen> {
           ),
         ),
       ),
-      floatingActionButton: ProgramActionButton(func: createModule, icon: Icons.add)/*FloatingActionButton.large(
-        onPressed: createModule,
-        elevation: 2,
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
-      ),*/
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children:[
+          DragTarget(
+            builder: (context, candidateData, rejectedData) {
+              return const Icon(
+                Icons.delete,
+                size: 100,
+              );
+            },
+            onAccept: (ModuleWidget data) {
+              setState(() {
+                
+              });
+            },
+          ),
+          ProgramActionButton(func: createModule, icon: Icons.add),
+        ] 
+      ),
     );
   }
 

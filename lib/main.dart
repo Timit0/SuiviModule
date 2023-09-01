@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:suivi_de_module/firebase_options.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/login_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
@@ -24,12 +25,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // FirebaseDBService.instance.addData();
+    //FirebaseDBService.instance.addData();
     //final service = FirebaseDbService.instance;
 
-    return ChangeNotifierProvider(
-      // create: (context) => ModuleProvider(service),
-      create: (context) => ModuleProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ModuleProvider>(
+          create: (_) => ModuleProvider(),
+        ),
+
+        ChangeNotifierProvider<StudentProvider>(
+          create: (_) => StudentProvider(),
+        ),
+      ],
+
       child: MaterialApp(
         //scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,

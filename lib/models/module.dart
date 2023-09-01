@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 
@@ -35,12 +37,21 @@ class Module{
   }
 
   Map<String, dynamic> toJson(){
+    List<Map<String, dynamic>> eleveListToJson = [];
+    
+    if(eleve != null){
+      for (var v in eleve!) {
+        eleveListToJson.add(v.toJson());
+      }
+    }
+
     return {
       "nom":nom,
       "description":description,
       "horaire":horaire,
       "classe":classe,
-      "eleve":eleve,
+      //"eleve":eleveListToJson,
+      "eleve":eleve
     };
   }
 
