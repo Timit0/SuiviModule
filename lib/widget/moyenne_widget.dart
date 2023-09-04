@@ -6,11 +6,18 @@ class MoyenneWidget extends StatelessWidget {
   double border;
   var note;
 
+  Color noteColor()
+  {
+    if (note < 4) { return Colors.red; }
+    else if (note >= 4 && note < 5.5) { return Colors.orange; }
+    return Colors.green;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container( decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Colors.black, width: 3)),
       child: Column(children: [
-        Container(decoration: const BoxDecoration(color: Colors.green), child: const Padding(
+        Container(decoration: BoxDecoration(color: noteColor()), child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 28, vertical: 10),
           child: Text('Moyenne', style: TextStyle(fontSize: 30)),
         )),
