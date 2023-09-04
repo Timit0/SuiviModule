@@ -96,14 +96,12 @@ class _StudentListScreenState extends State<StudentListScreen> {
                   ),
                   itemCount: widget.studentList.length, 
                   itemBuilder: (context, index) => InkWell(onTap: () {
-                    //StudentSummaryScreen.eleve = widget.studentList[index];
-
                     Navigator.of(context).pushNamed(DetailsStudentScreen.routeName, arguments:{
                       'eleve': widget.studentList[index],
                       'module': arguments
                       }
                     );
-                  }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db, kind: widget.studentList.length <= 1 ? Kind.big : Kind.small,))),
+                  }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db, kind: widget.studentList.length < 3 ? Kind.big : Kind.small,))),
               ),
             ),
             Container(width: 900)
@@ -116,10 +114,10 @@ class _StudentListScreenState extends State<StudentListScreen> {
             title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Ajout d\'un élève'), IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.close))]),
             content: Column(children: [
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('identifiant', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempID = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('nom', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempName = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
+              /*Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('nom', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempName = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('prénom', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempNickname = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('URL de l\'image', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempPhotoUrl = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
-          
+              */
               TextButton(onPressed: () {
                 if
                 (
