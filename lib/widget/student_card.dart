@@ -61,8 +61,8 @@ class _StudentCardState extends State<StudentCard> {
             onExit: (event) => studentRemoveOnExitDesignChange(event),
             child: Stack(
               children: [Container(
-                width: widget.kind == Kind.big ? 70 : 30, 
-                height: widget.kind == Kind.big ? 70 : 30, decoration: BoxDecoration(color: widget.studentRemoveButtonBackgroundColor)), IconButton(onPressed: (){
+                width: widget.kind == Kind.big ? 70 : 45, 
+                height: widget.kind == Kind.big ? 70 : 45, decoration: BoxDecoration(color: widget.studentRemoveButtonBackgroundColor)), IconButton(onPressed: (){
                 showDialog(context: context, builder:(context) => AlertDialog(scrollable: true,
                   content: Column( children: [
                     const Icon(Icons.help, size: 50),

@@ -84,14 +84,15 @@ class _StudentListScreenState extends State<StudentListScreen> {
         padding: const EdgeInsets.only(top: 50.0),
         child: Column(
           children: [
-            Container(width: 900),
+            /*Container(width: 900),*/
             Center(
               child: SizedBox(
                 width: 900,
                 child: GridView.builder(
                   shrinkWrap: true,
+
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: (widget.studentList.length < 3) ? 2 : 4, 
+                    crossAxisCount: (widget.studentList.length < 3) ? 2 : widget.studentList.length, 
                     mainAxisSpacing: 100
                   ),
                   itemCount: widget.studentList.length, 
