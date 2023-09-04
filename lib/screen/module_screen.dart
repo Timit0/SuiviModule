@@ -8,6 +8,7 @@ import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
 import 'package:suivi_de_module/widget/program_action_button.dart';
 
 class ModuleScreen extends StatefulWidget {
+  static const routeName = '/details_student_screen';
   const ModuleScreen({super.key});
 
   @override
@@ -18,6 +19,9 @@ class _ModuleScreenState extends State<ModuleScreen> {
 
   var _isInit = true;
   var _isLoading = false;
+  int _selectedIndex = 0;
+
+  
 
   @override
   void didChangeDependencies() async {
@@ -35,6 +39,9 @@ class _ModuleScreenState extends State<ModuleScreen> {
   @override
   Widget build(BuildContext context) {
     final moduleProvider = Provider.of<ModuleProvider>(context);
+    NavigationRailLabelType labelType = NavigationRailLabelType.all;
+    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -48,30 +55,85 @@ class _ModuleScreenState extends State<ModuleScreen> {
         backgroundColor: Colors.grey,
       ),
 
-      body: _isLoading ? const Center(child: CircularProgressIndicator())
-          : Padding(
-        padding: const EdgeInsets.only(top: 50),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 100, right: 100),
-          child: ListView.builder(
-            itemCount: moduleProvider.modules.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: ModuleWidget(
-                  nom: moduleProvider.modules[index].nom, 
-                  description: moduleProvider.modules[index].description, 
-                  horaire: moduleProvider.modules[index].horaire, 
-                  classe: moduleProvider.modules[index].classe,
-                  eleve: moduleProvider.modules[index].eleve,
-                ).buildWidget(context),
-              );
+      body: Row(
+        children: [
+          NavigationRail(
+            backgroundColor: Colors.red,
+            onDestinationSelected: (value) {
+              setState(() {
+                _selectedIndex = value;
+              });
             },
+            destinations: const[
+              NavigationRailDestination(
+                icon: Icon(Icons.view_module), 
+                label: Text("Modules"),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.person_add), 
+                label: Text("Ajouter/Modifier élèves"),
+              ),
+            ], 
+            selectedIndex: _selectedIndex,
+            labelType: labelType,
           ),
+          Flexible(
+            child: screen(moduleProvider),
+          ),
+        ],
+      ),
+
+      
+      floatingActionButton: floatingActionButtonBottom(),
+    );
+  }
+
+  Widget screen(ModuleProvider moduleProvider){
+    if(_selectedIndex == 0){
+      return screenModule(moduleProvider);
+    }else{
+      return Center(child: Text("data"));
+    }
+    
+  }
+
+  Widget screenModule(ModuleProvider moduleProvider){
+    return _isLoading ? const Center(child: CircularProgressIndicator())
+        : Padding(
+      padding: const EdgeInsets.only(top: 50),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 100, right: 100),
+        child: ListView.builder(
+          itemCount: moduleProvider.modules.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: ModuleWidget(
+                nom: moduleProvider.modules[index].nom, 
+                description: moduleProvider.modules[index].description, 
+                horaire: moduleProvider.modules[index].horaire, 
+                classe: moduleProvider.modules[index].classe,
+                eleve: moduleProvider.modules[index].eleve,
+              ).buildWidget(context),
+            );
+          },
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  void createModule(){
+    PopUpModuleCreation popUpModuleCreation = PopUpModuleCreation();
+    popUpModuleCreation.popUp(context);
+    // setState(() {
+      
+    // });
+  }
+
+  Widget? floatingActionButtonBottom(){
+    if(_selectedIndex == 0){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children:[
           DragTarget(
             builder: (context, candidateData, rejectedData) {
@@ -81,22 +143,14 @@ class _ModuleScreenState extends State<ModuleScreen> {
               );
             },
             onAccept: (ModuleWidget data) {
-              setState(() {
+              // setState(() {
                 
-              });
+              // });
             },
           ),
           ProgramActionButton(func: createModule, icon: Icons.add),
         ] 
-      ),
-    );
-  }
-
-  void createModule(){
-    PopUpModuleCreation popUpModuleCreation = PopUpModuleCreation();
-    popUpModuleCreation.popUp(context);
-    setState(() {
-      
-    });
+      );
+    }
   }
 }
