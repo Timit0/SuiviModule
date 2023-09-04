@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/card_state.dart';
+import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/widget/moyenne_widget.dart';
 import 'package:suivi_de_module/widget/avatar_widget.dart';
 import 'package:suivi_de_module/widget/widget_card.dart';
@@ -22,9 +23,11 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
   @override
   Widget build(BuildContext context) {
 
-    Eleve args = Eleve.base();
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
 
-    if (ModalRoute.of(context)?.settings.arguments != null) { args = ModalRoute.of(context)?.settings.arguments as Eleve; }
+    Eleve args = arguments['eleve'] as Eleve;
+    String module = arguments['module'];
+
 
     final ScrollController controllerDevoir = ScrollController();
     final ScrollController controllerTest = ScrollController();
@@ -118,8 +121,8 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                         )
                       )
                     ),
-                    child: const Text(
-                      "347",
+                    child: Text(
+                      module,
                       style: TextStyle(
                         fontSize: 50
                       ),

@@ -98,7 +98,11 @@ class _StudentListScreenState extends State<StudentListScreen> {
                   itemBuilder: (context, index) => InkWell(onTap: () {
                     //StudentSummaryScreen.eleve = widget.studentList[index];
 
-                    Navigator.of(context).pushNamed(DetailsStudentScreen.routeName, arguments: widget.studentList[index]);
+                    Navigator.of(context).pushNamed(DetailsStudentScreen.routeName, arguments:{
+                      'eleve': widget.studentList[index],
+                      'module': arguments
+                      }
+                    );
                   }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db, kind: widget.studentList.length <= 1 ? Kind.big : Kind.small,))),
               ),
             ),
