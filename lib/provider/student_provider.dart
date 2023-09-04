@@ -19,9 +19,10 @@ class StudentProvider with ChangeNotifier
     notifyListeners();
   }
 
-  Future<void> createEleve(Eleve eleve) async
+  Future<void> createEleve(Eleve eleve, String moduleID) async
   {
-    await FirebaseDBService.instance.addEleve(eleve, _module!);
+    print("Add in prov");
+    await FirebaseDBService.instance.addEleve(eleve, moduleID);
     _eleves.add(eleve);
     notifyListeners();
   }

@@ -31,6 +31,7 @@ class StudentListScreen extends StatefulWidget {
 
   bool valid = true;
 
+
   @override
   State<StudentListScreen> createState() => _StudentListScreenState();
 }
@@ -67,6 +68,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<StudentProvider>(context);
     final arguments = ModalRoute.of(context)?.settings.arguments;
     return ChangeNotifierProvider(
       create: (context) => StudentProvider(),
@@ -127,7 +129,10 @@ class _StudentListScreenState extends State<StudentListScreen> {
                   //widget.db.addEleve(newEleve);
                   widget.valid = true;
     
-                  FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
+                  //FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
+                  provider.createEleve(newEleve, arguments.toString());
+
+                  //FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
                   
                   // Navigator.of(context).pop();
     

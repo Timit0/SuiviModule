@@ -1,3 +1,5 @@
+import 'package:suivi_de_module/models/eleve_reference.dart';
+
 class Eleve {
   String id;
 

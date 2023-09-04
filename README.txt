@@ -24,4 +24,9 @@
 
 ==============================================================================| A FAIRE |==============================================================================
 ° faire le dialog d'insertion de devoirs/tests (optionnelle)
+° Navigation Rail
+° Créer une nouvelle screen pour l'ajout des Student
+° Implementer supression délève
+° Login screen
+° Prendre ALAD1
 =======================================================================================================================================================================
