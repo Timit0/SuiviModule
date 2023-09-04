@@ -9,8 +9,14 @@ import 'package:suivi_de_module/screen/details_student_screen.dart';
 
 import '../infrastructure/firebase_db_service.dart';
 
+enum Kind
+{
+  big,
+  small
+}
+
 class StudentCard extends StatefulWidget {
-  StudentCard({super.key, required this.eleve, this.dbInstance});
+  StudentCard({super.key, required this.eleve, this.dbInstance, this.kind = Kind.big});
 
   final Eleve eleve;
   FirebaseDBService? dbInstance;
@@ -20,6 +26,8 @@ class StudentCard extends StatefulWidget {
 
   Color? studentRemoveButtonBackgroundColor;
   Color studentRemoveButtonForegroundColor = Colors.red;
+
+  Kind kind;
 }
 
 class _StudentCardState extends State<StudentCard> {
@@ -52,7 +60,9 @@ class _StudentCardState extends State<StudentCard> {
             onHover: (event) => studentRemoveOnHoverDesignChange(event),
             onExit: (event) => studentRemoveOnExitDesignChange(event),
             child: Stack(
-              children: [Container(width: 70, height: 70, decoration: BoxDecoration(color: widget.studentRemoveButtonBackgroundColor)), IconButton(onPressed: (){
+              children: [Container(
+                width: widget.kind == Kind.big ? 70 : 30, 
+                height: widget.kind == Kind.big ? 70 : 30, decoration: BoxDecoration(color: widget.studentRemoveButtonBackgroundColor)), IconButton(onPressed: (){
                 showDialog(context: context, builder:(context) => AlertDialog(scrollable: true,
                   content: Column( children: [
                     const Icon(Icons.help, size: 50),
@@ -78,25 +88,33 @@ class _StudentCardState extends State<StudentCard> {
                   ]),
                 ));
               }, icon: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.close, color: widget.studentRemoveButtonForegroundColor, size: 40),
+                padding: EdgeInsets.all(widget.kind == Kind.big ? 8.0 : 0),
+                child: Icon(
+                  Icons.close,
+                  color: widget.studentRemoveButtonForegroundColor,
+                  size: widget.kind == Kind.big ? 40 : 30
+                ),
               ))],
             ),
           ),
         ],
       ),
       Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: widget.kind == Kind.big ? 10 : 0),
         child: ClipOval(
           child: CachedNetworkImage(imageUrl: "https://pbs.twimg.com/profile_images/945853318273761280/0U40alJG_400x400.jpg",
-            width: 100.0,
-            height: 100.0,
+            width: widget.kind == Kind.big ? 100.0 : 70.0,
+            height: widget.kind == Kind.big ? 100.0 : 70.0,
             placeholder: (context, url) => Image.asset("assets/img/placeholderImage.png"),
             errorWidget: (context, url, error) => Image.asset("assets/img/errorImage.png"),
+            fit: BoxFit.fill,
           ),
         ),
       ),
-      Text('${widget.eleve.firstname} ${widget.eleve.name}', style: const TextStyle(fontSize: 50)),
+      Padding(
+        padding: EdgeInsets.only(top: widget.kind == Kind.small ? 18.0 : 0),
+        child: Text('${widget.eleve.firstname} ${widget.eleve.name}', style: TextStyle(fontSize: widget.kind == Kind.big ? 50 : 20)),
+      ),
       Text(widget.eleve.id, style: const TextStyle(fontSize: 20))
     ]));
   }

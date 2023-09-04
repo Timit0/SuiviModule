@@ -2,6 +2,7 @@ import 'dart:html' as html; // window.reload.location.reload();
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/widget/program_action_button.dart';
@@ -53,6 +54,10 @@ class _StudentListScreenState extends State<StudentListScreen> {
       setState(() {
         widget.loaded = true;
       });
+      
+      WebAppReloadDetector.onReload((){setState(() {
+        Navigator.of(context).pop();
+      });}); 
     }
     
     super.didChangeDependencies();
@@ -78,22 +83,21 @@ class _StudentListScreenState extends State<StudentListScreen> {
         child: Column(
           children: [
             Container(width: 900),
-            Expanded(
-              child: Center(
-                child: SizedBox(
-                  width: 900,
-                  child: Wrap(
-                    alignment: WrapAlignment.end,
-                    children: [GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: (widget.studentList.length < 3) ? 2 : 4, mainAxisSpacing: 100),
-                      itemCount: widget.studentList.length, itemBuilder: (context, index) => InkWell(onTap: () {
-                        //StudentSummaryScreen.eleve = widget.studentList[index];
-
-                        Navigator.of(context).pushNamed(DetailsStudentScreen.routeName, arguments: widget.studentList[index]);
-                      }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db)))],
+            Center(
+              child: SizedBox(
+                width: 900,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: (widget.studentList.length < 3) ? 2 : 4, 
+                    mainAxisSpacing: 100
                   ),
-                ),
+                  itemCount: widget.studentList.length, 
+                  itemBuilder: (context, index) => InkWell(onTap: () {
+                    //StudentSummaryScreen.eleve = widget.studentList[index];
+
+                    Navigator.of(context).pushNamed(DetailsStudentScreen.routeName, arguments: widget.studentList[index]);
+                  }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db, kind: widget.studentList.length <= 1 ? Kind.big : Kind.small,))),
               ),
             ),
             Container(width: 900)
