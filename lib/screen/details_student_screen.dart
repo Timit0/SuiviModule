@@ -261,42 +261,6 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
   }
 
-/*
-  Widget avatar(){
-    return Padding(
-      padding: const EdgeInsets.only(top: 30, bottom: 10),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          const ClipOval(
-            child: SizedBox(
-              height: 210,
-              width: 210,
-              child: ColoredBox(color: 
-              Colors.black
-              ),
-            ),
-          ),
-          ClipOval(
-            child: SizedBox(
-              width: 200,
-              height: 200,
-              child: Stack(
-                children: [
-                  const SizedBox.expand(
-                    child: ColoredBox(color: Colors.white),
-                  ),
-                  Image.network("https://upload.wikimedia.org/wikipedia/fr/thumb/a/a1/Logo_FC_Barcelona.svg/800px-Logo_FC_Barcelona.svg.png"),
-                ],
-              ),
-            ),
-          ),
-        ]
-      ),
-    );
-  }
-*/
-
   Widget addCard(){
     return GestureDetector(
       onTap: (){
