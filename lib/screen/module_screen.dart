@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/provider/student_provider.dart';
+import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
 import 'package:suivi_de_module/widget/program_action_button.dart';
@@ -21,6 +24,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
   var _isLoading = false;
   int _selectedIndex = 0;
 
+
   
 
   @override
@@ -28,6 +32,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
     if (_isInit) {
       _isLoading = true;
       await Provider.of<ModuleProvider>(context).fetchAndSetModules();
+      //await Provider.of<StudentProvider>(context).fetchAndSetAllStudents();
       setState(() {
         _isLoading = false;
       });
@@ -58,7 +63,8 @@ class _ModuleScreenState extends State<ModuleScreen> {
       body: Row(
         children: [
           NavigationRail(
-            backgroundColor: Colors.red,
+            elevation: 2,
+            backgroundColor: Color.fromARGB(255, 207, 207, 207),
             onDestinationSelected: (value) {
               setState(() {
                 _selectedIndex = value;
@@ -71,7 +77,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.person_add), 
-                label: Text("Ajouter/Modifier élèves"),
+                label: Text("Ajouter/Modifier/Supprimer\nélèves"),
               ),
             ], 
             selectedIndex: _selectedIndex,
@@ -92,7 +98,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
     if(_selectedIndex == 0){
       return screenModule(moduleProvider);
     }else{
-      return Center(child: Text("data"));
+      return EleveActionScreen();
     }
     
   }
@@ -142,10 +148,17 @@ class _ModuleScreenState extends State<ModuleScreen> {
                 size: 100,
               );
             },
-            onAccept: (ModuleWidget data) {
+            onWillAccept: (data) {
+              return true;
+            },
+            onAccept: (Module data) {
               // setState(() {
                 
               // });
+              print(data.nom);
+            },
+            onMove: (details) {
+              
             },
           ),
           ProgramActionButton(func: createModule, icon: Icons.add),

@@ -51,7 +51,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
       // debug
       // print(arguments.toString());
       widget.studentList = [];
-      widget.studentList = await widget.db.getAllEleves(arguments.toString());
+      widget.studentList = await widget.db.getAllFromOneModuleEleves(arguments.toString());
       setState(() {
         widget.loaded = true;
       });

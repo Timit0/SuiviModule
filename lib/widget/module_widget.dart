@@ -23,6 +23,7 @@ class ModuleWidget extends Module{
   Widget buildWidget(BuildContext context){
     this.context = context;
     return Draggable(
+      data: Module(nom: nom, description: description, horaire: horaire, classe: classe, eleve: eleve),
       feedback:  Card(
           color: Color.fromARGB(255, 216, 216, 216),
           elevation: 0,

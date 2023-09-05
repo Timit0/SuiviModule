@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 
@@ -9,13 +11,25 @@ class StudentProvider with ChangeNotifier
 
   List<Eleve> get eleves => [..._eleves];
 
+  final List<Eleve> _allEleves = [];
+
+  List<Eleve> get allEleves => [..._allEleves];
+
   String? _module;
 
-  Future<void> fetchAndSetModules(String moduleID) async
+  Future<void> fetchAndSetStudents(String moduleID) async
   {
     _eleves.clear();
-    final data = await FirebaseDBService.instance.getAllEleves(moduleID);
+    final data = await FirebaseDBService.instance.getAllFromOneModuleEleves(moduleID);
     _eleves.addAll(data);
+    notifyListeners();
+  }
+
+  Future<void> fetchAndSetAllStudents() async
+  {
+    _allEleves.clear();
+    final data = await FirebaseDBService.instance.getAllEleves();
+    _allEleves.addAll(data);
     notifyListeners();
   }
 
@@ -33,6 +47,30 @@ class StudentProvider with ChangeNotifier
     for (var element in _eleves) {
       if (element.id == eleve.id) { element = eleve; }
     }
+    notifyListeners();
+  }
+
+  Future<void> createOrAddOneEleve(Eleve eleve) async {
+    bool edit = false;
+    await FirebaseDBService.instance.createOrEditOneEleve(eleve);
+    for (var v in _allEleves) {
+      if(eleve.id == v.id){
+        v = eleve;
+        edit = true;
+      }
+    }
+    if(!edit){
+      _allEleves.add(eleve);
+    }
+    notifyListeners();
+  }
+
+  Future<void> removeEleveAndRef(Eleve eleve) async{
+    await FirebaseDBService.instance.removeEleveAndRef(eleve);
+    _allEleves.removeWhere((element) {
+      return element.id == eleve.id;
+    },);
+
     notifyListeners();
   }
 }
