@@ -4,32 +4,49 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
+import 'package:suivi_de_module/models/test.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
+import 'package:suivi_de_module/widget/devoir_test_widget.dart';
 import 'package:suivi_de_module/widget/program_action_button.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
+import 'package:suivi_de_module/widget/student_list_widget.dart';
+import '../widget/app_button_widget.dart';
 
 import '../widget/student_card.dart';
 
 import 'package:suivi_de_module/models/eleve.dart';
+
+enum Mode
+{
+  student,
+  module
+}
 
 class StudentListScreen extends StatefulWidget {
   StudentListScreen({super.key});
 
   static const routeName = '/student_list_screen';
 
-  final db = FirebaseDBService.instance;
+  // final db = FirebaseDBService.instance;
 
-  bool loaded = false;
-  List<Eleve> studentList = [];
+  // bool loaded = false;
+  // List<Eleve> studentList = [];
 
   final _formKey = GlobalKey();
 
-  String tempID = "";
-  String tempName = "";
-  String tempNickname = "";
-  String tempPhotoUrl = "";
+  // String tempID = "";
+  // String tempName = "";
+  // String tempNickname = "";
+  // String tempPhotoUrl = "";
 
-  bool valid = true;
+  // bool valid = true;
+
+  Mode mode = Mode.student;
+
+  Map<Mode, Widget?> modeScreens = {
+    Mode.student: null /*StudentListWidget()*/,
+    Mode.module: DevoirTestWidget()
+  };
 
 
   @override
@@ -38,38 +55,43 @@ class StudentListScreen extends StatefulWidget {
 
 class _StudentListScreenState extends State<StudentListScreen> {
 
-  @override
-  void didChangeDependencies() async {
-    widget.loaded = false;
+  // @override
+  // void didChangeDependencies() async {
+  //   // widget.loaded = false;
     
-    final arguments = ModalRoute.of(context)?.settings.arguments;
+  //   // final arguments = ModalRoute.of(context)?.settings.arguments;
 
     
 
-    if (!widget.loaded)
-    {
-      // debug
-      // print(arguments.toString());
-      widget.studentList = [];
-      widget.studentList = await widget.db.getAllFromOneModuleEleves(arguments.toString());
-      setState(() {
-        widget.loaded = true;
-      });
+  //   if (!widget.loaded)
+  //   {
+  //     // debug
+  //     // print(arguments.toString());
+  //     widget.studentList = [];
+  //     widget.studentList = await widget.db.getAllEleves(arguments.toString());
+  //     setState(() {
+  //       widget.loaded = true;
+  //     });
       
-      WebAppReloadDetector.onReload((){setState(() {
-        Navigator.of(context).pop();
-      });}); 
-    }
+  //     WebAppReloadDetector.onReload((){setState(() {
+  //       Navigator.of(context).pop();
+  //     });}); 
+  //   }
     
-    super.didChangeDependencies();
-  }
+  //   super.didChangeDependencies();
+  // }
 
 
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<StudentProvider>(context);
-    final arguments = ModalRoute.of(context)?.settings.arguments;
+
+    widget.modeScreens[Mode.student] = StudentListWidget(arguments: ModalRoute.of(context)?.settings.arguments);
+
+    //final provider = Provider.of<StudentProvider>(context);
+    //final arguments = ModalRoute.of(context)?.settings.arguments;
+
+
     return ChangeNotifierProvider(
       create: (context) => StudentProvider(),
       child: Scaffold(
@@ -80,12 +102,29 @@ class _StudentListScreenState extends State<StudentListScreen> {
           ,
           backgroundColor: Colors.grey,
         ),
-        body: !widget.loaded ? const Center(child: Text('Chargement en cours...')) : Padding(
+        body: /*!widget.loaded ? const Center(child: Text('Chargement en cours...')) :*/ Padding(
         padding: const EdgeInsets.only(top: 50.0),
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 50.0),
+              child: Row(children: [
+                /*Card(
+                  color: const Color.fromARGB(255, 189, 189, 189), 
+                  elevation: 1, 
+                  child: TextButton(onPressed: () => setState(() => widget.mode = Mode.student), 
+                  child: const Text('Eleves', style: TextStyle(color: Colors.white)))
+                ),*/
+                AppButtonWidget(func: (){setState(() { widget.mode = Mode.student; });}, text: 'Eleves'),
+                //TextButton(onPressed: () => setState(() => widget.mode = Mode.module), child: const Text('Devoirs/Tests'))
+                AppButtonWidget(func: (){setState(() { widget.mode = Mode.module; });}, text: 'Devoirs/Tests')
+              ]),
+            ),
             /*Container(width: 900),*/
-            Center(
+            
+            Flexible(child: widget.modeScreens[widget.mode]!),
+
+            /*Center(
               child: SizedBox(
                 width: 900,
                 child: GridView.builder(
@@ -104,56 +143,11 @@ class _StudentListScreenState extends State<StudentListScreen> {
                     );
                   }, child: StudentCard(eleve: widget.studentList[index], dbInstance: widget.db, kind: widget.studentList.length < 3 ? Kind.big : Kind.small,))),
               ),
-            ),
+            )*/
             Container(width: 900)
           ],
         ),
-      ), floatingActionButton: ProgramActionButton(func: () {
-          showDialog(context: context, builder: (context) => StatefulBuilder( // afin qu'on puisse faire un setState mais QUE pour ce widget - là
-            builder:(context, setState) => AlertDialog(
-            scrollable: true,
-            title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Ajout d\'un élève'), IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.close))]),
-            content: Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('identifiant', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempID = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
-              /*Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('nom', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempName = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('prénom', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempNickname = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('URL de l\'image', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempPhotoUrl = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
-              */
-              TextButton(onPressed: () {
-                if
-                (
-                  widget.tempID != "" &&
-                  widget.tempName != "" &&
-                  widget.tempNickname != ""
-                )
-                {
-                  Eleve newEleve = Eleve(id: widget.tempID, name: widget.tempName, firstname: widget.tempNickname, photoFilename: widget.tempPhotoUrl == "" ? "assets/img/placeholderImage.png" : widget.tempPhotoUrl);
-          
-                  //widget.db.addEleve(newEleve);
-                  widget.valid = true;
-    
-                  //FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
-                  provider.createEleve(newEleve, arguments.toString());
-
-                  //FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
-                  
-                  // Navigator.of(context).pop();
-    
-                  // vue qu'on fait sur le web
-                  html.window.location.reload();
-                }
-                else
-                {        
-                  setState(() {
-                    widget.valid = false;
-                  });
-                }
-              }, style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.grey), foregroundColor: MaterialStateProperty.all(Colors.white)), child: const Text('OK')),
-              Text((widget.valid == false ? 'L\'identifiant, Le nom ainsi que le prénom doient être remplit!' : ''), style: const TextStyle(color: Colors.red))
-            ])
-                ),
-          ));
-      }, icon: Icons.person_add)),
+      ),),
     );
   }
 }

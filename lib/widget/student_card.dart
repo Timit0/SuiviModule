@@ -1,8 +1,7 @@
-import 'dart:html' as html;
+//import 'dart:html' as html;
 import 'dart:js_interop';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
@@ -16,9 +15,10 @@ enum Kind
 }
 
 class StudentCard extends StatefulWidget {
-  StudentCard({super.key, required this.eleve, this.dbInstance, this.kind = Kind.big});
+  StudentCard({super.key, required this.eleve, this.dbInstance, this.kind = Kind.big, required this.moduleId});
 
   final Eleve eleve;
+  final String moduleId;
   FirebaseDBService? dbInstance;
 
   @override
@@ -76,11 +76,11 @@ class _StudentCardState extends State<StudentCard> {
                         TextButton(onPressed:() {
                           if (!widget.dbInstance.isNull)
                           {
-                            widget.dbInstance!.removeEleve(widget.eleve);
+                            widget.dbInstance!.removeEleve(widget.eleve, widget.moduleId);
                           }
                       
                           Navigator.of(context).pop();
-                          html.window.location.reload();
+                          //html.window.location.reload();
                         }, child: const Text('Oui')),
                         TextButton(onPressed:() => Navigator.of(context).pop(), child: const Text('Non'))
                         ]),

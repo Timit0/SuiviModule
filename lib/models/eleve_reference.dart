@@ -3,11 +3,11 @@ import 'package:suivi_de_module/models/test_reference.dart';
 
 class EleveReference
 {
-
+  String id;
   List<DevoirReference>? devoirs;
   List<TestReference>? tests;
 
-  EleveReference({this.devoirs, this.tests});
+  EleveReference({required this.id, this.devoirs, this.tests});
 
   factory EleveReference.fromJson(Map<String, dynamic> json) {
     // ...
@@ -18,10 +18,14 @@ class EleveReference
     Map<String, dynamic> jsonDevoirs = json['devoir'];
     Map<String, dynamic> jsonTests = json['test'];
 
-    jsonDevoirs.forEach((key, value) { devoirRefs.add(DevoirReference.fromJson(json['devoir'][key])); });
-    jsonTests.forEach((key, value) { testRefs.add(TestReference.fromJson(json['test'][key])); });
+    try{
+      jsonDevoirs.forEach((key, value) { devoirRefs.add(DevoirReference.fromJson(json['devoir'][key])); });
+      jsonTests.forEach((key, value) { testRefs.add(TestReference.fromJson(json['test'][key])); });
+    }catch(e){}
+    
 
     return EleveReference(
+      id: json["id"],
       devoirs: devoirRefs,
       tests: testRefs
     );
@@ -36,6 +40,7 @@ class EleveReference
 
 
     return EleveReference(
+      id: "00",
       devoirs: devoirRefs,
       tests: testRefs,
     );
@@ -45,35 +50,35 @@ class EleveReference
     List<Map<String, dynamic>> testListToJson = [];
     List<Map<String, dynamic>> devoirListToJson = [];
 
-    if(testListToJson != null){
-      for (var v in tests!) {
-        testListToJson.add(v.toJson());
-      }
-    }
-
-    if(devoirListToJson != null){
-      for (var v in devoirs!) {
-        devoirListToJson.add(v.toJson());
-      }
-    }
-
-
     Map<String, Map<String, dynamic>> testMap = {};
-
-    for (var v in testListToJson) {
-      testMap["${v.keys}"] = v;
-    }
-
-
     Map<String, Map<String, dynamic>> devoirMap = {};
 
-    for (var v in devoirListToJson) {
-      devoirMap["${v.keys}"] = v;
-    }
+    try{
+      if(testListToJson != null){
+        for (var v in tests!) {
+          testListToJson.add(v.toJson());
+        }
+      }
 
-    print(devoirMap);
+      if(devoirListToJson != null){
+        for (var v in devoirs!) {
+          devoirListToJson.add(v.toJson());
+        }
+      }
+
+
+      for (var v in testListToJson) {
+        testMap["${v.keys}"] = v;
+      }
+
+
+      for (var v in devoirListToJson) {
+        devoirMap["${v.keys}"] = v;
+      }
+    }catch(e){}
 
     return {
+      "id":id,
       "test":testMap,
       "devoir":devoirMap
     };

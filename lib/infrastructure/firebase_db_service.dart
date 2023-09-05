@@ -24,9 +24,8 @@ class FirebaseDBService {
   // =================================| CRUD pour Eleve |=======================================
   Future<Eleve> addEleve(Eleve eleve, String id) async {
 
-      await _ref.child("eleve/${eleve.id}").set(eleve.toJson());
-      
-      await _ref.child("$moduleNode/$id/$eleveNode/${eleve.id}").update(EleveReference.base().toJson());
+      //await _ref.child("eleve/${eleve.id}").set(eleve.toJson());
+      await _ref.child("$moduleNode/$id/$eleveNode/${eleve.id}").update(EleveReference(id: eleve.id).toJson());
       
     return Eleve.base();
     //return eleve;
@@ -49,8 +48,8 @@ class FirebaseDBService {
     return eleve;
   }
 
-  Future<void> removeEleve(Eleve eleve) async {
-    _ref.child('eleves/${eleve.id}').remove().then((_) => null).catchError((e) {
+  Future<void> removeEleve(Eleve eleve, String moduleId) async {
+    _ref.child('$moduleNode/$moduleId/$eleveNode/${eleve.id}').remove().then((_) => null).catchError((e) {
       dev.log(e);
     });
   }
