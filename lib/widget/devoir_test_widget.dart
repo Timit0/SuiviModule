@@ -29,7 +29,7 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
       const Text('Tests', textAlign: TextAlign.left),
       ListOfWidget(
         widget: CardWidget(type: CardState.Test), 
-        controller: controllerDevoir, 
+        controller: controllerTest, 
         varDebug: 8, 
         paddingList: 50
       )
