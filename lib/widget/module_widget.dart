@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/models/module.dart';
-import 'package:suivi_de_module/screen/student_list_screen.dart';
+import 'package:suivi_de_module/screen/main_screen.dart';
 
 class ModuleWidget extends Module{
   ModuleWidget({

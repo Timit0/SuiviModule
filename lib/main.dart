@@ -8,7 +8,7 @@ import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/login_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
-import 'package:suivi_de_module/screen/student_list_screen.dart';
+import 'package:suivi_de_module/screen/main_screen.dart';
 
 Future<void> main() async {
 
