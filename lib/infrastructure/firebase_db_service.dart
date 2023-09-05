@@ -8,9 +8,7 @@ import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/module.dart';
 
 class FirebaseDBService {
-  // pour traiter les donnees de l'eleve -> /eleve
-  // final url = 'http://10.0.2.2:9000/';
-  // final dbName = '/?ns=suivimodule-default-rtdb';
+
 
   final FirebaseDatabase db = FirebaseDatabase.instance;
   late DatabaseReference _ref;
@@ -27,56 +25,16 @@ class FirebaseDBService {
   Future<Eleve> addEleve(Eleve eleve, String id) async {
 
       await _ref.child("eleve/${eleve.id}").set(eleve.toJson());
-      // await _ref.child("$moduleNode/$id/eleve${eleve.id}").set({
-      //   'devoir': null,
-      //     'test': null
-      // }).then(
-      //   (value) 
-      //   { 
-      //     dev.log("done"); return eleve.copyWith(id: eleve.id);
-      //   })
-      //   .onError((error, stackTrace) 
-      //   { 
-      //     dev.log(error.toString()); return Eleve.error(); 
-      //   });
-
-
-      //eleve.copyWith(id: eleve.id);
-      print(EleveReference.base().toString());
       
       await _ref.child("$moduleNode/$id/$eleveNode/${eleve.id}").update(EleveReference.base().toJson());
-      print("done");
       
-      /*.then((_) {
-      dev.log("phase 00");
-      _ref.child("$moduleNode/$id/eleve/${eleve.id}").set(<String, dynamic> {
-          'devoir': null,
-          'test': null
-      }).then((value) { dev.log("phase 02 (gone)"); return eleve.copyWith(id: eleve.id);}).catchError((e) {dev.log(e);});
-    }).catchError((e) {dev.log(e);});*/
-
-/*
-    await _ref.child("eleve/${eleve.id}").set(eleve.toJson()).then((_) {
-      _ref.child("$moduleNode/$id/eleve/${eleve.id}").set(<String, dynamic> {
-        'devoir': {},
-        'test': {}
-      }).then((_) {
-        return eleve.copyWith(id: eleve.id);
-      }).catchError((_) { return Eleve.error(); });
-    }).catchError((_) { return Eleve.error(); });
-    */
-
-    /*
-    _ref.child('$moduleNode/$id/eleve/${eleve.id}').set(eleve.toJson()).then((_) {
-      return eleve.copyWith(id: eleve.id);
-    }).catchError((e) {
-      dev.log(e.toString());
-      return Eleve.error();
-    });
-    */
-
     return Eleve.base();
     //return eleve;
+  }
+
+  Future<Eleve> createOrEditOneEleve(Eleve eleve) async {
+    await _ref.child('$eleveNode/${eleve.id}').update(eleve.toJson());
+    return eleve;
   }
 
   Future<Eleve> updateEleve(Eleve eleve) async {
@@ -97,7 +55,28 @@ class FirebaseDBService {
     });
   }
 
-  Future<List<Eleve>> getAllEleves(String id) async {
+  Future<void> removeEleveAndRef(Eleve eleve) async{
+    await _ref.child('$eleveNode/${eleve.id}').remove();
+      print(eleve.id);
+    try{
+      List<Module> modules = await getAllModule();
+
+
+      for (Module v in modules) {
+        try{
+          _ref.child("$moduleNode/${v.nom}/$eleveNode/${eleve.id}").remove();
+        }catch(e){
+
+        }
+      }
+
+    }catch(e){
+
+    }
+    
+  }
+
+  Future<List<Eleve>> getAllFromOneModuleEleves(String id) async {
     final snapshot = await _ref.child('$moduleNode/$id/eleve').get();
 
     if (snapshot.exists) {
@@ -108,7 +87,6 @@ class FirebaseDBService {
       for (dynamic v in snapshot.children)
       {
         final tempID = v.key.toString();
-        print(tempID);
 
         final DataSnapshot tempSnapshot = await _ref.child("$eleveNode/$tempID").get();
 
@@ -121,21 +99,31 @@ class FirebaseDBService {
     return [];
   }
 
+  Future<List<Eleve>> getAllEleves() async {
+    final snapshot = await _ref.child('$eleveNode').get();
 
+    if (snapshot.exists) {
+      final eleves = <Eleve>[];
 
-  // final FirebaseDatabase db = FirebaseDatabase.instance;
-  //late DatabaseReference _dbRef;
+      for (dynamic v in snapshot.children)
+      {
+        final tempID = v.key.toString();
+
+        final DataSnapshot tempSnapshot = await _ref.child("$eleveNode/$tempID").get();
+
+        eleves.add(Eleve.fromJson(tempSnapshot.value as Map<String, dynamic>));
+      }
+
+      return eleves;
+    }
+
+    return [];
+  }
+
   final String moduleNode = "module";
   final String eleveNode = "eleve";
 
-  // static final instance = FirebaseDbService._();
-
-  // FirebaseDbService._(){
-  //   db.useDatabaseEmulator("127.0.0.1", 9000);
-  //   _dbRef = db.ref();
-  // }
   
-  @override
   void addData() async {
     await _ref.child(moduleNode).remove();
     await _ref.child(eleveNode).remove();
@@ -155,7 +143,7 @@ class FirebaseDBService {
     }
   }
 
-  @override
+  
   Future<List<Module>> getAllModule() async {
       final data = await _ref.child("$moduleNode/").get();
 
@@ -173,9 +161,12 @@ class FirebaseDBService {
   }
   
 
-  @override
   Future<void> addModule(Module module) async {
     await _ref.child("$moduleNode/${module.nom}").update(module.toJson());
+  }
+
+  Future<void> removeModule(String id) async {
+    await _ref.child('$moduleNode/$id').remove();
   }
   // ====================================================================================
 }

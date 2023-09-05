@@ -1,6 +1,7 @@
 // import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/models/module.dart';
@@ -20,19 +21,38 @@ class DetailsStudentScreen extends StatefulWidget {
 }
 
 class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
+
+   @override
+  void didChangeDependencies() async {
+      WebAppReloadDetector.onReload(
+        (){setState(() {
+          Navigator.of(context).pop();
+        });}
+      );
+    
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
     final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
 
-    Eleve args = arguments['eleve'] as Eleve;
-    String module = arguments['module'];
+    Eleve args = arguments['eleve'] ?? Eleve.base();
+    String module = arguments['module'] ?? "ICH-450";
 
 
     final ScrollController controllerDevoir = ScrollController();
     final ScrollController controllerTest = ScrollController();
     final varDebug = 8;
     double paddingList = 50;
+
+    WebAppReloadDetector.onReload((){setState(() {
+      Navigator.of(context).pop();
+    });}); 
+
+    
 
 
     return Scaffold(
@@ -122,7 +142,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                       )
                     ),
                     child: Text(
-                      module,
+                      Module.getOnlyNumbOfNameStatic(module), //ICH-322
                       style: TextStyle(
                         fontSize: 50
                       ),
@@ -198,73 +218,6 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       ),
     );
   }
-
-  // devoirs/tests
-  /*
-  Widget widgetCard(CardState cardState){
-    late Color color;
-    if(cardState == CardState.Devoir){
-      color = const Color.fromARGB(255, 255, 94, 82);
-    }else{
-      color = const Color.fromARGB(255, 142, 255, 146);
-    }
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25)
-      ),
-      color: color,
-      child: Stack(
-        children: [
-          Positioned(
-            right: 0,
-            left: 0,
-            child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ClipOval(
-                      clipBehavior: Clip.antiAlias,
-                      child: Stack(
-                        children: [ 
-                          const SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: ColoredBox(
-                              color: Colors.white
-                            ),
-                          ),
-                          SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: Center(
-                              child: checkWidget(),
-                            ),
-                          ),
-                        ]
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-          ),
-          const SizedBox(
-            height: 250,
-            width: 250,
-          ),
-        ] 
-      ),
-    );
-  }
-  */
 
   Widget checkWidget(){
     bool checkState = false;
@@ -391,7 +344,6 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       ),
     );
   }
-
 
 // pq ne pas l'avoir mis dans un fichier .dart a pars entiere? :))
 /*

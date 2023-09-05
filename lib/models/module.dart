@@ -1,4 +1,5 @@
 import 'dart:js_interop';
+import 'dart:math';
 
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
@@ -23,9 +24,11 @@ class Module{
   {
 
     List<EleveReference> temp = [];
-    Map<String, dynamic> json2 = json['eleve'];
+    try{
+      Map<String, dynamic> json2 = json['eleve'];
 
-    json2.forEach((key, value) {temp.add(EleveReference.fromJson(json['eleve'][key])); });
+      json2.forEach((key, value) {temp.add(EleveReference.fromJson(json['eleve'][key])); }); 
+    }catch(e){}
 
     return Module(
       nom: json["nom"], 
@@ -56,6 +59,12 @@ class Module{
   }
 
   String getOnlyNumbOfName(String s){
+    List<String> number = [];
+    number.addAll(s.split("-"));
+    return number[1];
+  }
+
+  static String getOnlyNumbOfNameStatic(String s){
     List<String> number = [];
     number.addAll(s.split("-"));
     return number[1];
