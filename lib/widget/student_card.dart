@@ -1,4 +1,4 @@
-//import 'dart:html' as html;
+import 'dart:html' as html;
 import 'dart:js_interop';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -77,6 +77,7 @@ class _StudentCardState extends State<StudentCard> {
                           if (!widget.dbInstance.isNull)
                           {
                             widget.dbInstance!.removeEleve(widget.eleve, widget.moduleId);
+                            html.window.location.reload();
                           }
                       
                           Navigator.of(context).pop();

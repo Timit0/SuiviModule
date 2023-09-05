@@ -48,6 +48,11 @@ class StudentListScreen extends StatefulWidget {
     Mode.module: DevoirTestWidget()
   };
 
+  Map<Mode, String> appBarTitles = {
+    Mode.student : 'Eleves',
+    Mode.module : 'Devoirs/tests'
+  };
+
 
   @override
   State<StudentListScreen> createState() => _StudentListScreenState();
@@ -96,7 +101,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
       create: (context) => StudentProvider(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Placeholder", style: TextStyle(color: Colors.white)),
+          title: Text(widget.appBarTitles[widget.mode]!, style: const TextStyle(color: Colors.white)),
           centerTitle: true,
           foregroundColor: Colors.white
           ,
