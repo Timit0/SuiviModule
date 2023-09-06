@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/module.dart';
+import 'package:suivi_de_module/models/test.dart';
 
 class FirebaseDBService {
 
@@ -52,6 +53,11 @@ class FirebaseDBService {
   Future<void> addDevoir(Devoir devoir, String moduleId) async
   {
     await _ref.child("$moduleNode/$moduleId/$devoirNode/${devoir.id}").update(devoir.toJson());
+  }
+
+  Future<void> addTest(Test test, String moduleId) async
+  {
+    await _ref.child("$moduleNode/$moduleId/$testNode/${test.id}").update(test.toJson());
   }
 
   Future<void> removeEleve(Eleve eleve, String moduleId) async {
@@ -128,6 +134,7 @@ class FirebaseDBService {
   final String moduleNode = "module";
   final String eleveNode = "eleve";
   final String devoirNode = "devoir";
+  final String testNode = "test";
   
   void addData() async {
     await _ref.child(moduleNode).remove();

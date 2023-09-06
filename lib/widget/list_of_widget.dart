@@ -9,14 +9,14 @@ class ListOfWidget extends StatelessWidget {
     required this.controller, 
     required this.varDebug, 
     required this.paddingList, 
-    this.additionDialog
+    required this.additionDialog
   });
 
   Widget widget;
   ScrollController controller;
   int varDebug; // ?
   double paddingList;
-  AlertDialog? additionDialog; // <- pété mais si on faisait autrement, il aurait pleurniché
+  AlertDialog additionDialog; // <- pété mais si on faisait autrement, il aurait pleurniché
 
   @override
   Widget build(BuildContext context) {

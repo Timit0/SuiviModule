@@ -3,7 +3,8 @@ class Test
   String id;
   String nom;
   String description;
-  DateTime date;
+  //DateTime date;
+  String date;
   /*Float?*/ var note; // <- moyenne
   bool done;
 

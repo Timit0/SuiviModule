@@ -1,8 +1,11 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/module.dart';
+import 'package:suivi_de_module/models/test.dart';
 import 'package:suivi_de_module/widget/list_of_widget.dart';
 import 'package:suivi_de_module/widget/add_card_widget.dart';
 import 'package:suivi_de_module/widget/widget_card.dart';
@@ -26,26 +29,10 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  @override
-  Widget build(BuildContext context) {
-
-    final ScrollController controllerDevoir = ScrollController();
-    final ScrollController controllerTest = ScrollController();
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 80, right: 80, bottom: 100),
-      child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 45),
-          child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
-        ),
-        ListOfWidget(
-          widget: CardWidget(type: CardState.Devoir), 
-          controller: controllerDevoir, 
-          varDebug: 8, 
-          paddingList: 50,
-          additionDialog: AlertDialog(
-            title: const Text('Ajout d\'un devoir'),
+  AlertDialog additionDialog(CardState type)
+  {
+    return AlertDialog(
+            title: Text('Ajout d\'un ${type == CardState.Devoir ? 'devoir' : 'Test'}'),
             scrollable: true,
             content: Form(key: _formKey, child: Column(children: [
               Row(children: [
@@ -121,18 +108,51 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
                   widget.tempDateTime ??= DateTime.now();
                   _formKey.currentState!.save();
 
+                  if (type == CardState.Devoir)
+                  {
                   // ajout de devoirs
                   FirebaseDBService.instance.addDevoir(Devoir(
                     id: widget.tempID!,
                     nom: widget.tempName!, description: widget.tempDescription!, 
                     date: widget.tempDateTime!.toString()
                     ),widget.args as String);
+                  }
+                  else
+                  {
+                    FirebaseDBService.instance.addTest(Test(
+                      id: widget.tempID!, 
+                      nom: widget.tempName!, 
+                      description: widget.tempDescription!, 
+                      date: widget.tempDateTime!.toString()
+                    ), widget.args as String);
+                  }
                     
                     Navigator.of(context).pop();
                 }
               }, child: const Text('Ajouter!'))
             ]))
-          ),
+          );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final ScrollController controllerDevoir = ScrollController();
+    final ScrollController controllerTest = ScrollController();
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 80, right: 80, bottom: 100),
+      child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 45),
+          child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
+        ),
+        ListOfWidget(
+          widget: CardWidget(type: CardState.Devoir), 
+          controller: controllerDevoir, 
+          varDebug: 8, 
+          paddingList: 50,
+          additionDialog: additionDialog(CardState.Devoir),
         ),
         const Padding(
           padding: EdgeInsets.only(left: 45),
@@ -142,7 +162,8 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
           widget: CardWidget(type: CardState.Test), 
           controller: controllerTest, 
           varDebug: 8, 
-          paddingList: 50
+          paddingList: 50,
+          additionDialog: additionDialog(CardState.Test),
         )
       ]),
     );
