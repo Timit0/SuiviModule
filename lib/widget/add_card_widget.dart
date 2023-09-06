@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:suivi_de_module/models/card_state.dart';
 
 class AddCardWidget extends StatelessWidget {
-  AddCardWidget({super.key, this.dialog});
+  AddCardWidget({super.key, this.dialog, required this.type});
 
   AlertDialog? dialog;
+  CardState type;
 
   @override
   Widget build(BuildContext context) {

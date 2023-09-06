@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -46,6 +47,11 @@ class FirebaseDBService {
     });
 
     return eleve;
+  }
+
+  Future<void> addDevoir(Devoir devoir, String moduleId) async
+  {
+    await _ref.child("$moduleNode/$moduleId/$devoirNode/${devoir.id}").update(devoir.toJson());
   }
 
   Future<void> removeEleve(Eleve eleve, String moduleId) async {
@@ -121,7 +127,7 @@ class FirebaseDBService {
 
   final String moduleNode = "module";
   final String eleveNode = "eleve";
-
+  final String devoirNode = "devoir";
   
   void addData() async {
     await _ref.child(moduleNode).remove();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suivi_de_module/widget/widget_card.dart';
 import 'add_card_widget.dart';
 
 class ListOfWidget extends StatelessWidget {
@@ -37,7 +38,7 @@ class ListOfWidget extends StatelessWidget {
               itemCount: varDebug,
               itemBuilder: (context, index) {
                 if(index + 1 == varDebug){
-                  return AddCardWidget(dialog: additionDialog);
+                  return AddCardWidget(dialog: additionDialog, type: (widget as CardWidget).type);
                 }else{
                   return widget;
                 }

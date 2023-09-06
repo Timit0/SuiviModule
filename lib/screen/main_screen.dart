@@ -22,7 +22,7 @@ class StudentListScreen extends StatefulWidget {
 
   Map<Mode, Widget?> modeScreens = {
     Mode.student: null /*StudentListWidget()*/,
-    Mode.module: DevoirTestWidget()
+    Mode.module: null //DevoirTestWidget()
   };
 
   Map<Mode, String> appBarTitles = {
@@ -41,7 +41,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
   Widget build(BuildContext context) {
 
     widget.modeScreens[Mode.student] = StudentListWidget(arguments: ModalRoute.of(context)?.settings.arguments);
-
+    widget.modeScreens[Mode.module] = DevoirTestWidget(args: ModalRoute.of(context)?.settings.arguments);
 
     return ChangeNotifierProvider(
       create: (context) => StudentProvider(),
