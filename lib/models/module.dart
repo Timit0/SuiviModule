@@ -9,7 +9,7 @@ class Module{
   final String nom;
   final String description;
   final String horaire;
-  final String classe;
+  String classe;
   final List<EleveReference>? eleve;
 
   Module({
@@ -23,12 +23,24 @@ class Module{
   factory Module.fromJson(Map<dynamic, dynamic> json)
   {
 
-    List<EleveReference> temp = [];
+    List<EleveReference>? temp = [];
+    
     try{
       Map<String, dynamic> json2 = json['eleve'];
+      //print(json["eleve"]);
 
-      json2.forEach((key, value) {temp.add(EleveReference.fromJson(json['eleve'][key])); }); 
-    }catch(e){}
+      json2.forEach((key, value) 
+      {
+        //print("Add");
+        temp.add(EleveReference.fromJson(value)); 
+        //print(EleveReference.fromJson(value).id);
+      }); 
+    }catch(e){print(e);}
+
+    //print(temp);
+    try{
+      print(temp.length);
+    }catch(e){print(e);}
 
     return Module(
       nom: json["nom"], 

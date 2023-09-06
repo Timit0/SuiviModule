@@ -99,7 +99,7 @@ class PopUpModuleCreation{
                 TextFormField(
                   controller: getClasse,
                   decoration: const InputDecoration(
-                    hintText: "classe du module ex : ICH-3 (12 élèves)"
+                    hintText: "classe du module ex : ICH-3"
                   ),
                   validator: (value) {
                     if(value == ""){
@@ -113,7 +113,7 @@ class PopUpModuleCreation{
           ),
           actions: [
             TextButton(
-              onPressed: createModule, 
+              onPressed: () => createModule(context), 
               child: const Text("Créer")
             )
           ],
@@ -122,7 +122,7 @@ class PopUpModuleCreation{
     },
   );
 
-  void createModule(){
+  void createModule(BuildContext context) async{
     final isValid = _form.currentState!.validate();
     if (!isValid) {
       return;

@@ -1,6 +1,7 @@
 // import 'dart:js_util';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
@@ -108,7 +109,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
         : Padding(
       padding: const EdgeInsets.only(top: 50),
       child: Padding(
-        padding: const EdgeInsets.only(left: 100, right: 100),
+        padding: const EdgeInsets.only(left: 100, right: 100, bottom: 200),
         child: ListView.builder(
           itemCount: moduleProvider.modules.length,
           itemBuilder: (context, index) {
@@ -120,7 +121,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                 horaire: moduleProvider.modules[index].horaire, 
                 classe: moduleProvider.modules[index].classe,
                 eleve: moduleProvider.modules[index].eleve,
-              ).buildWidget(context),
+              ).buildWidget(context, index),
             );
           },
         ),
@@ -137,32 +138,45 @@ class _ModuleScreenState extends State<ModuleScreen> {
   }
 
   Widget? floatingActionButtonBottom(){
+    final provider = Provider.of<ModuleProvider>(context);
     if(_selectedIndex == 0){
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children:[
-          DragTarget(
-            builder: (context, candidateData, rejectedData) {
-              return const Icon(
-                Icons.delete,
-                size: 100,
-              );
-            },
-            onWillAccept: (data) {
-              return true;
-            },
-            onAccept: (Module data) {
-              // setState(() {
+      return Container(
+        height: 150,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children:[
+            DragTarget(
+              builder: (context, candidateData, rejectedData) {
+                if(candidateData.isEmpty){
+                  return const Icon(
+                    Icons.delete,
+                    size: 130,
+                  );
+                }
+                return const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 130,
+                );
                 
-              // });
-              print(data.nom);
-            },
-            onMove: (details) {
+              },
+              onWillAccept: (data) {
+                return true;
+              },
+              onAccept: (Module data) {
+                setState(() {
+                   provider.removeModule(moduleNom: data.nom); 
+                });
+                print(data.nom);
+              },
+              onMove: (details) {
+                
+              },
               
-            },
-          ),
-          ProgramActionButton(func: createModule, icon: Icons.add),
-        ] 
+            ),
+            ProgramActionButton(func: createModule, icon: Icons.add),
+          ] 
+        ),
       );
     }
   }

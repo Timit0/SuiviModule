@@ -35,4 +35,15 @@ class ModuleProvider with ChangeNotifier{
     }
     notifyListeners();
   }
+
+  Future<void> removeModule({required String moduleNom}) async {
+    await FirebaseDBService.instance.removeModule(moduleNom);
+    _modules.removeWhere((element) => element.nom == moduleNom);
+    notifyListeners();
+  }
+
+  Future<int> getLengthFromAllEleveFromOneModule(String s) async{
+    final list = await FirebaseDBService.instance.getAllFromOneModuleEleves(s);
+    return list.length;
+  }
 }

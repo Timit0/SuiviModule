@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/module.dart';
+import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/screen/student_list_screen.dart';
 
 class ModuleWidget extends Module{
@@ -18,13 +20,35 @@ class ModuleWidget extends Module{
   }
 
   //final String nom;
+  String textEleve(int x){
+    if(x >= 2)
+      return "Elèves";
+    else
+      return "Elève";
+  }
 
 
-  Widget buildWidget(BuildContext context){
+  Widget buildWidget(BuildContext context, int index) {
     this.context = context;
+
+    final provider = Provider.of<ModuleProvider>(context);
+
+    String classNumb = "";
+    // Future<int> asyncValue = provider.getLengthFromAllEleveFromOneModule(provider.modules[index].nom);
+    // asyncValue = asyncValue.then((value) {
+    //   return (value);
+    // });
+
+    classNumb = " (0 Elève)";
+    try{
+      classNumb = " (${provider.modules[index].eleve?.length} ${textEleve(provider.modules[index].eleve!.length)})";
+    }catch(e){}
+    print("Index : $index, classNumb :${classNumb}");
+    classe += classNumb;
+
     return Draggable(
       data: Module(nom: nom, description: description, horaire: horaire, classe: classe, eleve: eleve),
-      feedback:  Card(
+      feedback: Card(
           color: Color.fromARGB(255, 216, 216, 216),
           elevation: 0,
           shape: const RoundedRectangleBorder(
@@ -95,6 +119,27 @@ class ModuleWidget extends Module{
             ],
           ),
         ),
+      childWhenDragging: Card(
+        color: Color.fromARGB(255, 216, 216, 216),
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(0)),
+        ),
+        child: Container(
+          height: 100,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 216, 216, 216),
+                Color.fromARGB(255, 90, 90, 90),
+                //Color.fromARGB(255, 216, 216, 216),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(StudentListScreen.routeName, arguments: this.nom);

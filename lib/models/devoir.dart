@@ -3,7 +3,8 @@ class Devoir
   String id;
   String nom;
   String description;
-  DateTime date;
+  //DateTime date;
+  String date;
   bool done;
 
   Devoir({
@@ -18,7 +19,8 @@ class Devoir
     id: json['id'], 
     nom: json['nom'], 
     description: json['description'],
-    date: DateTime.parse(json['date']),
+    //date: DateTime.parse(json['date'], ),
+    date: json['date'],
     done: json['done']
   );
 

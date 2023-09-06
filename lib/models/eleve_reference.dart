@@ -12,17 +12,23 @@ class EleveReference
   factory EleveReference.fromJson(Map<String, dynamic> json) {
     // ...
 
-    List<DevoirReference> devoirRefs = [];
-    List<TestReference> testRefs = [];
+    List<DevoirReference>? devoirRefs = [];
+    List<TestReference>? testRefs = [];
 
-    Map<String, dynamic> jsonDevoirs = json['devoir'];
-    Map<String, dynamic> jsonTests = json['test'];
 
     try{
-      jsonDevoirs.forEach((key, value) { devoirRefs.add(DevoirReference.fromJson(json['devoir'][key])); });
-      jsonTests.forEach((key, value) { testRefs.add(TestReference.fromJson(json['test'][key])); });
-    }catch(e){}
-    
+      Map<String, dynamic> jsonDevoirs = json['devoir'];
+      Map<String, dynamic> jsonTests = json['test'];
+
+      jsonDevoirs.forEach((key, value) 
+      { 
+        devoirRefs.add(DevoirReference.fromJson(value)); 
+      });
+      jsonTests.forEach((key, value) 
+      { 
+        testRefs.add(TestReference.fromJson(value)); 
+      });
+    }catch(e){print(e);}
 
     return EleveReference(
       id: json["id"],
