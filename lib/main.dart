@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/firebase_options.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
+import 'package:suivi_de_module/provider/devoir_provider.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
@@ -37,6 +38,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<StudentProvider>(
           create: (_) => StudentProvider(),
         ),
+
+        ChangeNotifierProvider<DevorProvider>(
+          create: (_) => DevorProvider()
+        )
       ],
 
       child: MaterialApp(

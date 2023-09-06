@@ -1,11 +1,13 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/models/test.dart';
+import 'package:suivi_de_module/provider/devoir_provider.dart';
 import 'package:suivi_de_module/widget/list_of_widget.dart';
 import 'package:suivi_de_module/widget/add_card_widget.dart';
 import 'package:suivi_de_module/widget/widget_card.dart';
@@ -28,6 +30,27 @@ class DevoirTestWidget extends StatefulWidget {
 class _DevoirTestWidgetState extends State<DevoirTestWidget> {
 
   final _formKey = GlobalKey<FormState>();
+
+  bool _isInit = true;
+  bool _isLoading = false;
+
+  @override
+  void didChangeDependencies() async {
+    
+    if (_isInit)
+    {
+      _isLoading = true;
+
+      await Provider.of<DevorProvider>(context, listen: false).fetchAndSetDevoirs(widget.args.toString());
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
+
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   AlertDialog additionDialog(CardState type)
   {
@@ -140,32 +163,35 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
     final ScrollController controllerDevoir = ScrollController();
     final ScrollController controllerTest = ScrollController();
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 80, right: 80, bottom: 100),
-      child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 45),
-          child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
-        ),
-        ListOfWidget(
-          widget: CardWidget(type: CardState.Devoir), 
-          controller: controllerDevoir, 
-          varDebug: 8, 
-          paddingList: 50,
-          additionDialog: additionDialog(CardState.Devoir),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 45),
-          child: Text('Tests', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
-        ),
-        ListOfWidget(
-          widget: CardWidget(type: CardState.Test), 
-          controller: controllerTest, 
-          varDebug: 8, 
-          paddingList: 50,
-          additionDialog: additionDialog(CardState.Test),
-        )
-      ]),
+    return ChangeNotifierProvider(
+      create: (context) => DevorProvider(),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 80, right: 80, bottom: 100),
+        child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 45),
+            child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
+          ),
+          ListOfWidget(
+            widget: CardWidget(type: CardState.Devoir), 
+            controller: controllerDevoir, 
+            varDebug: Provider.of<DevorProvider>(context).devoirs.length, 
+            paddingList: 50,
+            additionDialog: additionDialog(CardState.Devoir),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 45),
+            child: Text('Tests', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
+          ),
+          ListOfWidget(
+            widget: CardWidget(type: CardState.Test), 
+            controller: controllerTest, 
+            varDebug: 8, 
+            paddingList: 50,
+            additionDialog: additionDialog(CardState.Test),
+          )
+        ]),
+      ),
     );
   }
 }

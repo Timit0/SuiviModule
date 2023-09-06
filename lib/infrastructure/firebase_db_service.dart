@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:suivi_de_module/models/devoir.dart';
+import 'package:suivi_de_module/models/devoir_reference.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -60,6 +61,7 @@ class FirebaseDBService {
     await _ref.child("$moduleNode/$moduleId/$testNode/${test.id}").update(test.toJson());
   }
 
+
   Future<void> removeEleve(Eleve eleve, String moduleId) async {
     _ref.child('$moduleNode/$moduleId/$eleveNode/${eleve.id}').remove().then((_) => null).catchError((e) {
       dev.log(e);
@@ -107,6 +109,23 @@ class FirebaseDBService {
       return eleves;
     }
 
+    return [];
+  }
+
+  Future<List<Devoir>> getDevoirsFromModule(String moduleID) async
+  {
+    final snapshot = await _ref.child('$moduleNode/$moduleID/$devoirNode').get();
+    if (snapshot.exists)
+    {
+      final devoirs = <Devoir>[];
+
+      for (dynamic v in snapshot.children)
+      {
+        devoirs.add(Devoir.fromJson(v.value as Map<String, dynamic>));
+      }
+
+      return devoirs;
+    }
     return [];
   }
 
