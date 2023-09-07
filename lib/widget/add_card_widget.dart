@@ -37,10 +37,20 @@ class AddCardWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const Icon(
-              Icons.add,
-              size: 100,
-              color: Colors.white,
+            const Row(
+              children: [
+                Icon(
+                  Icons.add,
+                  size: 100,
+                  color: Colors.white,
+                ),
+                Text('/', style: TextStyle(color: Colors.white, fontSize: 100)),
+                Icon(
+                  Icons.remove,
+                  size: 100,
+                  color: Colors.white,
+                ),
+              ],
             ),
           ],
         ),
