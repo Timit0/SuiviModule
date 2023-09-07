@@ -7,3 +7,6 @@
 ° ajout d'un moyen de supression de devoirs/test en modifiant le widget AddCardWidget. C'est à dire
     - changer l'icône de celui - circular
         passer de "+" à "+/-"
+
+================================================| A RESOUDRE |================================================
+Le widget "Switch" dans le dialogue d'ajout/supression d edevoir/test ne change pas lors de sa modification

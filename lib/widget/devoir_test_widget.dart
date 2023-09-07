@@ -17,6 +17,7 @@ class DevoirTestWidget extends StatefulWidget {
   String? tempID;
   String? tempDescription;
 
+
   final args;
 
   @override
@@ -24,6 +25,10 @@ class DevoirTestWidget extends StatefulWidget {
 }
 
 class _DevoirTestWidgetState extends State<DevoirTestWidget> {
+
+  // false -> ajout d'un devoir/test
+  // true -> supression d'un devoir/test
+  bool mode = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -55,7 +60,16 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Ajout d\'un ${type == CardState.Devoir ? 'devoir' : 'Test'}', textAlign: TextAlign.left),
+                Text('${mode ? 'Ajout' : 'Suppression'} d\'un ${type == CardState.Devoir ? 'devoir' : 'Test'}', textAlign: TextAlign.left),
+                Switch(
+                  value: mode,
+                  activeTrackColor: Colors.grey,
+                  inactiveTrackColor: Colors.white,
+                  onChanged: (value) => this.setState(() {
+                    mode = !mode;
+                    value = mode;
+                  })
+                ),
                 IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.close, color: Colors.red))
               ],
             ),
