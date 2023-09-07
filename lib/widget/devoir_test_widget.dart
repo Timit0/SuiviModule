@@ -162,7 +162,7 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
                           Navigator.of(context).pop();
 
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Le ${type == CardState.Devoir ? 'Devoir' : 'Test'} à était ajouté avec succés')
+                            content: Text('Le ${type == CardState.Devoir ? 'devoir' : 'test'} à était ajouté avec succés')
                           ));
                       }
                   }, child: const Padding(
