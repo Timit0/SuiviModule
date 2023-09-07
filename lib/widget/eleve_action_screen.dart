@@ -339,6 +339,11 @@ class _EleveActionScreenState extends State<EleveActionScreen> {
                   getNickName.text = "";
                   getPicture.text = "";
                 });
+
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('L\'élève à était ajouté avec succés!')
+                ));
+
                 //dispose();
               },
             ),
