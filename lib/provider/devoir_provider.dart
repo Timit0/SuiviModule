@@ -4,7 +4,7 @@ import 'package:suivi_de_module/models/devoir.dart';
 
 class DevorProvider with ChangeNotifier
 {
-  final List<Devoir> _devoirs = [];
+  List<Devoir> _devoirs = [];
 
   List<Devoir> get devoirs => [..._devoirs];
 

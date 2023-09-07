@@ -8,6 +8,7 @@ import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/models/test.dart';
 import 'package:suivi_de_module/provider/devoir_provider.dart';
+import 'package:suivi_de_module/provider/test_provider.dart';
 import 'package:suivi_de_module/widget/list_of_widget.dart';
 import 'package:suivi_de_module/widget/add_card_widget.dart';
 import 'package:suivi_de_module/widget/widget_card.dart';
@@ -42,6 +43,7 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
       _isLoading = true;
 
       await Provider.of<DevorProvider>(context, listen: false).fetchAndSetDevoirs(widget.args.toString());
+      await Provider.of<TestProvider>(context, listen: false).fetchAndSetTests(widget.args.toString());
 
       setState(() {
         _isLoading = false;
@@ -163,35 +165,32 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
     final ScrollController controllerDevoir = ScrollController();
     final ScrollController controllerTest = ScrollController();
 
-    return ChangeNotifierProvider(
-      create: (context) => DevorProvider(),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 80, right: 80, bottom: 100),
-        child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 45),
-            child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
-          ),
-          ListOfWidget(
-            widget: CardWidget(type: CardState.Devoir, name: 'devoir01',), 
-            controller: controllerDevoir, 
-            varDebug: Provider.of<DevorProvider>(context).devoirs.length, 
-            paddingList: 50,
-            additionDialog: additionDialog(CardState.Devoir),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 45),
-            child: Text('Tests', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
-          ),
-          ListOfWidget(
-            widget: CardWidget(type: CardState.Test, name: 'test01'), 
-            controller: controllerTest, 
-            varDebug: 8, 
-            paddingList: 50,
-            additionDialog: additionDialog(CardState.Test),
-          )
-        ]),
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 80, right: 80, bottom: 100),
+      child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 45),
+          child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
+        ),
+        ListOfWidget(
+          widget: CardWidget(type: CardState.Devoir, name: 'devoir01',), 
+          controller: controllerDevoir, 
+          varDebug: Provider.of<DevorProvider>(context).devoirs.length, 
+          paddingList: 50,
+          additionDialog: additionDialog(CardState.Devoir),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(left: 45),
+          child: Text('Tests', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
+        ),
+        ListOfWidget(
+          widget: CardWidget(type: CardState.Test, name: 'test01'), 
+          controller: controllerTest, 
+          varDebug: Provider.of<TestProvider>(context).tests.length, 
+          paddingList: 50,
+          additionDialog: additionDialog(CardState.Test),
+        )
+      ]),
     );
   }
 }

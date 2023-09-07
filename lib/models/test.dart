@@ -22,8 +22,8 @@ class Test
     nom: json['nom'], 
     description: json['description'] ?? "Default",
     // note: json['note'] ?? 0,
-    date: json['date'],
-    done: json['done']
+    date: json['date'] ?? DateTime.now().toString(),
+    done: json['done'] ?? false
   );
 
   Map<String, dynamic> toJson() => {
