@@ -5,13 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/models/devoir.dart';
-import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/models/test.dart';
 import 'package:suivi_de_module/provider/devoir_provider.dart';
 import 'package:suivi_de_module/provider/test_provider.dart';
 import 'package:suivi_de_module/widget/list_of_widget.dart';
-import 'package:suivi_de_module/widget/add_card_widget.dart';
 import 'package:suivi_de_module/widget/widget_card.dart';
+
 
 class DevoirTestWidget extends StatefulWidget {
   DevoirTestWidget({super.key, required this.args});
@@ -172,24 +171,12 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
           padding: EdgeInsets.only(left: 45),
           child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
         ),
-        ListOfWidget(
-          widget: CardWidget(type: CardState.Devoir, name: 'devoir01',), 
-          controller: controllerDevoir, 
-          varDebug: Provider.of<DevorProvider>(context).devoirs.length, 
-          paddingList: 50,
-          additionDialog: additionDialog(CardState.Devoir),
-        ),
+        ListOfWidget(objects: Provider.of<DevorProvider>(context).devoirs),
         const Padding(
           padding: EdgeInsets.only(left: 45),
           child: Text('Tests', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
         ),
-        ListOfWidget(
-          widget: CardWidget(type: CardState.Test, name: 'test01'), 
-          controller: controllerTest, 
-          varDebug: Provider.of<TestProvider>(context).tests.length, 
-          paddingList: 50,
-          additionDialog: additionDialog(CardState.Test),
-        )
+        ListOfWidget(objects: Provider.of<TestProvider>(context).tests)
       ]),
     );
   }
