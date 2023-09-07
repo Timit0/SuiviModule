@@ -5,7 +5,7 @@ class Test
   String description;
   //DateTime date;
   String date;
-  /*Float?*/ var note; // <- moyenne
+  /*Float?*/ //var note; // <- moyenne
   bool done;
 
   Test({
@@ -13,15 +13,15 @@ class Test
     required this.nom,
     required this.description,
     required this.date,
-    this.note,
+    // this.note,
     this.done = false,
   });
 
   factory Test.fromJson(Map<String, dynamic> json) => Test(
     id: json['id'], 
     nom: json['nom'], 
-    description: json['description'],
-    note: json['note'] ?? 0,
+    description: json['description'] ?? "Default",
+    // note: json['note'] ?? 0,
     date: json['date'],
     done: json['done']
   );
@@ -31,7 +31,7 @@ class Test
     'nom': nom,
     'description': description,
     'date': date,
-    'note': note,
+    // 'note': note,
     'done': done
   };
 }

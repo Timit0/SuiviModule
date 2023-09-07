@@ -173,7 +173,7 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
             child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
           ),
           ListOfWidget(
-            widget: CardWidget(type: CardState.Devoir), 
+            widget: CardWidget(type: CardState.Devoir, name: 'devoir01',), 
             controller: controllerDevoir, 
             varDebug: Provider.of<DevorProvider>(context).devoirs.length, 
             paddingList: 50,
@@ -184,7 +184,7 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
             child: Text('Tests', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
           ),
           ListOfWidget(
-            widget: CardWidget(type: CardState.Test), 
+            widget: CardWidget(type: CardState.Test, name: 'test01'), 
             controller: controllerTest, 
             varDebug: 8, 
             paddingList: 50,

@@ -2,12 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
+import 'package:provider/provider.dart';
+import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/models/module.dart';
+import 'package:suivi_de_module/models/test.dart';
+import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/widget/moyenne_widget.dart';
 import 'package:suivi_de_module/widget/avatar_widget.dart';
 import 'package:suivi_de_module/widget/widget_card.dart';
+
+import '../provider/test_and_devoir_provider.dart';
 
 
 class DetailsStudentScreen extends StatefulWidget {
@@ -22,13 +28,33 @@ class DetailsStudentScreen extends StatefulWidget {
 
 class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
+  var _isInit = true;
+  var _isLoading = false;
+
    @override
   void didChangeDependencies() async {
-      WebAppReloadDetector.onReload(
-        (){setState(() {
-          Navigator.of(context).pop();
-        });}
-      );
+    if (_isInit) {
+      _isLoading = true;
+      final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+      Eleve args = arguments['eleve'] ?? Eleve.base();
+      String module = arguments['module'] ?? "ICH-450";
+
+      await Provider.of<TestAndDevoirProvider>(context, listen: false).getTestAndDevoirFromOneStudent(id: args.id, moduleId: module);
+      await Provider.of<TestAndDevoirProvider>(context, listen: false).fetchAndSetDevoirAndTestForOneModule(module);
+      //await Provider.of<StudentProvider>(context).fetchAndSetAllStudents();
+      setState(() {
+        _isLoading = false;
+      });
+    }
+
+
+    WebAppReloadDetector.onReload(
+      (){setState(() {
+        Navigator.of(context).pop();
+      });}
+    );
+
+    _isInit = false;
     
     super.didChangeDependencies();
   }
@@ -53,6 +79,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
     });}); 
 
     
+    final provider = Provider.of<TestAndDevoirProvider>(context);
 
 
     return Scaffold(
@@ -161,7 +188,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                         ),
                       ),
                     ),
-                    listOf(CardWidget(type: CardState.Devoir), controllerDevoir, varDebug, paddingList),
+                    listOf(CardState.Devoir, controllerDevoir, varDebug, paddingList, provider, module),
                     
                   ],
                 ),
@@ -177,7 +204,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                         ),
                       ),
                     ),
-                    listOf(CardWidget(type: CardState.Test), controllerTest, varDebug, paddingList),
+                    listOf(CardState.Test, controllerTest, varDebug, paddingList, provider, module),
                   ],
                 ),
               ],
@@ -188,7 +215,13 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
     );
   }
 
-  Widget listOf(Widget widget, ScrollController controller, int varDebug, double paddingList){
+  Widget listOf(CardState cardState, ScrollController controller, int varDebug, double paddingList, TestAndDevoirProvider provider, String module){
+    int listLength = 0;
+    if(cardState == CardState.Devoir){
+      listLength = provider.devoirsRef.length;
+    }else{
+      listLength = provider.testsRef.length;
+    }
     return Padding(
       padding: EdgeInsets.only(left: paddingList, right: paddingList),
       child: SizedBox(
@@ -204,19 +237,34 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               //padding: const EdgeInsets.all(15),
-              itemCount: varDebug,
+              itemCount: listLength,
               itemBuilder: (context, index) {
-                if(index + 1 == varDebug){
-                  return addCard();
-                }else{
-                  return widget;
-                }
+                return CardWidget(type: cardState, name: _getName(index, cardState, provider));
+                
               },
             ),
           ),
         ),
       ),
     );
+  }
+
+  String _getName(int index, CardState cardState, TestAndDevoirProvider provider){
+    if(cardState == CardState.Test){
+      for (var v in provider.tests) {
+        if(v!.id == provider.testsRef[index].id){
+          return v.nom;
+        }
+      }
+    }else{
+      for (var v in provider.devoirs) {
+        if(v!.id == provider.devoirsRef[index].id){
+          return v.nom;
+        }
+      }
+    }
+
+    return "NULLLL";
   }
 
   Widget checkWidget(){
@@ -308,38 +356,4 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       ),
     );
   }
-
-// pq ne pas l'avoir mis dans un fichier .dart a pars entiere? :))
-/*
-  Widget moyennneWidget(){
-    double border = 7;
-    return Padding(
-      padding: const EdgeInsets.only(top: 75),
-      child: Container(
-        alignment: Alignment.center,
-        height: 180,
-        width: 100,
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: Colors.black,
-              width: border,
-            ),
-            bottom: BorderSide(
-              color: Colors.black,
-              width: border,
-            ),
-          )
-        ),
-
-        child: const Text(
-          "6",
-          style: TextStyle(
-            fontSize: 115
-          ),
-        ),
-      ),
-    );
-  }
-  */
 }

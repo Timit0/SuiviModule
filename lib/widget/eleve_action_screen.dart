@@ -88,6 +88,13 @@ class _EleveActionScreenState extends State<EleveActionScreen> {
                     formState = EleveState.Edit;
                     return;
                   }else{
+                    if(canClearGetText){
+                      canClearGetText = false;
+                      
+                      getName.text = "";
+                      getNickName.text = "";
+                      getPicture.text = "";
+                    }
                     formState = EleveState.Create;
                   }
                 }
@@ -151,7 +158,7 @@ class _EleveActionScreenState extends State<EleveActionScreen> {
     }
     
   }
-
+  bool canClearGetText = false;
 
   Widget form(StudentProvider provider, bool disposeOption){
     if(disposeOption){
@@ -180,6 +187,9 @@ class _EleveActionScreenState extends State<EleveActionScreen> {
 
                   for (var v in provider.allEleves) {
                     if(v.id == getCp.text){
+                      getName.text = v.name;
+                      getNickName.text = v.firstname;
+                      getPicture.text = v.photoFilename; 
                       return null;
                     }
                   }
@@ -235,12 +245,23 @@ class _EleveActionScreenState extends State<EleveActionScreen> {
                   for (var v in provider.allEleves) {
                     if(v.id == value){
                       setState(() {
+                        canClearGetText = true;
                         print("Edit");
+                        getName.text = v.name;
+                        getNickName.text = v.firstname;
+                        getPicture.text = v.photoFilename; 
                         formState = EleveState.Edit;
                       });
                       return;
                     }else{
                       setState(() {
+                        if(canClearGetText){
+                          canClearGetText = false;
+
+                          getName.text = "";
+                          getNickName.text = "";
+                          getPicture.text = "";
+                        }
                         formState = EleveState.Create;
                       });
                     }

@@ -8,6 +8,7 @@
         {
             "cp-21tih": 
             {
+                "id":"cp-21tih",
                 "devoir":
                 {
                     "devoir01":{
@@ -36,6 +37,7 @@
             },
             "cp-20ogo": 
             {
+                "id":"cp-21tih",
                 "devoir":
                 {
                     "devoir01":{
@@ -103,6 +105,7 @@
         {
             "cp-21tih": 
             {
+                "id":"cp-21tih",
                 "devoir":
                 {
                     "devoir01":{
@@ -131,6 +134,7 @@
             },
             "cp-20ogo": 
             {
+                "id":"cp-21tih",
                 "devoir":
                 {
                     "devoir01":{
@@ -165,14 +169,14 @@
                 "nom": "premier devoir",
                 "description": "",
                 "done": false,
-                "date": "12.12.2023"
+                "date": "12-12-2023"
             },
             "devoir02": {
                 "id": "devoir02",
                 "nom": "premier devoir",
                 "description": "",
                 "done": false,
-                "date": "15.10.2023"
+                "date": "12-12-2023"
             }
         },
         "test": {
@@ -249,14 +253,14 @@
                     "nom": "premier devoir",
                     "description": "",
                     "done": false,
-                    "date": "05.02.2023"
+                    "date": "12-12-2023"
                 },
                 "devoir02": {
                     "id": "devoir02",
                     "nom": "deuxieme devoir",
                     "description": "",
                     "done": true,
-                    "date": "13.01.2023"
+                    "date": "12-12-2023"
                 }
             },
             "test":

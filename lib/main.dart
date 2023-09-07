@@ -6,6 +6,7 @@ import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
 import 'package:suivi_de_module/provider/devoir_provider.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
+import 'package:suivi_de_module/provider/test_and_devoir_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/login_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
@@ -40,8 +41,8 @@ class MyApp extends StatelessWidget {
         ),
 
         ChangeNotifierProvider<DevorProvider>(
-          create: (_) => DevorProvider()
-        )
+          create: (_) => DevorProvider(),
+        ),
       ],
 
       child: MaterialApp(
