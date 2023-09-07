@@ -213,6 +213,10 @@ class _EleveActionScreenState extends State<EleveActionScreen> {
 
                   provider.removeEleveAndRef(eleve);
 
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('L\'élève à était supprimmé de la liste avec succés!')
+                  ));
+
                   setState(() {
                     getCp.text = "";
                     getName.text = "";

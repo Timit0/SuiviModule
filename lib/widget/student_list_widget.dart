@@ -101,8 +101,8 @@ class _StudentListWidgetState extends State<StudentListWidget> {
             content: Column(children: [
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [const Text('identifiant', textAlign: TextAlign.left), Padding(padding: const EdgeInsets.only(left: 8, bottom: 8), child: SizedBox(width: 300, child: TextField(onChanged: (value) {widget.tempID = value;}, decoration: const InputDecoration(border: OutlineInputBorder()))))]),
               TextButton(onPressed: () {
+                provider.fetchAndSetStudents(widget.arguments.toString());
                 for (var v in provider.allEleves) {
-                  print(v.id);
                   if (v.id == widget.tempID)
                   {
                     Eleve newEleve = Eleve(id: widget.tempID, name: widget.tempName, firstname: widget.tempNickname, photoFilename: widget.tempPhotoUrl == "" ? "assets/img/placeholderImage.png" : widget.tempPhotoUrl);
