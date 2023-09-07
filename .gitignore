@@ -56,3 +56,4 @@ app.*.map.json
 
 # Google Services
 /app/google-services.json
+/*.bat

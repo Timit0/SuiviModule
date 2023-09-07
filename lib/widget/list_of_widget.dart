@@ -7,10 +7,10 @@ import 'widget_card.dart';
 import '../models/card_state.dart';
 
 class ListOfWidget extends StatelessWidget {
-  ListOfWidget({super.key, required this.objects});
+  ListOfWidget({super.key, required this.objects, this.additionDialog});
 
-  //List<CardWidget> cards;
   List<Object> objects;
+  AlertDialog? additionDialog;
   late ScrollController contorller;
 
   @override
@@ -42,7 +42,7 @@ class ListOfWidget extends StatelessWidget {
                         ? CardWidget(type: CardState.Test, name: (objects[index] as Test).nom) :
                         Container(),
                   
-                      AddCardWidget(type: objects[index] is DevoirReference ? CardState.Devoir : CardState.Test)
+                      AddCardWidget(type: objects[index] is DevoirReference ? CardState.Devoir : CardState.Test, dialog: additionDialog)
                     ]),
                   );
                 }
