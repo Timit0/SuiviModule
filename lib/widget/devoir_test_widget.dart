@@ -43,7 +43,9 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
       _isLoading = true;
 
       await Provider.of<DevorProvider>(context, listen: false).fetchAndSetDevoirs(widget.args.toString());
+      print("hello");
       await Provider.of<TestProvider>(context, listen: false).fetchAndSetTests(widget.args.toString());
+      print("world");
 
       setState(() {
         _isLoading = false;
@@ -65,7 +67,7 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
                   value: mode,
                   activeTrackColor: Colors.grey,
                   inactiveTrackColor: Colors.white,
-                  onChanged: (value) => this.setState(() {
+                  onChanged: (value) => setState(() {
                     mode = !mode;
                     value = mode;
                   })
@@ -196,15 +198,21 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
       padding: const EdgeInsets.only(left: 80, right: 80, bottom: 100),
       child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Padding(
-          padding: EdgeInsets.only(left: 45),
+          padding: EdgeInsets.only(left: 25),
           child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
         ),
-        ListOfWidget(objects: Provider.of<DevorProvider>(context).devoirs, additionDialog: additionDialog(CardState.Devoir)),
+        ListOfWidget(
+          objects: Provider.of<DevorProvider>(context).devoirs ?? [Devoir.base()],
+          additionDialog: additionDialog(CardState.Devoir)
+        ),
         const Padding(
-          padding: EdgeInsets.only(left: 45),
+          padding: EdgeInsets.only(left: 25),
           child: Text('Tests', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
         ),
-        ListOfWidget(objects: Provider.of<TestProvider>(context).tests, additionDialog: additionDialog(CardState.Test))
+        ListOfWidget(
+          objects: Provider.of<TestProvider>(context).tests,
+          additionDialog: additionDialog(CardState.Test)
+        )
       ]),
     );
   }

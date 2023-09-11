@@ -1,8 +1,11 @@
 import 'dart:js_interop';
 import 'dart:math';
 
+import 'package:suivi_de_module/models/devoir.dart';
+import 'package:suivi_de_module/models/devoir_reference.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
+import 'package:suivi_de_module/models/test.dart';
 
 class Module{
   
@@ -11,6 +14,8 @@ class Module{
   final String horaire;
   String classe;
   final List<EleveReference>? eleve;
+  List<Devoir> devoirs;
+  List<Test> tests;
 
   Module({
     required this.nom,
@@ -18,45 +23,66 @@ class Module{
     required this.horaire,
     required this.classe,
     required this.eleve,
+    this.devoirs = const [],
+    this.tests = const []
   });
 
   factory Module.fromJson(Map<dynamic, dynamic> json)
   {
 
-    List<EleveReference>? temp = [];
+    List<EleveReference>? temp1 = [];
+    List<Test>? temp2 = [];
+    List<Devoir>? temp3 = [];
     
     try{
       Map<String, dynamic> json2 = json['eleve'];
-      //print(json["eleve"]);
+      Map<String, dynamic> json3 = json['devoir'];
+      Map<String, dynamic> json4 = json['test'];
 
-      json2.forEach((key, value) 
-      {
-        //print("Add");
-        temp.add(EleveReference.fromJson(value)); 
-        //print(EleveReference.fromJson(value).id);
-      }); 
+      json2.forEach((key, value){temp1.add(EleveReference.fromJson(value));}); 
+      json3.forEach((key, value){temp3.add(Devoir.fromJson(value));});
+      json4.forEach((key, value){temp2.add(Test.fromJson(value));});
+
     }catch(e){print(e);}
 
+/*
     //print(temp);
     try{
-      print(temp.length);
+      print(temp1.length);
     }catch(e){print(e);}
+*/
 
     return Module(
       nom: json["nom"], 
       description: json["description"], 
       horaire: json["horaire"], 
       classe: json["classe"],
-      eleve: temp,
+      eleve: temp1,
+      tests: temp2,
+      devoirs: temp3
     );
   }
 
   Map<String, dynamic> toJson(){
     List<Map<String, dynamic>> eleveListToJson = [];
+    List<Map<String, dynamic>> devoirListToJson = [];
+    List<Map<String, dynamic>> testListToJson = [];
     
     if(eleve != null){
       for (var v in eleve!) {
         eleveListToJson.add(v.toJson());
+      }
+    }
+
+    if (devoirs != null) {
+      for (var v in devoirs!) {
+        devoirListToJson.add(v.toJson());
+      }
+    }
+
+    if (tests != null) {
+      for (var v in tests!) {
+        testListToJson.add(v.toJson());
       }
     }
 
@@ -66,7 +92,10 @@ class Module{
       "horaire":horaire,
       "classe":classe,
       //"eleve":eleveListToJson,
-      "eleve":eleve
+      "eleve":eleve,
+      "devoir": devoirListToJson,
+      "test": testListToJson
+
     };
   }
 

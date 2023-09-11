@@ -9,7 +9,7 @@ import '../models/card_state.dart';
 class ListOfWidget extends StatelessWidget {
   ListOfWidget({super.key, required this.objects, this.additionDialog});
 
-  List<Object> objects;
+  List<Object?> objects;
   AlertDialog? additionDialog;
   late ScrollController contorller;
 

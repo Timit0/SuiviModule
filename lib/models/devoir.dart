@@ -23,6 +23,13 @@ class Devoir
     done: json['done']
   );
 
+  factory Devoir.base() => Devoir(
+    id: 'none',
+    nom: 'base',
+    description: 'base',
+    date: 'base'
+  );
+
   Map<String, dynamic> toJson() => {
     'id': id,
     'nom': nom,
