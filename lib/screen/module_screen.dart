@@ -24,8 +24,6 @@ class _ModuleScreenState extends State<ModuleScreen> {
   var _isInit = true;
   var _isLoading = false;
   int _selectedIndex = 0;
-
-
   
 
   @override
@@ -110,7 +108,35 @@ class _ModuleScreenState extends State<ModuleScreen> {
         child: ListView.builder(
           itemCount: moduleProvider.modules.length,
           itemBuilder: (context, index) {
-            return Padding(
+            return index+1 == moduleProvider.modules.length ? Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 28.0),
+                child: ModuleWidget(
+                  nom: moduleProvider.modules[index].nom, 
+                  description: moduleProvider.modules[index].description, 
+                  horaire: moduleProvider.modules[index].horaire, 
+                  classe: moduleProvider.modules[index].classe,
+                  eleve: moduleProvider.modules[index].eleve,
+                ).buildWidget(context, index),
+              ),
+              TextButton(
+
+                onPressed: (){}, style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.grey),
+                ), 
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Ajouter un module',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30
+                      )
+                    ),
+                )
+                )
+            ]) : Padding(
               padding: const EdgeInsets.only(bottom: 15),
               child: ModuleWidget(
                 nom: moduleProvider.modules[index].nom, 
