@@ -42,10 +42,8 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
     {
       _isLoading = true;
 
-      await Provider.of<DevorProvider>(context, listen: false).fetchAndSetDevoirs(widget.args.toString());
-      print("hello");
+      await Provider.of<DevorProvider>(context, listen: false).fetchAndSetDevoirs(widget.args.toString());    
       await Provider.of<TestProvider>(context, listen: false).fetchAndSetTests(widget.args.toString());
-      print("world");
 
       setState(() {
         _isLoading = false;
@@ -202,7 +200,7 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
           child: Text('Devoirs', textAlign: TextAlign.left, style: TextStyle(fontSize: 40)),
         ),
         ListOfWidget(
-          objects: Provider.of<DevorProvider>(context).devoirs ?? [Devoir.base()],
+          objects: Provider.of<DevorProvider>(context).devoirs,
           additionDialog: additionDialog(CardState.Devoir)
         ),
         const Padding(

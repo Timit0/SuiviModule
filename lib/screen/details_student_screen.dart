@@ -9,6 +9,7 @@ import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/models/test.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
+import 'package:suivi_de_module/provider/test_provider.dart';
 import 'package:suivi_de_module/widget/moyenne_widget.dart';
 import 'package:suivi_de_module/widget/avatar_widget.dart';
 import 'package:suivi_de_module/widget/widget_card.dart';
@@ -41,6 +42,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
       await Provider.of<TestAndDevoirProvider>(context, listen: false).getTestAndDevoirFromOneStudent(id: args.id, moduleId: module);
       await Provider.of<TestAndDevoirProvider>(context, listen: false).fetchAndSetDevoirAndTestForOneModule(module);
+
       //await Provider.of<StudentProvider>(context).fetchAndSetAllStudents();
       setState(() {
         _isLoading = false;

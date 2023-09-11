@@ -47,6 +47,10 @@ class MyApp extends StatelessWidget {
 
         ChangeNotifierProvider<TestProvider>(
           create: (_) => TestProvider()
+        ),
+
+        ChangeNotifierProvider<TestAndDevoirProvider>(
+          create: (_) => TestAndDevoirProvider()
         )
       ],
 
