@@ -7,10 +7,11 @@ import 'widget_card.dart';
 import '../models/card_state.dart';
 
 class ListOfWidget extends StatelessWidget {
-  ListOfWidget({super.key, required this.objects, this.additionDialog});
+  ListOfWidget({super.key, required this.objects, this.additionDialog, required this.type});
 
   List<Object?> objects;
   AlertDialog? additionDialog;
+  CardState type;
   late ScrollController contorller;
 
   @override
@@ -25,7 +26,12 @@ class ListOfWidget extends StatelessWidget {
           controller: contorller,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20),
-            child: ListView.builder(
+            child: objects.length == 0 ? ListView(
+              controller: contorller,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              children: [AddCardWidget(type: type, dialog: additionDialog)]
+            ) : ListView.builder(
               controller: contorller,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,

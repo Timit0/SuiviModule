@@ -201,7 +201,8 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
         ),
         ListOfWidget(
           objects: Provider.of<DevorProvider>(context).devoirs,
-          additionDialog: additionDialog(CardState.Devoir)
+          additionDialog: additionDialog(CardState.Devoir),
+          type: CardState.Devoir,
         ),
         const Padding(
           padding: EdgeInsets.only(left: 25),
@@ -209,7 +210,8 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
         ),
         ListOfWidget(
           objects: Provider.of<TestProvider>(context).tests,
-          additionDialog: additionDialog(CardState.Test)
+          additionDialog: additionDialog(CardState.Test),
+          type: CardState.Test,
         )
       ]),
     );
