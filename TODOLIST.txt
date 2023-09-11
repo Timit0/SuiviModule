@@ -1,2 +1,50 @@
-° faire un git push dans ma branche (Ogan) (a faire a la fin de la journee)
-    - noter tout ce qui a etait fait pendant la journee dans un README.txt
+° réfléchir pour le côté élpve de l'application
+
+° le moins de popup possible!
+
+° faire des templates pour la creation des modules
+
+° importer via json/csv
+	- module
+	- eleves
+
+° pas d'associatif
+
++========================================+
+| ° plus de navigation hierarchique!!!!! |
++========================================+
+
+° on doit pouvoir
+	- crééer un module
+	- supprimer un module
+	- modifier un module
+		-- de meme pour les eleves
+
+° dé-popupiser le dialog de creation/modification de module
+
+/!\ éviter la recherche de donnée dans la DB pour modif /!\
+
+° ajouter les iconbuttons directement dans les widgets de module
+° ajouter un systeme d'import de fichier json/cs)
+° eviter les gros actionbutton dans la screen du module
+° faire apparaitre les autres screens dans la screen d'accueuil
+° remplacer l'affichage d'eleve avec un
+	- wrap
+	- grid
+° bien detailler le titre
+° pas d'ID pour les devoirs/tests
+° ajouter une date de creation qui se metra avec un DateToime.now();
+	- pouvoir faire en sorte que le devoir va s'ajouter à la date précisée
+
+
+° essayer le widget ""a voir" pour visualiser du code HTML/CSS pour les widgets de devoir/tests
+	- notemmant pour faire le widget des devoirs/test
+		- à faire sur figma
+
+° faire afficher une médaille selon le resultat des tests
+
+° essayer de garder le design de la screen de module pour tout le longs de l'application
+
+
+==============================
+° ajout de fichier?

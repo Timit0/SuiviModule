@@ -47,174 +47,97 @@ class ModuleWidget extends Module{
     print("Index : $index, classNumb :${classNumb}");
     classe += classNumb;
 
-    return Draggable(
-      data: Module(nom: nom, description: description, horaire: horaire, classe: classe, eleve: eleve),
-      feedback: Card(
-          color: Color.fromARGB(255, 216, 216, 216),
-          elevation: 0,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: Stack(
-                      children: [
-                        const SizedBox.expand(
-                          child: ColoredBox(
-                            color: Color.fromARGB(255, 110, 110, 110)
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            getOnlyNumbOfName(nom), 
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 35
-                            ),
-                          )
-                        ),
-                      ],
-                    ),
-                  ),
-              Padding(
-                padding: EdgeInsets.only(left: 150),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(nom, style: const TextStyle(fontSize: 30),),
-                    Text(description, 
-                      style: const TextStyle(
-                        fontSize: 20
-                      ),
-                    ),
-                    Text(horaire)
-                  ],
-                ),
-              ),
-                ],
-              ),
-              // Padding(
-              //   padding: EdgeInsets.only(left: 100, right: 100),
-              //   child: Column(
-              //     children: [
-              //       Text("45%",
-              //         style: TextStyle(fontSize: 25),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-      
-              Padding(
-                padding: const EdgeInsets.only(left: 50, right: 50),
-                child: Text(
-                  classe,
-                  style: const TextStyle(fontSize: 25),
-                ),
-              ),
-            ],
-          ),
-        ),
-      childWhenDragging: Card(
-        color: Color.fromARGB(255, 216, 216, 216),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(StudentListScreen.routeName, arguments: this.nom);
+      },
+      child: Card(
+        color: const Color.fromARGB(255, 216, 216, 216),
         elevation: 0,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(0)),
         ),
-        child: Container(
-          height: 100,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 216, 216, 216),
-                Color.fromARGB(255, 90, 90, 90),
-                //Color.fromARGB(255, 216, 216, 216),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-      ),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushNamed(StudentListScreen.routeName, arguments: this.nom);
-        },
-        child: Card(
-          color: Color.fromARGB(255, 216, 216, 216),
-          elevation: 0,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: Stack(
-                      children: [
-                        const SizedBox.expand(
-                          child: ColoredBox(
-                            color: Color.fromARGB(255, 110, 110, 110)
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Stack(
+                    children: [
+                      const SizedBox.expand(
+                        child: ColoredBox(
+                          color: Color.fromARGB(255, 110, 110, 110)
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          getOnlyNumbOfName(nom), 
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 35
                           ),
-                        ),
-                        Center(
-                          child: Text(
-                            getOnlyNumbOfName(nom), 
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 35
-                            ),
-                          )
-                        ),
-                      ],
+                        )
+                      ),
+                    ],
+                  ),
+                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 150),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(nom, style: const TextStyle(fontSize: 30),),
+                  Text(description, 
+                    style: const TextStyle(
+                      fontSize: 20
                     ),
                   ),
-              Padding(
-                padding: EdgeInsets.only(left: 150),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(nom, style: const TextStyle(fontSize: 30),),
-                    Text(description, 
-                      style: const TextStyle(
-                        fontSize: 20
-                      ),
-                    ),
-                    Text(horaire)
-                  ],
-                ),
-              ),
+                  Text(horaire)
                 ],
               ),
-              // Padding(
-              //   padding: EdgeInsets.only(left: 100, right: 100),
-              //   child: Column(
-              //     children: [
-              //       Text("45%",
-              //         style: TextStyle(fontSize: 25),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-      
-              Padding(
-                padding: const EdgeInsets.only(left: 50, right: 50),
-                child: Text(
-                  classe,
-                  style: const TextStyle(fontSize: 25),
-                ),
+            ),
+              ],
+            ),
+            // Padding(
+            //   padding: EdgeInsets.only(left: 100, right: 100),
+            //   child: Column(
+            //     children: [
+            //       Text("45%",
+            //         style: TextStyle(fontSize: 25),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+    
+            Expanded(
+               
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 50, right: 50),
+                      child: Text(
+                        classe,
+                        style: const TextStyle(fontSize: 25),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Row(children: [
+                    IconButton(onPressed: (){}, icon: const Icon(Icons.edit, size: 50,)),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 50.0),
+                      child: IconButton(onPressed: (){}, icon: const Icon(Icons.delete, size: 50)),
+                    ),
+                  ])
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

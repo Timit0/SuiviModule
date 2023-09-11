@@ -89,9 +89,6 @@ class _ModuleScreenState extends State<ModuleScreen> {
           ),
         ],
       ),
-
-      
-      floatingActionButton: floatingActionButtonBottom(),
     );
   }
 
@@ -135,49 +132,5 @@ class _ModuleScreenState extends State<ModuleScreen> {
     // setState(() {
       
     // });
-  }
-
-  Widget? floatingActionButtonBottom(){
-    final provider = Provider.of<ModuleProvider>(context);
-    if(_selectedIndex == 0){
-      return Container(
-        height: 150,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
-            DragTarget(
-              builder: (context, candidateData, rejectedData) {
-                if(candidateData.isEmpty){
-                  return const Icon(
-                    Icons.delete,
-                    size: 130,
-                  );
-                }
-                return const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                  size: 130,
-                );
-                
-              },
-              onWillAccept: (data) {
-                return true;
-              },
-              onAccept: (Module data) {
-                setState(() {
-                   provider.removeModule(moduleNom: data.nom); 
-                });
-                print(data.nom);
-              },
-              onMove: (details) {
-                
-              },
-              
-            ),
-            ProgramActionButton(func: createModule, icon: Icons.add),
-          ] 
-        ),
-      );
-    }
   }
 }

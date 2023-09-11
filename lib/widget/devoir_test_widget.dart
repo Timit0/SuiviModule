@@ -57,6 +57,7 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
   AlertDialog additionDialog(CardState type)
   {
     return AlertDialog(
+
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -66,8 +67,8 @@ class _DevoirTestWidgetState extends State<DevoirTestWidget> {
                   activeTrackColor: Colors.grey,
                   inactiveTrackColor: Colors.white,
                   onChanged: (value) => setState(() {
-                    mode = !mode;
-                    value = mode;
+                    mode = value;
+                    print(mode);
                   })
                 ),
                 IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.close, color: Colors.red))
