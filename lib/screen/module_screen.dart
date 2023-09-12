@@ -227,28 +227,10 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         onPressed: (){
                           if (formKey.currentState!.validate())
                           {
-                            if (moduleDayDateController.text == DateFormat('dd.mm.yyyy').format(DateTime.now()))
+                            if (moduleDayDateController.text == DateFormat('dd.MM.yyyy').format(DateTime.now()))
                             {
-                              setState((){
-                                Provider.of<ModuleProvider>(context).createPendingModule(Module(
-                                  nom: moduleNameController.text,
-                                  classe: moduleClassController.text,
-                                  description: moduleDescriptionController.text,
-                                  eleve: [],
-                                  horaire: moduleDayDateController.text,
-                                  devoirs: [],
-                                  tests: []
-                                ));
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Le module à bien était ajouté dans la base de donnée!'))
-                              );
-                            }
-                          }
-                          else
-                          {
-                            setState((){
-                            Provider.of<ModuleProvider>(context).createPendingModule(Module(
+
+                              Provider.of<ModuleProvider>(context, listen: false).createPendingModule(Module(
                                 nom: moduleNameController.text,
                                 classe: moduleClassController.text,
                                 description: moduleDescriptionController.text,
@@ -257,10 +239,37 @@ class _ModuleScreenState extends State<ModuleScreen> {
                                 devoirs: [],
                                 tests: []
                               ));
-                            });
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Le module à bien était ajouté dans la base de donnée!'))
+                              );
+
+                              setState((){});
+                            }
+                            else
+                            {
+                              
+                              Provider.of<ModuleProvider>(context, listen: false).createPendingModule(Module(
+                                nom: moduleNameController.text,
+                                classe: moduleClassController.text,
+                                description: moduleDescriptionController.text,
+                                eleve: [],
+                                horaire: moduleDayDateController.text,
+                                devoirs: [],
+                                tests: []
+                              ));
+                            
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Le module sera ajouté dans la list le ${moduleDayDateController.text}'))
                               );
+
+                              setState((){});
+                            }
+                            
+                          }
+                          else
+                          {
+
                           }
                         }, 
                         style: const ButtonStyle(
