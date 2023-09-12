@@ -28,6 +28,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
   var _isInit = true;
   var _isLoading = false;
   int _selectedIndex = 0;
+  int _selectedIndex2 = 0;
 
   final formKey = GlobalKey<FormState>();
 
@@ -290,6 +291,15 @@ class _ModuleScreenState extends State<ModuleScreen> {
           )
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier JSON'),
+        BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier CSV'),
+      ], currentIndex: _selectedIndex2, fixedColor: Colors.black, onTap: (value) {
+        // debug
+        print(value);
+        _selectedIndex2 = value;
+        setState(() {});
+      },),
     );
   }
 
