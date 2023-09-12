@@ -1,12 +1,10 @@
-// import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
-import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
+// import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
 import 'package:intl/intl.dart'; // DateFormat
 
 
@@ -38,10 +36,11 @@ class _ModuleScreenState extends State<ModuleScreen> {
   final moduleDayDateController = TextEditingController();
   final moduleClassController = TextEditingController();
 
-  Mode mode = Mode.none; 
+  late Mode mode = Mode.none; 
 
   @override
   void didChangeDependencies() async {
+
     if (_isInit) {
       _isLoading = true;
       await Provider.of<ModuleProvider>(context).fetchAndSetModules();
@@ -378,11 +377,8 @@ class _ModuleScreenState extends State<ModuleScreen> {
     );
   }
 
-  void createModule(){
-    PopUpModuleCreation popUpModuleCreation = PopUpModuleCreation();
-    popUpModuleCreation.popUp(context);
-    // setState(() {
-      
-    // });
-  }
+  // void createModule(){
+  //   PopUpModuleCreation popUpModuleCreation = PopUpModuleCreation();
+  //   popUpModuleCreation.popUp(context);
+  // }
 }
