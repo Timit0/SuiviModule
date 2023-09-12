@@ -113,9 +113,14 @@ class _ModuleScreenState extends State<ModuleScreen> {
                     ? [
                       Row(
                         children: [
-                          IconButton(onPressed: () => setState(() {
-                            mode = Mode.none;
-                          }), icon: const Icon(Icons.close)),
+                          IconButton(onPressed: () {
+                            moduleClassController.text = "";
+                            moduleDayDateController.text = "";
+                            moduleDescriptionController.text = "";
+                            moduleNameController.text = "";
+                            
+                            setState(() {mode = Mode.none;});
+                            }, icon: const Icon(Icons.close)),
 
                           Padding(
                             padding: const EdgeInsets.all(18.0),
@@ -303,7 +308,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
       bottomNavigationBar: BottomNavigationBar(items: const [
         BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier JSON'),
         BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier CSV'),
-      ], currentIndex: _selectedIndex2, fixedColor: Colors.black, onTap: (value) {
+      ], currentIndex: _selectedIndex2, unselectedItemColor: Colors.black, unselectedFontSize: 20, selectedFontSize: 20, fixedColor: Colors.black, onTap: (value) {
         // debug
         print(value);
         _selectedIndex2 = value;
