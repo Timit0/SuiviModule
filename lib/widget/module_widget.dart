@@ -138,7 +138,9 @@ class ModuleWidget extends Module{
                     IconButton(onPressed: (){}, icon: const Icon(Icons.edit, size: 50,)),
                     Padding(
                       padding: const EdgeInsets.only(right: 50.0),
-                      child: IconButton(onPressed: (){}, icon: const Icon(Icons.delete, size: 50)),
+                      child: IconButton(onPressed: (){
+                        Provider.of<ModuleProvider>(context, listen: false).removeModule(moduleNom: nom);
+                      }, icon: const Icon(Icons.delete, size: 50)),
                     ),
                   ])
                 ],
