@@ -333,10 +333,15 @@ class _ModuleScreenState extends State<ModuleScreen> {
                 ).buildWidget(context, index),
               ),
               TextButton(
-
-                onPressed: () => setState(() {
-                  mode = Mode.moduleAdditionMode;
-                }) , style: const ButtonStyle(
+                onPressed: () {
+                    moduleClassController.text = "";
+                    moduleDescriptionController.text = "";
+                    moduleDayDateController.text = "";
+                    moduleNameController.text = "";
+                    setState(() {
+                      mode = Mode.moduleAdditionMode;
+                    });
+                  } , style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.grey),
                 ), 
                 child: const Padding(

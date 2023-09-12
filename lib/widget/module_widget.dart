@@ -128,7 +128,7 @@ class ModuleWidget extends Module{
                     ),
                   ),
                   Row(children: [
-                    IconButton(onPressed: () => editionBehavior!.call(), icon: const Icon(Icons.edit, size: 50,)),
+                    IconButton(onPressed: () => editionBehavior!.call(), icon: const Icon(Icons.edit, size: 50)),
                     Padding(
                       padding: const EdgeInsets.only(right: 50.0),
                       child: IconButton(onPressed: (){
