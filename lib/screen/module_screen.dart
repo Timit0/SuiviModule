@@ -14,7 +14,7 @@ import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
 import 'package:suivi_de_module/widget/program_action_button.dart';
-import 'package:intl/intl.dart'; // DateFormatter
+import 'package:intl/intl.dart'; // DateFormat
 
 
 enum Mode
@@ -33,16 +33,6 @@ class ModuleScreen extends StatefulWidget {
 
 class _ModuleScreenState extends State<ModuleScreen> {
 
-
-  // TODO: pour la correction du TextFormField des jours
-  List<String> joursStr = [
-    "lundi",
-    "mardi",
-    "mercredi",
-    "jeudi",
-    "vendredi"
-  ];
-
   var _isInit = true;
   var _isLoading = false;
   int _selectedIndex = 0;
@@ -52,10 +42,8 @@ class _ModuleScreenState extends State<ModuleScreen> {
   final moduleIdController = TextEditingController();
   final moduleNameController = TextEditingController();
   final moduleDescriptionController = TextEditingController();
-
   final moduleDayDateController = TextEditingController();
-  final moduleMonthDateController = TextEditingController();
-  final moduleYearDateController = TextEditingController();
+  final moduleClassController = TextEditingController();
 
   Mode mode = Mode.none; 
 
@@ -185,39 +173,67 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           ),
                           validator: (value) {
 
-                            value ?? DateFormat('dd.mm.yyyy').format(DateTime.now());
+
+                            value = (value == "" || value.isNull) ? DateFormat('dd.mm.yyyy').format(DateTime.now()).toString() : value;
 
                             final temp = value!.split('.');
                             
-                            if (temp.length != 3) { return "La date doit être marquée de la manière suivante : jj.mm.aaaa"; }
-                            
-                            if
-                            (
-                              int.tryParse(temp[0]) == null ||
-                              int.tryParse(temp[1]) == null ||
-                              int.tryParse(temp[2]) == null
-                            )
+                            if (value != DateFormat('dd.mm.yyyy').format(DateTime.now()).toString())
                             {
-                              return "La date doit être marquée de la manière suivante : jj.mm.aaaa";
-                            }
+                              if (temp.length != 3) { return "La date doit être marquée de la manière suivante : jj.mm.aaaa"; }
+                              
+                              if
+                              (
+                                int.tryParse(temp[0]) == null ||
+                                int.tryParse(temp[1]) == null ||
+                                int.tryParse(temp[2]) == null
+                              )
+                              {
+                                return "La date doit être marquée de la manière suivante : jj.mm.aaaa";
+                              }
 
-                            if
-                            (
-                              (int.tryParse(temp[0])! <= 0 || int.tryParse(temp[0])! > 31) ||
-                              (int.tryParse(temp[1])! <= 0 || int.tryParse(temp[1])! > 12) ||
-                              (int.tryParse(temp[2])! <= 1925)
-                            )
-                            {
-                              return "La date doit être marquée de la manière suivante : jj.mm.aaaa";
+                              if
+                              (
+                                (int.tryParse(temp[0])! <= 0 || int.tryParse(temp[0])! > 31) ||
+                                (int.tryParse(temp[1])! <= 0 || int.tryParse(temp[1])! > 12) ||
+                                (int.tryParse(temp[2])! <= 1925)
+                              )
+                              {
+                                return "La date doit être marquée de la manière suivante : jj.mm.aaaa";
+                              }
+                              return null;
                             }
 
                             return null;
                           },
                         ),
                       ),
+                      SizedBox(
+                        width: 250,
+                        height: 100,
+                        child: TextFormField(
+                          controller: moduleClassController,
+                          decoration: const InputDecoration(
+                            hintText: 'Le nom de la classe',
+                            filled: true,
+                            fillColor: Colors.white,
+                            focusColor: Colors.black,
+                            border: OutlineInputBorder()
+                          ),
+                          validator: ((value) => value == "" ? "Il faut que ce champ soit rempli!" : null)
+                        )
+                      ),
                       TextButton(
                         onPressed: (){
-                          formKey.currentState!.validate(); 
+                          if (formKey.currentState!.validate())
+                          {
+                            if (moduleDayDateController.text == DateFormat('dd.mm.yyyy').format(DateTime.now()))
+                            {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Le module à bien était ajouté dans la base de donnée!'))
+                              );
+                            }
+                          }
                         }, 
                         style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 73, 73, 73))
