@@ -172,12 +172,15 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           ),
                           validator: (value) {
 
-
-                            value = (value == "" || value.isNull) ? DateFormat('dd.mm.yyyy').format(DateTime.now()).toString() : value;
+                            if (value == "") 
+                            {
+                              value = DateFormat('dd.MM.yyyy').format(DateTime.now()).toString();
+                              moduleDayDateController.text = value;
+                            }
 
                             final temp = value!.split('.');
                             
-                            if (value != DateFormat('dd.mm.yyyy').format(DateTime.now()).toString())
+                            if (value != DateFormat('dd.MM.yyyy').format(DateTime.now()).toString())
                             {
                               if (temp.length != 3) { return "La date doit être marquée de la manière suivante : jj.mm.aaaa"; }
                               
@@ -226,7 +229,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         onPressed: (){
                           if (formKey.currentState!.validate())
                           {
-                            if (moduleDayDateController.text == DateFormat('dd.MM.yyyy').format(DateTime.now()))
+                            if (moduleDayDateController.text == DateFormat('dd.MM.yyyy').format(DateTime.now()).toString())
                             {
                               Provider.of<ModuleProvider>(context, listen: false).createModule(Module(
                                 nom: moduleNameController.text,
