@@ -3,8 +3,6 @@ import 'dart:developer' as dev;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/devoir_reference.dart';
-import 'package:suivi_de_module/models/devoir.dart';
-import 'package:suivi_de_module/models/devoir_reference.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -23,13 +21,13 @@ class FirebaseDBService {
 
   // singleton
   FirebaseDBService._() {
-    db.useDatabaseEmulator(/*"10.0.2.2"*/ "127.0.0.1", 9000);
+    db.useDatabaseEmulator("127.0.0.1", 9000);
     _ref = db.ref();
   }
 
-  final testNode = "test";
-  final devoirNode = "devoir";
-  final modulePendingListNode = "pendingModule";
+  final String testNode = "test";
+  final String devoirNode = "devoir";
+  final String modulePendingListNode = "pendingModule";
 
   Future<List<Module>> getAllPendingModules() async
   {
@@ -145,17 +143,13 @@ class FirebaseDBService {
 
   Future<Module> addPendingModule(Module module) async
   {
-    await _ref.child(modulePendingListNode).update(module.toJson());
+    await _ref.child("$modulePendingListNode/${module.nom}").update(module.toJson());
     return Module.base();
   }
 
   Future<Eleve> addEleve(Eleve eleve, String id) async {
-
-      //await _ref.child("eleve/${eleve.id}").set(eleve.toJson());
-      await _ref.child("$moduleNode/$id/$eleveNode/${eleve.id}").update(EleveReference(id: eleve.id).toJson());
-      
+    await _ref.child("$moduleNode/$id/$eleveNode/${eleve.id}").update(EleveReference(id: eleve.id).toJson());
     return Eleve.base();
-    //return eleve;
   }
 
   Future<Eleve> createOrEditOneEleve(Eleve eleve) async {
@@ -264,7 +258,7 @@ class FirebaseDBService {
   }
 
   Future<List<Eleve>> getAllEleves() async {
-    final snapshot = await _ref.child('$eleveNode').get();
+    final snapshot = await _ref.child(eleveNode).get();
 
     if (snapshot.exists) {
       final eleves = <Eleve>[];

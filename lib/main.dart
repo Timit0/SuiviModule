@@ -9,7 +9,6 @@ import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/provider/test_and_devoir_provider.dart';
 import 'package:suivi_de_module/provider/test_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
-import 'package:suivi_de_module/screen/login_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
 import 'package:suivi_de_module/screen/main_screen.dart';
 
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    //FirebaseDBService.instance.addData();
+    //FirebaseDBService.instance.addData(); // <-- UNIQUEMENT POUR LE DEBUGGING!!!
     //final service = FirebaseDbService.instance;
 
     return MultiProvider(

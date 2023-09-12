@@ -39,7 +39,6 @@ class _ModuleScreenState extends State<ModuleScreen> {
 
   final formKey = GlobalKey<FormState>();
 
-  final moduleIdController = TextEditingController();
   final moduleNameController = TextEditingController();
   final moduleDescriptionController = TextEditingController();
   final moduleDayDateController = TextEditingController();
@@ -127,7 +126,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         child: SizedBox(
                           width: 250,
                           child: TextFormField(
-                            controller: moduleIdController,
+                            controller: moduleNameController,
                             validator: (value){
                               if (value == "") { return "Le module doit avoir un identifiant"; }
                               return null;
@@ -229,8 +228,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           {
                             if (moduleDayDateController.text == DateFormat('dd.MM.yyyy').format(DateTime.now()))
                             {
-
-                              Provider.of<ModuleProvider>(context, listen: false).createPendingModule(Module(
+                              Provider.of<ModuleProvider>(context, listen: false).createModule(Module(
                                 nom: moduleNameController.text,
                                 classe: moduleClassController.text,
                                 description: moduleDescriptionController.text,
