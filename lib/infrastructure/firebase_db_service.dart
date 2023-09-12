@@ -31,7 +31,7 @@ class FirebaseDBService {
   final devoirNode = "devoir";
   final modulePendingListNode = "pendingModule";
 
-  Future<List<Module?>> getAllPendingModules() async
+  Future<List<Module>> getAllPendingModules() async
   {
     final data = await _ref.child(modulePendingListNode).get();
     if (data.exists)

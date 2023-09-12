@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
 
         ChangeNotifierProvider<TestAndDevoirProvider>(
           create: (_) => TestAndDevoirProvider()
-        )
+        ),
       ],
 
       child: MaterialApp(

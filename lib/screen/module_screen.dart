@@ -229,10 +229,38 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           {
                             if (moduleDayDateController.text == DateFormat('dd.mm.yyyy').format(DateTime.now()))
                             {
+                              setState((){
+                                Provider.of<ModuleProvider>(context).createPendingModule(Module(
+                                  nom: moduleNameController.text,
+                                  classe: moduleClassController.text,
+                                  description: moduleDescriptionController.text,
+                                  eleve: [],
+                                  horaire: moduleDayDateController.text,
+                                  devoirs: [],
+                                  tests: []
+                                ));
+                              });
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Le module à bien était ajouté dans la base de donnée!'))
                               );
                             }
+                          }
+                          else
+                          {
+                            setState((){
+                            Provider.of<ModuleProvider>(context).createPendingModule(Module(
+                                nom: moduleNameController.text,
+                                classe: moduleClassController.text,
+                                description: moduleDescriptionController.text,
+                                eleve: [],
+                                horaire: moduleDayDateController.text,
+                                devoirs: [],
+                                tests: []
+                              ));
+                            });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Le module sera ajouté dans la list le ${moduleDayDateController.text}'))
+                              );
                           }
                         }, 
                         style: const ButtonStyle(
