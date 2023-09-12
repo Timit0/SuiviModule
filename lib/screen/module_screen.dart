@@ -111,9 +111,18 @@ class _ModuleScreenState extends State<ModuleScreen> {
                   ? []
                   : (mode == Mode.moduleAdditionMode || mode == Mode.moduleEditionMode)
                     ? [
-                      Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text('${mode == Mode.moduleAdditionMode ? 'Ajout' : 'Edition'} de module', style: const TextStyle(fontSize: 25)),
+                      Row(
+                        children: [
+                          IconButton(onPressed: () => setState(() {
+                            mode = Mode.none;
+                          }), icon: const Icon(Icons.close)),
+
+                          Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Text('${mode == Mode.moduleAdditionMode ? 'Ajout' : 'Edition'} de module', style: const TextStyle(fontSize: 25)),
+                          ),
+
+                        ]
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 38.0),

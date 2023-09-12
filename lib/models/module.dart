@@ -1,9 +1,6 @@
 import 'dart:js_interop';
-import 'dart:math';
 
 import 'package:suivi_de_module/models/devoir.dart';
-import 'package:suivi_de_module/models/devoir_reference.dart';
-import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/test.dart';
 
@@ -45,13 +42,6 @@ class Module{
 
     }catch(e){print(e);}
 
-/*
-    //print(temp);
-    try{
-      print(temp1.length);
-    }catch(e){print(e);}
-*/
-
     return Module(
       nom: json["nom"], 
       description: json["description"], 
@@ -82,14 +72,14 @@ class Module{
       }
     }
 
-    if (devoirs != null) {
-      for (var v in devoirs!) {
+    if (!devoirs.isNull) {
+      for (var v in devoirs) {
         devoirListToJson.add(v.toJson());
       }
     }
 
-    if (tests != null) {
-      for (var v in tests!) {
+    if (!tests.isNull) {
+      for (var v in tests) {
         testListToJson.add(v.toJson());
       }
     }
