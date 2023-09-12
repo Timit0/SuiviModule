@@ -63,6 +63,14 @@ class Module{
     );
   }
 
+  factory Module.base() => Module(
+    nom: 'base',
+    description: 'base',
+    horaire: 'base',
+    classe: 'base',
+    eleve: []
+  );
+
   Map<String, dynamic> toJson(){
     List<Map<String, dynamic>> eleveListToJson = [];
     List<Map<String, dynamic>> devoirListToJson = [];

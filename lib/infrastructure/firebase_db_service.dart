@@ -29,11 +29,22 @@ class FirebaseDBService {
 
   final testNode = "test";
   final devoirNode = "devoir";
+  final modulePendingListNode = "pendingModule";
 
-
-
-  // =================================| CRUD pour Eleve |=======================================
-
+  Future<List<Module?>> getAllPendingModules() async
+  {
+    final data = await _ref.child(modulePendingListNode).get();
+    if (data.exists)
+    {
+      List<Module>? pendingMods = [];
+      for (dynamic v in data.children)
+      {
+        pendingMods.add(Module.fromJson(v.value));
+      }
+      return pendingMods;
+    }
+    return [];
+  }
 
   Future<List<Test?>> getAllTest(String idModule) async {
     final data = await _ref.child("$moduleNode/$idModule/$testNode").get();
@@ -132,6 +143,11 @@ class FirebaseDBService {
   }
 
 
+  Future<Module> addPendingModule(Module module) async
+  {
+    await _ref.child(modulePendingListNode).update(module.toJson());
+    return Module.base();
+  }
 
   Future<Eleve> addEleve(Eleve eleve, String id) async {
 
@@ -159,6 +175,12 @@ class FirebaseDBService {
     return eleve;
   }
 
+  Future<Module> updatePendingModule(Module module) async
+  {
+    _ref.child("$modulePendingListNode/${module.nom}").update(module.toJson()).then((value) => null).catchError((e) => dev.log(e));
+    return module;
+  }
+
   Future<void> addDevoir(Devoir devoir, String moduleId) async
   {
     await _ref.child("$moduleNode/$moduleId/$devoirNode/${devoir.id}").update(devoir.toJson());
@@ -169,6 +191,10 @@ class FirebaseDBService {
     await _ref.child("$moduleNode/$moduleId/$testNode/${test.id}").update(test.toJson());
   }
 
+  Future<void> removePendingModule(Module module) async
+  {
+    _ref.child("$modulePendingListNode/${module.nom}").remove().then((value) => null).catchError((e) => dev.log(e));
+  }
 
   Future<void> removeEleve(Eleve eleve, String moduleId) async {
     _ref.child('$moduleNode/$moduleId/$eleveNode/${eleve.id}').remove().then((_) => null).catchError((e) {

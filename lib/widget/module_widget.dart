@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/screen/main_screen.dart';
-import 'package:suivi_de_module/widget/student_list_widget.dart';
+//import 'package:suivi_de_module/widget/student_list_widget.dart';
 
 class ModuleWidget extends Module{
   ModuleWidget({
@@ -19,6 +19,7 @@ class ModuleWidget extends Module{
   void setContext(BuildContext context){
     this.context = context;
   }
+
 
   //final String nom;
   String textEleve(int x){
@@ -77,27 +78,33 @@ class ModuleWidget extends Module{
                           getOnlyNumbOfName(nom), 
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 35
+                            fontSize: 35,
                           ),
                         )
                       ),
                     ],
                   ),
                 ),
-            Padding(
-              padding: const EdgeInsets.only(left: 150),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(nom, style: const TextStyle(fontSize: 30),),
-                  Text(description, 
-                    style: const TextStyle(
-                      fontSize: 20
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 150),
+                  child: SizedBox.square(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(nom, style: const TextStyle(fontSize: 30),),
+                        Text(description, 
+                          style: const TextStyle(
+                            fontSize: 20
+                          ),
+                        ),
+                        Text(horaire),
+                      ],
                     ),
                   ),
-                  Text(horaire)
-                ],
-              ),
+                ),
+              ],
             ),
               ],
             ),
@@ -112,14 +119,14 @@ class ModuleWidget extends Module{
             //   ),
             // ),
     
-            Expanded(
-               
+            Expanded(  
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 50, right: 50),
+                    child: Container(
+                      // padding: const EdgeInsets.only(left: 50, right: 50),
+                      alignment: Alignment.center,
                       child: Text(
                         classe,
                         style: const TextStyle(fontSize: 25),

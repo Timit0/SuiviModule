@@ -1,5 +1,9 @@
 // import 'dart:js_util';
 
+import 'dart:html';
+import 'dart:js_interop';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +14,14 @@ import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
 import 'package:suivi_de_module/widget/program_action_button.dart';
+import 'package:intl/intl.dart'; // DateFormatter
+
+
+enum Mode
+{
+  none,
+  moduleAdditionMode
+}
 
 class ModuleScreen extends StatefulWidget {
   static const routeName = '/details_student_screen';
@@ -21,10 +33,31 @@ class ModuleScreen extends StatefulWidget {
 
 class _ModuleScreenState extends State<ModuleScreen> {
 
+
+  // TODO: pour la correction du TextFormField des jours
+  List<String> joursStr = [
+    "lundi",
+    "mardi",
+    "mercredi",
+    "jeudi",
+    "vendredi"
+  ];
+
   var _isInit = true;
   var _isLoading = false;
   int _selectedIndex = 0;
-  
+
+  final formKey = GlobalKey<FormState>();
+
+  final moduleIdController = TextEditingController();
+  final moduleNameController = TextEditingController();
+  final moduleDescriptionController = TextEditingController();
+
+  final moduleDayDateController = TextEditingController();
+  final moduleMonthDateController = TextEditingController();
+  final moduleYearDateController = TextEditingController();
+
+  Mode mode = Mode.none; 
 
   @override
   void didChangeDependencies() async {
@@ -63,7 +96,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
         children: [
           NavigationRail(
             elevation: 2,
-            backgroundColor: Color.fromARGB(255, 207, 207, 207),
+            backgroundColor: const Color.fromARGB(255, 207, 207, 207),
             onDestinationSelected: (value) {
               setState(() {
                 _selectedIndex = value;
@@ -85,6 +118,128 @@ class _ModuleScreenState extends State<ModuleScreen> {
           Flexible(
             child: screen(moduleProvider),
           ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey
+            ),
+            
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: mode == Mode.none
+                  ? []
+                  : mode == Mode.moduleAdditionMode
+                    ? [
+                      const Padding(
+                        padding: EdgeInsets.all(18.0),
+                        child: Text('Ajout de module', style: TextStyle(fontSize: 25)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 38.0),
+                        child: SizedBox(
+                          width: 250,
+                          child: TextFormField(
+                            controller: moduleIdController,
+                            validator: (value){
+                              if (value == "") { return "Le module doit avoir un identifiant"; }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'L\'identifiant du module',
+                              border: OutlineInputBorder(),
+                              filled: true,
+                              fillColor: Colors.white,
+                              focusColor: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 38.0),
+                        child: SizedBox(
+                          width: 250,
+                          height: 250,
+                          child: TextFormField(
+                            maxLines: 255,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              focusColor: Colors.black,
+                              hintText: 'Description du module',
+                              border: OutlineInputBorder()
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        height: 100,
+                        child: TextFormField(
+                          controller: moduleDayDateController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            focusColor: Colors.black,
+                            hintText: 'La date (JJ.MM.AAAA)',
+                            border: OutlineInputBorder()
+                          ),
+                          validator: (value) {
+
+                            value ?? DateFormat('dd.mm.yyyy').format(DateTime.now());
+
+                            final temp = value!.split('.');
+                            
+                            if (temp.length != 3) { return "La date doit être marquée de la manière suivante : jj.mm.aaaa"; }
+                            
+                            if
+                            (
+                              int.tryParse(temp[0]) == null ||
+                              int.tryParse(temp[1]) == null ||
+                              int.tryParse(temp[2]) == null
+                            )
+                            {
+                              return "La date doit être marquée de la manière suivante : jj.mm.aaaa";
+                            }
+
+                            if
+                            (
+                              (int.tryParse(temp[0])! <= 0 || int.tryParse(temp[0])! > 31) ||
+                              (int.tryParse(temp[1])! <= 0 || int.tryParse(temp[1])! > 12) ||
+                              (int.tryParse(temp[2])! <= 1925)
+                            )
+                            {
+                              return "La date doit être marquée de la manière suivante : jj.mm.aaaa";
+                            }
+
+                            return null;
+                          },
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: (){
+                          formKey.currentState!.validate(); 
+                        }, 
+                        style: const ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 73, 73, 73))
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Envoyer!',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20
+                            ),
+                          ),
+                        )
+                      )
+                    ]
+                    : []
+                  
+              ),
+            )
+          )
         ],
       ),
     );
@@ -121,7 +276,9 @@ class _ModuleScreenState extends State<ModuleScreen> {
               ),
               TextButton(
 
-                onPressed: (){}, style: const ButtonStyle(
+                onPressed: () => setState(() {
+                  mode = Mode.moduleAdditionMode;
+                }) , style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.grey),
                 ), 
                 child: const Padding(
