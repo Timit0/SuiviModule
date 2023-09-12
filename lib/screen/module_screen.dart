@@ -1,26 +1,20 @@
 // import 'dart:js_util';
 
-import 'dart:html';
-import 'dart:js_interop';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
-import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
-import 'package:suivi_de_module/widget/program_action_button.dart';
 import 'package:intl/intl.dart'; // DateFormat
 
 
 enum Mode
 {
   none,
-  moduleAdditionMode
+  moduleAdditionMode,
+  moduleEditionMode
 }
 
 class ModuleScreen extends StatefulWidget {
@@ -106,7 +100,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
             child: screen(moduleProvider),
           ),
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.grey
             ),
             
@@ -115,11 +109,11 @@ class _ModuleScreenState extends State<ModuleScreen> {
               child: Column(
                 children: mode == Mode.none
                   ? []
-                  : mode == Mode.moduleAdditionMode
+                  : (mode == Mode.moduleAdditionMode || mode == Mode.moduleEditionMode)
                     ? [
-                      const Padding(
-                        padding: EdgeInsets.all(18.0),
-                        child: Text('Ajout de module', style: TextStyle(fontSize: 25)),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Text('${mode == Mode.moduleAdditionMode ? 'Ajout' : 'Edition'} de module', style: const TextStyle(fontSize: 25)),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 38.0),
@@ -147,6 +141,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           width: 250,
                           height: 250,
                           child: TextFormField(
+                            controller: moduleDescriptionController,
                             maxLines: 255,
                             decoration: const InputDecoration(
                               filled: true,
@@ -264,7 +259,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                                 SnackBar(content: Text('Le module sera ajouté dans la list le ${moduleDayDateController.text}'))
                               );
 
-                              setState((){});
+                              setState((){ mode = Mode.none; });
                             }
                             
                           }
@@ -326,6 +321,16 @@ class _ModuleScreenState extends State<ModuleScreen> {
                   horaire: moduleProvider.modules[index].horaire, 
                   classe: moduleProvider.modules[index].classe,
                   eleve: moduleProvider.modules[index].eleve,
+                  editionBehavior: () {
+                    moduleNameController.text = moduleProvider.modules[index].nom;
+                    moduleClassController.text = moduleProvider.modules[index].classe;
+                    moduleDayDateController.text = moduleProvider.modules[index].horaire;
+                    moduleDescriptionController.text = moduleProvider.modules[index].description;
+
+                    setState(() {
+                      mode = Mode.moduleEditionMode;
+                    });
+                  }
                 ).buildWidget(context, index),
               ),
               TextButton(
@@ -355,6 +360,16 @@ class _ModuleScreenState extends State<ModuleScreen> {
                 horaire: moduleProvider.modules[index].horaire, 
                 classe: moduleProvider.modules[index].classe,
                 eleve: moduleProvider.modules[index].eleve,
+                  editionBehavior: () {
+                    moduleNameController.text = moduleProvider.modules[index].nom;
+                    moduleClassController.text = moduleProvider.modules[index].classe;
+                    moduleDayDateController.text = moduleProvider.modules[index].horaire;
+                    moduleDescriptionController.text = moduleProvider.modules[index].description;
+
+                    setState(() {
+                      mode = Mode.moduleEditionMode;
+                    });
+                  }
               ).buildWidget(context, index),
             );
           },

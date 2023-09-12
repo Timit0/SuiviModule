@@ -12,9 +12,12 @@ class ModuleWidget extends Module{
     required super.horaire, 
     required super.classe, 
     required super.eleve,
+    required this.editionBehavior
   });
 
   late BuildContext context;
+
+  void Function()? editionBehavior;
 
   void setContext(BuildContext context){
     this.context = context;
@@ -108,16 +111,6 @@ class ModuleWidget extends Module{
             ),
               ],
             ),
-            // Padding(
-            //   padding: EdgeInsets.only(left: 100, right: 100),
-            //   child: Column(
-            //     children: [
-            //       Text("45%",
-            //         style: TextStyle(fontSize: 25),
-            //       ),
-            //     ],
-            //   ),
-            // ),
     
             Expanded(  
               child: Row(
@@ -135,7 +128,7 @@ class ModuleWidget extends Module{
                     ),
                   ),
                   Row(children: [
-                    IconButton(onPressed: (){}, icon: const Icon(Icons.edit, size: 50,)),
+                    IconButton(onPressed: () => editionBehavior, icon: const Icon(Icons.edit, size: 50,)),
                     Padding(
                       padding: const EdgeInsets.only(right: 50.0),
                       child: IconButton(onPressed: (){
