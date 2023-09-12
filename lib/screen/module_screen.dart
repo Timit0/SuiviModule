@@ -4,7 +4,7 @@ import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
-// import 'package:suivi_de_module/widget/pop_up_module_creation.dart';
+import 'package:csv/csv.dart'; // pour pouvoir traiter les donnees provenant d'un fichier CSV
 import 'package:intl/intl.dart'; // DateFormat
 
 
@@ -12,7 +12,9 @@ enum Mode
 {
   none,
   moduleAdditionMode,
-  moduleEditionMode
+  moduleEditionMode,
+  JSONimportMode,
+  CSVimportMode
 }
 
 class ModuleScreen extends StatefulWidget {
@@ -298,7 +300,28 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         )
                       )
                     ]
-                    : []
+                    : (mode == Mode.CSVimportMode || mode == Mode.JSONimportMode)
+                      ? [
+                          Row(
+                            children: [
+                              IconButton(onPressed: () {
+                                moduleClassController.text = "";
+                                moduleDayDateController.text = "";
+                                moduleDescriptionController.text = "";
+                                moduleNameController.text = "";
+                                
+                                setState(() {mode = Mode.none;});
+                                }, icon: const Icon(Icons.close)),
+
+                              Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: Text('importer un fichier ${mode == Mode.JSONimportMode ? 'JSON' : 'CSV'}' , style: const TextStyle(fontSize: 25)),
+                              ),
+
+                            ]
+                          ),
+                      ]
+                      : []
                   
               ),
             )
@@ -312,6 +335,21 @@ class _ModuleScreenState extends State<ModuleScreen> {
         // debug
         print(value);
         _selectedIndex2 = value;
+
+          if (_selectedIndex2 == 0)
+          {
+            setState(() {
+              mode = Mode.JSONimportMode;
+            });
+          }
+
+          else if (_selectedIndex2 == 1)
+          {
+            setState(() {
+              mode = Mode.CSVimportMode;
+            });
+          }
+
         setState(() {});
       },),
     );
