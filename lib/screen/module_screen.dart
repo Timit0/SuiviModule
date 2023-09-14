@@ -372,6 +372,36 @@ class _ModuleScreenState extends State<ModuleScreen> {
                               ),
                             ]
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: SizedBox(
+                              width: 250,
+                              height: 100,
+                              child: TextFormField(
+                                controller: eleveRefController,
+                                decoration: const InputDecoration(
+                                  hintText: "L'identifiant de l'élève",
+                                  border: OutlineInputBorder(),
+                                  fillColor: Colors.white,
+                                  focusColor: Colors.black,
+                                ),
+                                validator: (value){
+                                  if (value == "")
+                                  {
+                                    return "Il faut que ce champ soit rempli!";
+                                  }
+
+                                  // TODO: tester ce code (verifier si l'ID inséré existes dans la DB)
+                                  if (Provider.of<StudentProvider>(context).getEleveFromId(value!) == null)
+                                  {
+                                    return "Cet élève n'existes pas!";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                          )
                         ]
                         : []
                   

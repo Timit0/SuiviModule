@@ -15,10 +15,8 @@ class ModuleProvider with ChangeNotifier{
   List<Module> get modules => [..._modules];
   List<Module> get pendingModules => [..._pendingModules];
 
-  Module getModuleFromId(String moduleID)
-  {
-    return _modules.where((element) => element.nom == moduleID).first;
-  }
+  Module getModuleFromId(String moduleID) => _modules.where((element) => element.nom == moduleID).first;
+  
   Future<void> fetchAndSetModules() async {
     _modules.clear();
     final data = await FirebaseDBService.instance.getAllModule();

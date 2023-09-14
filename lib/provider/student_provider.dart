@@ -23,6 +23,8 @@ class StudentProvider with ChangeNotifier
     notifyListeners();
   }
 
+  Eleve getEleveFromId(String eleveId) => _eleves.where((element) => element.id == eleveId).first;
+
   Future<void> fetchAndSetAllStudents() async
   {
     _allEleves.clear();
