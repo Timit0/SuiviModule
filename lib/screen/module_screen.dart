@@ -5,7 +5,6 @@ import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/widget/avatar_widget.dart';
-import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:csv/csv.dart'; // pour pouvoir traiter les donnees provenant d'un fichier CSV
 import 'package:intl/intl.dart';
@@ -52,6 +51,8 @@ class _ModuleScreenState extends State<ModuleScreen> {
   final moduleDescriptionController = TextEditingController();
   final moduleDayDateController = TextEditingController();
   final moduleClassController = TextEditingController();
+
+  final eleveRefController = TextEditingController();
 
   late Mode mode = Mode.none;
   late Stage level = Stage.module;
@@ -354,7 +355,25 @@ class _ModuleScreenState extends State<ModuleScreen> {
                             ]
                           ),
                       ]
-                      : []
+                      : mode == Mode.studentAdditionMode || mode == Mode.studentEditionMode
+                        ? [
+                            Row(
+                            children: [
+                              IconButton(onPressed: () {
+
+                                eleveRefController.text = "";
+
+                                setState(() {mode = Mode.none;});
+                                }, icon: const Icon(Icons.close)),
+
+                              Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: Text('${mode == Mode.studentAdditionMode ? 'Ajout' : 'Edition'} d\'un élève', style: const TextStyle(fontSize: 25)),
+                              ),
+                            ]
+                          ),
+                        ]
+                        : []
                   
               ),
             )
@@ -363,8 +382,10 @@ class _ModuleScreenState extends State<ModuleScreen> {
       ),
       bottomNavigationBar: level == Stage.eleveDetail ? Container(
         height: 60,
+        color: Colors.white,
         child: InkWell(
           onTap: () { 
+            mode = Mode.none;
             setState(() { level = Stage.eleves; }); 
           },
           child: const Padding(
@@ -455,17 +476,20 @@ class _ModuleScreenState extends State<ModuleScreen> {
       children: [
         Column(children: [
           Stack(children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: 400,
-              child: const DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color.fromARGB(255, 80, 80, 80), Colors.grey]
+            SingleChildScrollView(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: 400,
+                child: const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color.fromARGB(255, 80, 80, 80), Colors.grey]
+                    )
                   )
-                )
+                ),
               ),
             ),
             Container(
