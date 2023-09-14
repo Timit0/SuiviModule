@@ -364,7 +364,9 @@ class _ModuleScreenState extends State<ModuleScreen> {
       bottomNavigationBar: level == Stage.eleveDetail ? Container(
         height: 60,
         child: InkWell(
-          onTap: () => setState(() { level == Stage.module; }),
+          onTap: () { 
+            setState(() { level = Stage.eleves; }); 
+          },
           child: const Padding(
             padding: EdgeInsets.only(top: 8),
             child: Column(children: [
