@@ -17,7 +17,9 @@ enum Mode
   moduleAdditionMode,
   moduleEditionMode,
   JSONimportMode,
-  CSVimportMode
+  CSVimportMode,
+  studentAdditionMode,
+  studentEditionMode
 }
 
 enum Stage
@@ -352,26 +354,48 @@ class _ModuleScreenState extends State<ModuleScreen> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier JSON'),
-        BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier CSV'),
-      ], currentIndex: _selectedIndex2, unselectedItemColor: Colors.black, unselectedFontSize: 20, selectedFontSize: 20, fixedColor: Colors.black, onTap: (value) {
+      bottomNavigationBar: BottomNavigationBar(items: level == Stage.module 
+        ? const [
+          BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier JSON'),
+          BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier CSV'),
+        ]
+        : const [
+          BottomNavigationBarItem(icon: Icon(Icons.person_add), label: 'Ajouter un élève'),
+          BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour')
+        ], currentIndex: _selectedIndex2, unselectedItemColor: Colors.black, unselectedFontSize: 20, selectedFontSize: 20, fixedColor: Colors.black, onTap: (value) {
         // debug
         print(value);
         _selectedIndex2 = value;
 
           if (_selectedIndex2 == 0)
           {
-            setState(() {
-              mode = Mode.JSONimportMode;
-            });
+            if (level == Stage.module)
+            {
+              setState(() {
+                mode = Mode.JSONimportMode;
+              });
+            }
+            else if (level == Stage.eleves)
+            {
+              mode = Mode.studentAdditionMode;
+            }
           }
 
           else if (_selectedIndex2 == 1)
           {
-            setState(() {
-              mode = Mode.CSVimportMode;
-            });
+            if (level == Stage.module)
+            {
+              setState(() {
+                mode = Mode.CSVimportMode;
+              });
+            }
+            else if (level == Stage.eleves)
+            {
+              setState(() {
+                level = Stage.module;
+                mode = Mode.none;
+              });
+            }
           }
 
         setState(() {});
@@ -419,7 +443,9 @@ class _ModuleScreenState extends State<ModuleScreen> {
     
           child: StudentCard(
             eleve: Eleve.base(),
-            moduleId: selectedModule.nom
+            moduleId: selectedModule.nom,
+            deleteButtonBehavios: (){},
+            detailButtonBehavior: (){ print('seeing the details'); },
           ),
         ); 
         }
@@ -430,7 +456,11 @@ class _ModuleScreenState extends State<ModuleScreen> {
     
           child: StudentCard(
             eleve: stu.eleves[index], 
-            moduleId: selectedModule.nom
+            moduleId: selectedModule.nom,
+            deleteButtonBehavios: (){
+              //Provider.of<ModuleProvider>(context).
+            },
+            detailButtonBehavior: (){ print('seeing the details'); },
           ),
         ); 
       }

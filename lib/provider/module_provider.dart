@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
+import 'package:suivi_de_module/models/eleve.dart';
+import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/module.dart';
 
 class ModuleProvider with ChangeNotifier{
@@ -17,7 +19,6 @@ class ModuleProvider with ChangeNotifier{
   {
     return _modules.where((element) => element.nom == moduleID).first;
   }
-
   Future<void> fetchAndSetModules() async {
     _modules.clear();
     final data = await FirebaseDBService.instance.getAllModule();

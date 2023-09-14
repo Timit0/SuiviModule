@@ -1,4 +1,5 @@
 import 'dart:developer' as dev;
+import 'dart:js_interop';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:suivi_de_module/models/devoir.dart';
@@ -172,6 +173,12 @@ class FirebaseDBService {
   Future<Module> updatePendingModule(Module module) async
   {
     _ref.child("$modulePendingListNode/${module.nom}").update(module.toJson()).then((value) => null).catchError((e) => dev.log(e));
+    return module;
+  }
+
+  Future<Module> removeEleveRefOnModule(EleveReference ref, Module module) async
+  {
+    await _ref.child("$moduleNode/${module.nom}/${ref.id}}").remove().then((value) => module);
     return module;
   }
 

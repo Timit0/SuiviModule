@@ -18,11 +18,22 @@ enum Kind
 }
 
 class StudentCard extends StatefulWidget {
-  StudentCard({super.key, required this.eleve, this.dbInstance, this.kind = Kind.big, required this.moduleId});
+  StudentCard({
+    super.key, 
+    required this.eleve, 
+    this.dbInstance, 
+    this.kind = Kind.big, 
+    required this.moduleId,
+    required this.detailButtonBehavior,
+    required this.deleteButtonBehavios
+  });
 
   final Eleve eleve;
   final String moduleId;
   FirebaseDBService? dbInstance;
+
+  Function detailButtonBehavior;
+  Function deleteButtonBehavios;
 
   @override
   State<StudentCard> createState() => _StudentCardState();
@@ -87,8 +98,8 @@ class _StudentCardState extends State<StudentCard> {
               Text(Provider.of<ModuleProvider>(context).getModuleFromId(widget.moduleId).classe)
             ]),
           ),
-          IconButton(onPressed: (){}, icon: const Icon(Icons.art_track), iconSize: 50),
-          IconButton(onPressed: (){}, icon: const Icon(Icons.delete), iconSize: 50)
+          IconButton(onPressed: () => widget.detailButtonBehavior.call(), icon: const Icon(Icons.art_track), iconSize: 50),
+          IconButton(onPressed: () => widget.deleteButtonBehavios.call(), icon: const Icon(Icons.delete), iconSize: 50)
         ],),
       )
     );

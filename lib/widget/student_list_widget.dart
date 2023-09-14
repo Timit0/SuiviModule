@@ -90,7 +90,7 @@ class _StudentListWidgetState extends State<StudentListWidget> {
                 'module': widget.arguments
                 }
               );
-            }, child: StudentCard(moduleId: widget.arguments.toString(), eleve: provider.eleves[index], dbInstance: widget.db, kind: provider.eleves.length < 3 ? Kind.big : Kind.small))),
+            }, child: StudentCard(moduleId: widget.arguments.toString(), eleve: provider.eleves[index], dbInstance: widget.db, kind: provider.eleves.length < 3 ? Kind.big : Kind.small, deleteButtonBehavios: (){}, detailButtonBehavior: (){},))),
         )
       ),
       floatingActionButton: ProgramActionButton(func: () {
