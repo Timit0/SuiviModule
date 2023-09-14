@@ -63,33 +63,33 @@ class _StudentCardState extends State<StudentCard> {
         color: const Color.fromARGB(255, 216, 216, 216),
         elevation: 0,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-        child: SizedBox(
-          child: Expanded(
-            child: Row(children: [
-              SizedBox(
-                width: 100,
-                height: 100,
-                child: Stack(
-                  children: [
-                    Container(color: const Color.fromARGB(255, 110, 110, 110)),
-                    Center(
-                      child: CachedNetworkImage(
-                        imageUrl: widget.eleve.photoFilename,
-                        placeholder: (context, url) => Image.asset('assets/img/placeholderImage.png'),
-                        errorWidget: (context, url, error) => Image.asset('assets/img/errorImage.png'),
-                        width: 50,
-                      ),
-                    )
-                  ] 
-                ),
-              ),
-              Column(children: [
-                Text('${widget.eleve.firstname} ${widget.eleve.name}', style: const TextStyle(fontSize: 36)),
-                Text(Provider.of<ModuleProvider>(context).getModuleFromId(widget.moduleId).classe)
-              ])
-            ],),
+        child: Row(children: [
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: Stack(
+              children: [
+                Container(color: const Color.fromARGB(255, 110, 110, 110)),
+                Center(
+                  child: CachedNetworkImage(
+                    imageUrl: widget.eleve.photoFilename,
+                    placeholder: (context, url) => Image.asset('assets/img/placeholderImage.png'),
+                    errorWidget: (context, url, error) => Image.asset('assets/img/errorImage.png'),
+                    width: 50,
+                  ),
+                )
+              ] 
+            ),
           ),
-        ),
+          Expanded(
+            child: Column(children: [
+              Text('${widget.eleve.firstname} ${widget.eleve.name}', style: const TextStyle(fontSize: 36)),
+              Text(Provider.of<ModuleProvider>(context).getModuleFromId(widget.moduleId).classe)
+            ]),
+          ),
+          IconButton(onPressed: (){}, icon: const Icon(Icons.art_track), iconSize: 50),
+          IconButton(onPressed: (){}, icon: const Icon(Icons.delete), iconSize: 50)
+        ],),
       )
     );
   }
