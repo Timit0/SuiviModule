@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:csv/csv.dart'; // pour pouvoir traiter les donnees provenant d'un fichier CSV
-import 'package:intl/intl.dart'; // DateFormat
+import 'package:intl/intl.dart';
+import 'package:suivi_de_module/widget/student_card.dart'; // DateFormat
 
 
 enum Mode
@@ -15,6 +18,12 @@ enum Mode
   moduleEditionMode,
   JSONimportMode,
   CSVimportMode
+}
+
+enum Stage
+{
+  module,
+  eleves
 }
 
 class ModuleScreen extends StatefulWidget {
@@ -39,14 +48,27 @@ class _ModuleScreenState extends State<ModuleScreen> {
   final moduleDayDateController = TextEditingController();
   final moduleClassController = TextEditingController();
 
-  late Mode mode = Mode.none; 
+  late Mode mode = Mode.none;
+  late Stage level = Stage.module;
+
+  bool done00 = false;
+
+  Module? selectedModule;
 
   @override
   void didChangeDependencies() async {
 
     if (_isInit) {
       _isLoading = true;
-      await Provider.of<ModuleProvider>(context).fetchAndSetModules();
+
+      if (level == Stage.module)
+      {
+        await Provider.of<ModuleProvider>(context).fetchAndSetModules();      
+      }
+      else if (level == Stage.eleves)
+      {
+        await Provider.of<StudentProvider>(context).fetchAndSetStudents(selectedModule!.nom);
+      }
       //await Provider.of<StudentProvider>(context).fetchAndSetAllStudents();
       setState(() {
         _isLoading = false;
@@ -99,7 +121,9 @@ class _ModuleScreenState extends State<ModuleScreen> {
             labelType: labelType,
           ),
           Flexible(
-            child: screen(moduleProvider),
+            child: level == Stage.module
+                    ? screenModule(moduleProvider)
+                    : screenStudentList(selectedModule!, context)
           ),
           Container(
             decoration: const BoxDecoration(
@@ -356,12 +380,73 @@ class _ModuleScreenState extends State<ModuleScreen> {
   }
 
   Widget screen(ModuleProvider moduleProvider){
-    if(_selectedIndex == 0){
-      return screenModule(moduleProvider);
-    }else{
-      return EleveActionScreen();
+
+    switch (level) {
+      case Stage.module:
+        return screenModule(moduleProvider);
+      default:
+        return Container();
     }
+
+    // if(level == Stage.module) {
+    //   return screenModule(moduleProvider);
+    // }else{
+    //   return EleveActionScreen();
+    // }
     
+  }
+
+  Widget screenStudentList(Module selectedModule, BuildContext context) 
+  {
+    var stu = Provider.of<StudentProvider>(context);
+
+    if (!done00)
+    {
+      stu.fetchAndSetStudents(selectedModule.nom);
+      done00 = true;
+    } // <-- faire éviter que celui - ci est appelé 2 fois
+
+    return SizedBox(
+      width: 900,
+      child: GridView.builder(
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: stu.eleves.length < 2
+                            ? 1
+                            : stu.eleves.length,
+          childAspectRatio: stu.eleves.length == 1 
+                            ? (.9/.5)
+                            : 1,
+          mainAxisExtent: 100
+        ),
+        itemCount: stu.eleves.length,
+        itemBuilder: (context, index) {
+          if (index+1 == stu.eleves.length)
+          {
+            return GestureDetector(
+            onTap: () {
+              print("Hello World!");
+            },
+
+            child: StudentCard(
+              eleve: Eleve.base(),
+              moduleId: selectedModule.nom
+            ),
+          ); 
+          }
+          return GestureDetector(
+            onTap: () {
+              print("Hello World!");
+            },
+
+            child: StudentCard(
+              eleve: stu.eleves[index], 
+              moduleId: selectedModule.nom
+            ),
+          ); 
+        }
+      )
+    );
   }
 
   Widget screenModule(ModuleProvider moduleProvider){
@@ -376,23 +461,36 @@ class _ModuleScreenState extends State<ModuleScreen> {
             return index+1 == moduleProvider.modules.length ? Column(children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 28.0),
-                child: ModuleWidget(
-                  nom: moduleProvider.modules[index].nom, 
-                  description: moduleProvider.modules[index].description, 
-                  horaire: moduleProvider.modules[index].horaire, 
-                  classe: moduleProvider.modules[index].classe,
-                  eleve: moduleProvider.modules[index].eleve,
-                  editionBehavior: () {
-                    moduleNameController.text = moduleProvider.modules[index].nom;
-                    moduleClassController.text = moduleProvider.modules[index].classe;
-                    moduleDayDateController.text = moduleProvider.modules[index].horaire;
-                    moduleDescriptionController.text = moduleProvider.modules[index].description;
+                child: InkWell(
+                  onTap: () {
+                    selectedModule = Module(
+                      nom: moduleProvider.modules[index].nom, 
+                      description: moduleProvider.modules[index].description, 
+                      horaire: moduleProvider.modules[index].horaire, 
+                      classe: moduleProvider.modules[index].classe, 
+                      eleve: moduleProvider.modules[index].eleve
+                    );
 
-                    setState(() {
-                      mode = Mode.moduleEditionMode;
-                    });
-                  }
-                ).buildWidget(context, index),
+                    setState(() {level = Stage.eleves;});
+                  },
+                  child: ModuleWidget(
+                    nom: moduleProvider.modules[index].nom, 
+                    description: moduleProvider.modules[index].description, 
+                    horaire: moduleProvider.modules[index].horaire, 
+                    classe: moduleProvider.modules[index].classe,
+                    eleve: moduleProvider.modules[index].eleve,
+                    editionBehavior: () {
+                      moduleNameController.text = moduleProvider.modules[index].nom;
+                      moduleClassController.text = moduleProvider.modules[index].classe;
+                      moduleDayDateController.text = moduleProvider.modules[index].horaire;
+                      moduleDescriptionController.text = moduleProvider.modules[index].description;
+                
+                      setState(() {
+                        mode = Mode.moduleEditionMode;
+                      });
+                    }
+                  ).buildWidget(context, index),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -420,23 +518,36 @@ class _ModuleScreenState extends State<ModuleScreen> {
                 )
             ]) : Padding(
               padding: const EdgeInsets.only(bottom: 15),
-              child: ModuleWidget(
-                nom: moduleProvider.modules[index].nom, 
-                description: moduleProvider.modules[index].description, 
-                horaire: moduleProvider.modules[index].horaire, 
-                classe: moduleProvider.modules[index].classe,
-                eleve: moduleProvider.modules[index].eleve,
-                  editionBehavior: () {
-                    moduleNameController.text = moduleProvider.modules[index].nom;
-                    moduleClassController.text = moduleProvider.modules[index].classe;
-                    moduleDayDateController.text = moduleProvider.modules[index].horaire;
-                    moduleDescriptionController.text = moduleProvider.modules[index].description;
+              child: InkWell(
+                onTap: () {
+                    selectedModule = Module(
+                      nom: moduleProvider.modules[index].nom, 
+                      description: moduleProvider.modules[index].description, 
+                      horaire: moduleProvider.modules[index].horaire, 
+                      classe: moduleProvider.modules[index].classe, 
+                      eleve: moduleProvider.modules[index].eleve
+                    );
 
-                    setState(() {
-                      mode = Mode.moduleEditionMode;
-                    });
-                  }
-              ).buildWidget(context, index),
+                    setState(() {level = Stage.eleves;});
+                  },
+                child: ModuleWidget(
+                  nom: moduleProvider.modules[index].nom, 
+                  description: moduleProvider.modules[index].description, 
+                  horaire: moduleProvider.modules[index].horaire, 
+                  classe: moduleProvider.modules[index].classe,
+                  eleve: moduleProvider.modules[index].eleve,
+                    editionBehavior: () {
+                      moduleNameController.text = moduleProvider.modules[index].nom;
+                      moduleClassController.text = moduleProvider.modules[index].classe;
+                      moduleDayDateController.text = moduleProvider.modules[index].horaire;
+                      moduleDescriptionController.text = moduleProvider.modules[index].description;
+              
+                      setState(() {
+                        mode = Mode.moduleEditionMode;
+                      });
+                    }
+                ).buildWidget(context, index),
+              ),
             );
           },
         ),

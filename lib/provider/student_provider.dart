@@ -1,11 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
-import 'package:suivi_de_module/models/devoir.dart';
-import 'package:suivi_de_module/models/devoir_reference.dart';
-import 'package:suivi_de_module/models/test.dart';
-import 'package:suivi_de_module/models/test_reference.dart';
 
 import '../models/eleve.dart';
 
@@ -39,7 +33,6 @@ class StudentProvider with ChangeNotifier
 
   Future<void> createEleve(Eleve eleve, String moduleID) async
   {
-    print("Add in prov");
     await FirebaseDBService.instance.addEleve(eleve, moduleID);
     _eleves.add(eleve);
     notifyListeners();

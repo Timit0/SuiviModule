@@ -51,96 +51,91 @@ class ModuleWidget extends Module{
     print("Index : $index, classNumb :${classNumb}");
     classe += classNumb;
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(StudentListScreen.routeName, arguments: this.nom);
-      },
-      child: Card(
-        color: const Color.fromARGB(255, 216, 216, 216),
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(0)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: Stack(
+    return Card(
+      color: const Color.fromARGB(255, 216, 216, 216),
+      elevation: 0,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(0)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                width: 100,
+                height: 100,
+                child: Stack(
+                  children: [
+                    const SizedBox.expand(
+                      child: ColoredBox(
+                        color: Color.fromARGB(255, 110, 110, 110)
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        getOnlyNumbOfName(nom), 
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 35,
+                        ),
+                      )
+                    ),
+                  ],
+                ),
+              ),
+          Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 150),
+                child: SizedBox.square(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox.expand(
-                        child: ColoredBox(
-                          color: Color.fromARGB(255, 110, 110, 110)
+                      Text(nom, style: const TextStyle(fontSize: 30),),
+                      Text(description, 
+                        style: const TextStyle(
+                          fontSize: 20
                         ),
                       ),
-                      Center(
-                        child: Text(
-                          getOnlyNumbOfName(nom), 
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 35,
-                          ),
-                        )
-                      ),
+                      Text(horaire),
                     ],
                   ),
                 ),
-            Stack(
+              ),
+            ],
+          ),
+            ],
+          ),
+    
+          Expanded(  
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 150),
-                  child: SizedBox.square(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(nom, style: const TextStyle(fontSize: 30),),
-                        Text(description, 
-                          style: const TextStyle(
-                            fontSize: 20
-                          ),
-                        ),
-                        Text(horaire),
-                      ],
+                Expanded(
+                  child: Container(
+                    // padding: const EdgeInsets.only(left: 50, right: 50),
+                    alignment: Alignment.center,
+                    child: Text(
+                      classe,
+                      style: const TextStyle(fontSize: 25),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
-              ],
-            ),
-              ],
-            ),
-    
-            Expanded(  
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Container(
-                      // padding: const EdgeInsets.only(left: 50, right: 50),
-                      alignment: Alignment.center,
-                      child: Text(
-                        classe,
-                        style: const TextStyle(fontSize: 25),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                Row(children: [
+                  IconButton(onPressed: () => editionBehavior!.call(), icon: const Icon(Icons.edit, size: 50)),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 50.0),
+                    child: IconButton(onPressed: (){
+                      Provider.of<ModuleProvider>(context, listen: false).removeModule(moduleNom: nom);
+                    }, icon: const Icon(Icons.delete, size: 50)),
                   ),
-                  Row(children: [
-                    IconButton(onPressed: () => editionBehavior!.call(), icon: const Icon(Icons.edit, size: 50)),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 50.0),
-                      child: IconButton(onPressed: (){
-                        Provider.of<ModuleProvider>(context, listen: false).removeModule(moduleNom: nom);
-                      }, icon: const Icon(Icons.delete, size: 50)),
-                    ),
-                  ])
-                ],
-              ),
+                ])
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

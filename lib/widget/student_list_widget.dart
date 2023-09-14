@@ -106,16 +106,10 @@ class _StudentListWidgetState extends State<StudentListWidget> {
                   if (v.id == widget.tempID)
                   {
                     Eleve newEleve = Eleve(id: widget.tempID, name: widget.tempName, firstname: widget.tempNickname, photoFilename: widget.tempPhotoUrl == "" ? "assets/img/placeholderImage.png" : widget.tempPhotoUrl);
-            
-                    //widget.db.addEleve(newEleve);
+
                     widget.valid = true;
       
-                    //FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
                     provider.createEleve(newEleve, widget.arguments.toString());
-
-                    //FirebaseDBService.instance.addEleve(newEleve, arguments.toString());
-                    
-                    // Navigator.of(context).pop();
       
                     // vue qu'on fait sur le web
                     html.window.location.reload();
