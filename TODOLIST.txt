@@ -1,4 +1,4 @@
-° réfléchir pour le côté élpve de l'application
+° réfléchir pour le côté élève de l'application
 
 ° le moins de popup possible!
 
@@ -15,8 +15,6 @@
 +========================================+
 
 ° on doit pouvoir
-	- crééer un module
-	- supprimer un module
 	- modifier un module
 		-- de meme pour les eleves
 

@@ -3,7 +3,10 @@ import 'dart:js_interop';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/eleve.dart';
+import 'package:suivi_de_module/models/test.dart';
+import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 
 import '../infrastructure/firebase_db_service.dart';
@@ -52,72 +55,43 @@ class _StudentCardState extends State<StudentCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(child: Column(children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          MouseRegion(
-            onHover: (event) => studentRemoveOnHoverDesignChange(event),
-            onExit: (event) => studentRemoveOnExitDesignChange(event),
-            child: Stack(
-              children: [Container(
-                width: widget.kind == Kind.big ? 70 : 45, 
-                height: widget.kind == Kind.big ? 70 : 45, decoration: BoxDecoration(color: widget.studentRemoveButtonBackgroundColor)), IconButton(onPressed: (){
-                showDialog(context: context, builder:(context) => AlertDialog(scrollable: true,
-                  content: Column( children: [
-                    const Icon(Icons.help, size: 50),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: Text('Souhaitez - vous retirer cet élève?'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                        TextButton(onPressed:() {
-                          if (!widget.dbInstance.isNull)
-                          {
-                            widget.dbInstance!.removeEleve(widget.eleve, widget.moduleId);
-                            html.window.location.reload();
-                          }
-                      
-                          Navigator.of(context).pop();
-                          //html.window.location.reload();
-                        }, child: const Text('Oui')),
-                        TextButton(onPressed:() => Navigator.of(context).pop(), child: const Text('Non'))
-                        ]),
+    return GestureDetector(
+      onTap: () {
+        
+      },
+      child: Card(
+        color: const Color.fromARGB(255, 216, 216, 216),
+        elevation: 0,
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        child: SizedBox(
+          child: Expanded(
+            child: Row(children: [
+              SizedBox(
+                width: 100,
+                height: 100,
+                child: Stack(
+                  children: [
+                    Container(color: const Color.fromARGB(255, 110, 110, 110)),
+                    Center(
+                      child: CachedNetworkImage(
+                        imageUrl: widget.eleve.photoFilename,
+                        placeholder: (context, url) => Image.asset('assets/img/placeholderImage.png'),
+                        errorWidget: (context, url, error) => Image.asset('assets/img/errorImage.png'),
+                        width: 50,
+                      ),
                     )
-                  ]),
-                ));
-              }, icon: Padding(
-                padding: EdgeInsets.all(widget.kind == Kind.big ? 8.0 : 0),
-                child: Icon(
-                  Icons.close,
-                  color: widget.studentRemoveButtonForegroundColor,
-                  size: widget.kind == Kind.big ? 40 : 30
+                  ] 
                 ),
-              ))],
-            ),
-          ),
-        ],
-      ),
-      Padding(
-        padding: EdgeInsets.only(top: widget.kind == Kind.big ? 10 : 0),
-        child: ClipOval(
-          child: CachedNetworkImage(imageUrl: "https://pbs.twimg.com/profile_images/945853318273761280/0U40alJG_400x400.jpg",
-            width: widget.kind == Kind.big ? 100.0 : 70.0,
-            height: widget.kind == Kind.big ? 100.0 : 70.0,
-            placeholder: (context, url) => Image.asset("assets/img/placeholderImage.png"),
-            errorWidget: (context, url, error) => Image.asset("assets/img/errorImage.png"),
-            fit: BoxFit.fill,
+              ),
+              Column(children: [
+                Text('${widget.eleve.firstname} ${widget.eleve.name}', style: const TextStyle(fontSize: 36)),
+                Text(Provider.of<ModuleProvider>(context).getModuleFromId(widget.moduleId).classe)
+              ])
+            ],),
           ),
         ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(top: widget.kind == Kind.small ? 18.0 : 0),
-        child: Text('${widget.eleve.firstname} ${widget.eleve.name}', style: TextStyle(fontSize: widget.kind == Kind.big ? 50 : 20)),
-      ),
-      Text(widget.eleve.id, style: const TextStyle(fontSize: 20))
-    ]));
+      )
+    );
   }
 
   void gonOnDetailStudentScreen(BuildContext context){

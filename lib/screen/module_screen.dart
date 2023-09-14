@@ -404,48 +404,36 @@ class _ModuleScreenState extends State<ModuleScreen> {
     {
       stu.fetchAndSetStudents(selectedModule.nom);
       done00 = true;
-    } // <-- faire éviter que celui - ci est appelé 2 fois
+    }
 
-    return SizedBox(
-      width: 900,
-      child: GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: stu.eleves.length < 2
-                            ? 1
-                            : stu.eleves.length,
-          childAspectRatio: stu.eleves.length == 1 
-                            ? (.9/.5)
-                            : 1,
-          mainAxisExtent: 100
-        ),
-        itemCount: stu.eleves.length,
-        itemBuilder: (context, index) {
-          if (index+1 == stu.eleves.length)
-          {
-            return GestureDetector(
-            onTap: () {
-              print("Hello World!");
-            },
-
-            child: StudentCard(
-              eleve: Eleve.base(),
-              moduleId: selectedModule.nom
-            ),
-          ); 
-          }
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: stu.eleves.length,
+      itemBuilder: (context, index) {
+        if (index+1 == stu.eleves.length)
+        {
           return GestureDetector(
-            onTap: () {
-              print("Hello World!");
-            },
-
-            child: StudentCard(
-              eleve: stu.eleves[index], 
-              moduleId: selectedModule.nom
-            ),
-          ); 
+          onTap: () {
+            print("Hello World!");
+          },
+    
+          child: StudentCard(
+            eleve: Eleve.base(),
+            moduleId: selectedModule.nom
+          ),
+        ); 
         }
-      )
+        return GestureDetector(
+          onTap: () {
+            print("Hello World!");
+          },
+    
+          child: StudentCard(
+            eleve: stu.eleves[index], 
+            moduleId: selectedModule.nom
+          ),
+        ); 
+      }
     );
   }
 
