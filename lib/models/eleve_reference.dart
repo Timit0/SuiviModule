@@ -9,6 +9,8 @@ class EleveReference
 
   EleveReference({required this.id, this.devoirs, this.tests});
 
+  factory EleveReference.error() => EleveReference(id: 'error');
+
   factory EleveReference.fromJson(Map<String, dynamic> json) {
     // ...
 

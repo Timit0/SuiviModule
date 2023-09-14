@@ -1,5 +1,4 @@
 import 'dart:js_interop';
-
 import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/test.dart';
@@ -59,6 +58,14 @@ class Module{
     horaire: 'base',
     classe: 'base',
     eleve: []
+  );
+
+  factory Module.error() => Module(
+    nom: 'Error', 
+    description: 'Error', 
+    horaire: 'Error', 
+    classe: 'Error', 
+    eleve: [EleveReference.error()]
   );
 
   Map<String, dynamic> toJson(){

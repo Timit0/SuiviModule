@@ -4,10 +4,12 @@ import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
+import 'package:suivi_de_module/widget/avatar_widget.dart';
 import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:csv/csv.dart'; // pour pouvoir traiter les donnees provenant d'un fichier CSV
 import 'package:intl/intl.dart';
+import 'package:suivi_de_module/widget/moyenne_widget.dart';
 import 'package:suivi_de_module/widget/student_card.dart'; // DateFormat
 
 
@@ -19,13 +21,14 @@ enum Mode
   JSONimportMode,
   CSVimportMode,
   studentAdditionMode,
-  studentEditionMode
+  studentEditionMode,
 }
 
 enum Stage
 {
   module,
-  eleves
+  eleves,
+  eleveDetail
 }
 
 class ModuleScreen extends StatefulWidget {
@@ -56,6 +59,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
   bool done00 = false;
 
   Module? selectedModule;
+  Eleve? selectedEleve;
 
   @override
   void didChangeDependencies() async {
@@ -125,7 +129,11 @@ class _ModuleScreenState extends State<ModuleScreen> {
           Flexible(
             child: level == Stage.module
                     ? screenModule(moduleProvider)
-                    : screenStudentList(selectedModule!, context)
+                    : level == Stage.eleves
+                      ? screenStudentList(selectedModule ?? Module.error() , context)
+                      : level == Stage.eleveDetail
+                        ? screenStudentDetail(selectedEleve ?? Eleve.error(), context)
+                        : const Placeholder()
           ),
           Container(
             decoration: const BoxDecoration(
@@ -242,7 +250,6 @@ class _ModuleScreenState extends State<ModuleScreen> {
                               }
                               return null;
                             }
-
                             return null;
                           },
                         ),
@@ -354,15 +361,33 @@ class _ModuleScreenState extends State<ModuleScreen> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(items: level == Stage.module 
+      bottomNavigationBar: level == Stage.eleveDetail ? Container(
+        height: 60,
+        child: InkWell(
+          onTap: () => setState(() { level == Stage.module; }),
+          child: const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Column(children: [
+              Icon(Icons.arrow_back, color: Colors.black,),
+              Text('Retour')
+            ]),
+          ),
+        ),
+      ) : BottomNavigationBar(items:  level == Stage.module 
         ? const [
           BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier JSON'),
           BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier CSV'),
         ]
-        : const [
-          BottomNavigationBarItem(icon: Icon(Icons.person_add), label: 'Ajouter un élève'),
-          BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour')
-        ], currentIndex: _selectedIndex2, unselectedItemColor: Colors.black, unselectedFontSize: 20, selectedFontSize: 20, fixedColor: Colors.black, onTap: (value) {
+        : level == Stage.eleves 
+        ? const [
+            BottomNavigationBarItem(icon: Icon(Icons.person_add), label: 'Ajouter un élève'),
+            BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour')
+          ]
+        : level == Stage.eleveDetail
+          ? const [
+              BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour')
+            ]
+          : [], currentIndex: _selectedIndex2, unselectedItemColor: Colors.black, unselectedFontSize: 20, selectedFontSize: 20, fixedColor: Colors.black, onTap: (value) {
         // debug
         print(value);
         _selectedIndex2 = value;
@@ -420,6 +445,71 @@ class _ModuleScreenState extends State<ModuleScreen> {
     
   }
 
+  Widget screenStudentDetail(Eleve selectedEleve, BuildContext context)
+  {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Column(children: [
+          Stack(children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: 400,
+              child: const DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color.fromARGB(255, 80, 80, 80), Colors.grey]
+                  )
+                )
+              ),
+            ),
+            Container(
+              width: 400,
+              child: Column(
+                children: [
+                  Center(child: AvatarWidget(photoUrl: selectedEleve.photoFilename)),
+                  Text(selectedEleve.firstname, style: const TextStyle(fontSize: 45)),
+                  Text(selectedEleve.name, style: const TextStyle(fontSize: 25)),
+                  Padding(padding: const EdgeInsets.only(top: 58), child: MoyenneWidget())
+                ]
+              ),
+            )
+          ])
+        ]),
+        Flexible(child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(child: Container(
+              alignment: Alignment.center,
+              width: 150,
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.black, width: 2),
+                  bottom: BorderSide(color: Colors.black, width: 2)
+                )
+              ),
+              child: Text(selectedModule!.getOnlyNumbOfName(selectedModule!.nom), style: const TextStyle(fontSize: 50)),
+            )),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 50),
+                  child: Text("Devoirs", style: TextStyle(fontSize: 30)),
+                ),
+                // TODO: mettre un listOf
+              ],
+            ),
+          ]
+        ))
+      ],
+    );
+  }
+
   Widget screenStudentList(Module selectedModule, BuildContext context) 
   {
     var stu = Provider.of<StudentProvider>(context);
@@ -460,7 +550,14 @@ class _ModuleScreenState extends State<ModuleScreen> {
             deleteButtonBehavios: (){
               //Provider.of<ModuleProvider>(context).
             },
-            detailButtonBehavior: (){ print('seeing the details'); },
+            detailButtonBehavior: (){
+              
+              selectedEleve = stu.eleves[index];
+
+              setState(() {
+                level = Stage.eleveDetail;
+              });
+            },
           ),
         ); 
       }
@@ -532,7 +629,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                       fontSize: 30
                       )
                     ),
-                )
+                  )
                 )
             ]) : Padding(
               padding: const EdgeInsets.only(bottom: 15),
