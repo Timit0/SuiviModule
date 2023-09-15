@@ -6,16 +6,14 @@ import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:csv/csv.dart'; // pour pouvoir traiter les donnees provenant d'un fichier CSV
 import 'package:intl/intl.dart'; // DateFormat
+import 'package:file_picker/file_picker.dart';
+
+import '../enum/module.dart';
+import '../infrastructure/firebase_db_service.dart';
+import '../widget/pick_file.dart';
 
 
-enum Mode
-{
-  none,
-  moduleAdditionMode,
-  moduleEditionMode,
-  JSONimportMode,
-  CSVimportMode
-}
+
 
 class ModuleScreen extends StatefulWidget {
   static const routeName = '/details_student_screen';
@@ -302,23 +300,57 @@ class _ModuleScreenState extends State<ModuleScreen> {
                     ]
                     : (mode == Mode.CSVimportMode || mode == Mode.JSONimportMode)
                       ? [
-                          Row(
+                          Column(
                             children: [
-                              IconButton(onPressed: () {
-                                moduleClassController.text = "";
-                                moduleDayDateController.text = "";
-                                moduleDescriptionController.text = "";
-                                moduleNameController.text = "";
-                                
-                                setState(() {mode = Mode.none;});
-                                }, icon: const Icon(Icons.close)),
+                              Row(
+                                children: [
+                                  IconButton(onPressed: () {
+                                    moduleClassController.text = "";
+                                    moduleDayDateController.text = "";
+                                    moduleDescriptionController.text = "";
+                                    moduleNameController.text = "";
+                                    
+                                    setState(() {mode = Mode.none;});
+                                    }, icon: const Icon(Icons.close)),
 
-                              Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Text('importer un fichier ${mode == Mode.JSONimportMode ? 'JSON' : 'CSV'}' , style: const TextStyle(fontSize: 25)),
+                                  Padding(
+                                    padding: const EdgeInsets.all(18.0),
+                                    child: Text('importer un fichier ${mode == Mode.JSONimportMode ? 'JSON' : 'CSV'}' , style: const TextStyle(fontSize: 25)),
+                                  ),
+                                  
+
+                                ]
                               ),
-
-                            ]
+                              
+                              GestureDetector(
+                                onTap: () async {
+                                  try{
+                                    //Add module from json
+                                    if(mode == Mode.JSONimportMode){
+                                      await Provider.of<ModuleProvider>(context, listen: false).addModuleFromJson(await PickFile.builder(mode) as String);
+                                      setState(() async {
+                                        await Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+                                      });
+                                    }else{
+                                      await Provider.of<ModuleProvider>(context, listen: false).addModuleFromCsv(await PickFile.builder(mode) as String);
+                                      setState(() async {
+                                        await Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+                                      });
+                                    }
+                                    
+     
+                                  }catch(e){
+                                    //FirebaseDBService.instance.addData(await PickFile.builder(mode) as String);
+                                    print(e);       
+                                  }
+                                                        
+                                },
+                                child: const Icon(
+                                  Icons.folder,
+                                  size: 100,
+                                ),
+                              ),
+                            ],
                           ),
                       ]
                       : []

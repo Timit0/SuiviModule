@@ -48,7 +48,6 @@ class ModuleWidget extends Module{
     try{
       classNumb = " (${provider.modules[index].eleve?.length} ${textEleve(provider.modules[index].eleve!.length)})";
     }catch(e){}
-    print("Index : $index, classNumb :${classNumb}");
     classe += classNumb;
 
     return GestureDetector(

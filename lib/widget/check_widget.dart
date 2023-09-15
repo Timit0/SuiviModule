@@ -21,7 +21,6 @@ class _CheckWidgetState extends State<CheckWidget> {
         }else{
           widget.checkState = true;
         }
-        print("Clik : "+ widget.checkState.toString());
         setState(() {
           
         });

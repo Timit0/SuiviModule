@@ -278,7 +278,6 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
         }else{
           checkState = true;
         }
-        print("Clik : "+checkState.toString());
         setState(() {
           
         });

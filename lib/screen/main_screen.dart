@@ -10,7 +10,7 @@ import '../widget/app_button_widget.dart';
 enum Mode
 {
   student,
-  module
+  module, JSONimportMode
 }
 
 class StudentListScreen extends StatefulWidget {

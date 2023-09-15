@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 
+import 'package:csv/csv.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/devoir_reference.dart';
@@ -281,22 +282,44 @@ class FirebaseDBService {
   final String moduleNode = "module";
   final String eleveNode = "eleve";
   
-  void addData() async {
-    await _ref.child(moduleNode).remove();
-    await _ref.child(eleveNode).remove();
+  Future<void> addModuleFromJson(String data) async {
+    // await _ref.child(moduleNode).remove();
+    // await _ref.child(eleveNode).remove();
 
-    final data = await rootBundle.loadString("./json/module.json");
+    // final data = await rootBundle.loadString("./json/module.json");
     List<dynamic> json = jsonDecode(data);
-
-    final eleveData = await rootBundle.loadString("./json/eleve.json");
-    List<dynamic> eleveJson = jsonDecode("[" + eleveData + "]"); // <-- si il y a une autre facon de le farie, ce serais cool :)
 
     for(int i = 0; i < json.length; i++){
       await _ref.child("$moduleNode/${json[i]["nom"]}").update(json[i]);
     }
 
-    for(int i = 0; i < eleveJson.length; i++){
-      await _ref.update(eleveJson[i]);
+  }
+
+  Future<void> addModuleFromCsv(String data) async {
+
+
+
+    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
+
+    // for(int i = 0; i < json.length; i++){
+    //   await _ref.child("$moduleNode/${json[i]["nom"]}").update(json[i]);
+    // }
+    //print(rowsAsListOfValues[1][0]);
+    List<Module> moduleList = [];
+    for(int i = 1; i < rowsAsListOfValues.length; i++){
+      final moduleArray = rowsAsListOfValues[i][0].split(";");
+      moduleList.add(
+        Module(
+          nom: moduleArray[0], 
+          description: moduleArray[1], 
+          horaire: moduleArray[2], 
+          classe: moduleArray[3], 
+          eleve: moduleArray[4],
+        ),
+      );
+    }
+    for(int i = 0; i < moduleList.length; i++){
+      await _ref.child("$moduleNode/${moduleList[i].nom}").update(moduleList[i].toJson());
     }
   }
 

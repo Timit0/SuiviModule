@@ -250,7 +250,6 @@ class _EleveActionScreenState extends State<EleveActionScreen> {
                     if(v.id == value){
                       setState(() {
                         canClearGetText = true;
-                        print("Edit");
                         getName.text = v.name;
                         getNickName.text = v.firstname;
                         getPicture.text = v.photoFilename; 

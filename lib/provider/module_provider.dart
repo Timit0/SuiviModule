@@ -79,4 +79,14 @@ class ModuleProvider with ChangeNotifier{
     final list = await FirebaseDBService.instance.getAllFromOneModuleEleves(s);
     return list.length;
   }
+
+  Future<void> addModuleFromJson(String json) async {
+    await FirebaseDBService.instance.addModuleFromJson(json);
+    notifyListeners();
+  }
+
+  Future<void> addModuleFromCsv(String csv) async {
+    await FirebaseDBService.instance.addModuleFromCsv(csv);
+    notifyListeners();
+  }
 }
