@@ -1,11 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
-import 'package:suivi_de_module/models/devoir.dart';
-import 'package:suivi_de_module/models/devoir_reference.dart';
-import 'package:suivi_de_module/models/test.dart';
-import 'package:suivi_de_module/models/test_reference.dart';
 
 import '../models/eleve.dart';
 
@@ -24,10 +18,12 @@ class StudentProvider with ChangeNotifier
   Future<void> fetchAndSetStudents(String moduleID) async
   {
     _eleves.clear();
-    final data = await FirebaseDBService.instance.getAllFromOneModuleEleves(moduleID);
+    final data = await FirebaseDBService.instance.getAllEleveFromOneModule(moduleID);
     _eleves.addAll(data);
     notifyListeners();
   }
+
+  Eleve getEleveFromId(String eleveId) => _eleves.where((element) => element.id == eleveId).first;
 
   Future<void> fetchAndSetAllStudents() async
   {
@@ -39,7 +35,6 @@ class StudentProvider with ChangeNotifier
 
   Future<void> createEleve(Eleve eleve, String moduleID) async
   {
-    print("Add in prov");
     await FirebaseDBService.instance.addEleve(eleve, moduleID);
     _eleves.add(eleve);
     notifyListeners();

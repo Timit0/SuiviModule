@@ -8,61 +8,11 @@
         {
             "cp-21tih": 
             {
-                "id":"cp-21tih",
-                "devoir":
-                {
-                    "devoir01":{
-                        "id":"devoir01",
-                        "done":true
-                    },
-                    "devoir02":{
-                        "id":"devoir02",
-                        "done":false
-                    }
-                },
-
-                "test":
-                {
-                    "test01": {
-                        "id":"test01",
-                        "done":false,
-                        "note": 0
-                    },
-                    "test02": {
-                        "id":"test02",
-                        "done":false,
-                        "note": 0
-                    }
-                }
+                "id":"cp-21tih"
             },
             "cp-20ogo": 
             {
-                "id":"cp-21tih",
-                "devoir":
-                {
-                    "devoir01":{
-                        "id":"devoir01",
-                        "done":true
-                    },
-                    "devoir02":{
-                        "id":"devoir02",
-                        "done":false
-                    }
-                },
-
-                "test":
-                {
-                    "test01": {
-                        "id":"test01",
-                        "done":false,
-                        "note": 0
-                    },
-                    "test02": {
-                        "id":"test02",
-                        "done":false,
-                        "note": 0
-                    }
-                }
+                "id":"cp-21tih"
             }
         },
         "devoir": {
@@ -105,62 +55,11 @@
         {
             "cp-21tih": 
             {
-                "id":"cp-21tih",
-                "devoir":
-                {
-                    "devoir01":{
-                        "id":"devoir01",
-                        "done":true
-                    },
-                    "devoir02":{
-                        "id":"devoir02",
-                        "done":false
-                    }
-                },
-
-                "test":
-                {
-                    "test01": {
-                        "id":"test01",
-                        "done":false,
-                        "note": 0
-                    },
-                    "test02": {
-                        "id":"test02",
-                        "done":false,
-                        "note": 0
-                    }
-                }
+                "id":"cp-21tih"
             },
             "cp-20ogo": 
             {
-                "id":"cp-21tih",
-                "devoir":
-                {
-                    "devoir01":{
-                        "id":"devoir01",
-                        "done":true
-                    },
-                    "devoir02":{
-                        "id":"devoir02",
-                        "done":false
-                    }
-                },
-
-                "test":
-                {
-                    "test01": {
-                        "id":"test01",
-                        "done":false,
-                        "note": 0
-                    },
-                    "test02": {
-                        "id":"test02",
-                        "done":false,
-                        "note": 0
-                    }
-                }
-                
+                "id":"cp-21tih"
             }
         },
         "devoir": {
@@ -203,47 +102,11 @@
         {
             "cp-21tih": 
             {
-                "devoir": 
-                {
-                    "devoir01": {
-                        "id": "devoir01"
-                    },
-                    "devoir02": {
-                        "id":"devoir02"
-                    }
-                },
-
-                "test":
-                {
-                    "test01": {
-                        "id":"test01"
-                    },
-                    "test02": {
-                        "id":"test02"
-                    }
-                }
+                "id":"cp-21tih"
             },
             "cp-20ogo": 
             {
-                "devoir":
-                {
-                    "devoir01": {
-                        "id":"devoir01"
-                    },
-                    "devoir02": {
-                        "id":"devoir02"
-                    }
-                },
-
-                "test":
-                {
-                    "test01": {
-                        "id":"test01"
-                    },
-                    "test02": {
-                        "id":"test02"
-                    }
-                }
+                "id":"cp-20ogo"
             }
         },
         "devoir":

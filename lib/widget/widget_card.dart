@@ -19,7 +19,6 @@ class CardWidget extends StatefulWidget {
   late Color color;
 
   void setParam(BuildContext context, int index, String moduleId) async {
-    //print("SetParam");
     final provider = Provider.of<TestAndDevoirProvider>(context, listen: false);
 
     // if(type == CardState.Test){

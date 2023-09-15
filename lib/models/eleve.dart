@@ -41,11 +41,13 @@ class Eleve {
       firstname: json['nickname'],
       photoFilename: json['photoFilename'] ?? "");
 
-  factory Eleve.base() => Eleve(
+  factory Eleve.base() { 
+    return Eleve(
       id: 'cp-99abc',
       name: 'abcd',
       firstname: 'efgh',
       photoFilename: 'assets/img/placeholderImage.png');
+    }
 
   factory Eleve.error() => Eleve(
       id: 'ERROR',

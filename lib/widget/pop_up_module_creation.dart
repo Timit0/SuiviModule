@@ -144,7 +144,6 @@ class PopUpModuleCreation{
     }
     
     Navigator.pop(contextVar);
-    //print("nom : ${getNom.text}");
     //dispose();
   }
 }

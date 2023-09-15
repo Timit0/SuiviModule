@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
+import 'package:suivi_de_module/models/eleve.dart';
+import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/module.dart';
 
 class ModuleProvider with ChangeNotifier{
@@ -13,6 +15,8 @@ class ModuleProvider with ChangeNotifier{
   List<Module> get modules => [..._modules];
   List<Module> get pendingModules => [..._pendingModules];
 
+  Module getModuleFromId(String moduleID) => _modules.where((element) => element.nom == moduleID).first;
+  
   Future<void> fetchAndSetModules() async {
     _modules.clear();
     final data = await FirebaseDBService.instance.getAllModule();
@@ -75,18 +79,26 @@ class ModuleProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  Future<int> getLengthFromAllEleveFromOneModule(String s) async{
-    final list = await FirebaseDBService.instance.getAllFromOneModuleEleves(s);
-    return list.length;
+  int _moduleLength = 0;
+  int get moduleLength => _moduleLength;
+  Future<void> getLengthFromAllEleveFromOneModule(String s) async{
+    _moduleLength = 0;
+    final list = await FirebaseDBService.instance.getAllEleveFromOneModule(s);
+    _moduleLength = list.length;
+    //return list.length;
   }
 
   Future<void> addModuleFromJson(String json) async {
     await FirebaseDBService.instance.addModuleFromJson(json);
+    // if(data != null){
+    //   _modules.addAll(data);
+    // }
     notifyListeners();
   }
 
   Future<void> addModuleFromCsv(String csv) async {
     await FirebaseDBService.instance.addModuleFromCsv(csv);
+    //_modules.addAll(data);
     notifyListeners();
   }
 }

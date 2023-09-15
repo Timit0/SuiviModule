@@ -4,5 +4,7 @@ enum Mode
   moduleAdditionMode,
   moduleEditionMode,
   JSONimportMode,
-  CSVimportMode
+  CSVimportMode,
+  studentAdditionMode,
+  studentEditionMode,
 }

@@ -1,4 +1,5 @@
 import 'dart:developer' as dev;
+import 'dart:js_interop';
 
 import 'package:csv/csv.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -52,7 +53,6 @@ class FirebaseDBService {
       List<Test>? test = [];
 
       for (dynamic v in data.children) {
-        //print(v.value);
         test.add(Test.fromJson(v.value));
       }
       
@@ -87,7 +87,6 @@ class FirebaseDBService {
 
       Map<String, dynamic> map = {};
       for (dynamic v in data.children) {
-        //print(v.value);
         map[v.key] = v.value;
       }
       test = Test.fromJson(map);
@@ -176,6 +175,12 @@ class FirebaseDBService {
     return module;
   }
 
+  Future<Module> removeEleveRefOnModule(EleveReference ref, Module module) async
+  {
+    await _ref.child("$moduleNode/${module.nom}/${ref.id}}").remove().then((value) => module);
+    return module;
+  }
+
   Future<void> addDevoir(Devoir devoir, String moduleId) async
   {
     await _ref.child("$moduleNode/$moduleId/$devoirNode/${devoir.id}").update(devoir.toJson());
@@ -199,7 +204,6 @@ class FirebaseDBService {
 
   Future<void> removeEleveAndRef(Eleve eleve) async{
     await _ref.child('$eleveNode/${eleve.id}').remove();
-      print(eleve.id);
     try{
       List<Module> modules = await getAllModule();
 
@@ -218,7 +222,7 @@ class FirebaseDBService {
     
   }
 
-  Future<List<Eleve>> getAllFromOneModuleEleves(String id) async {
+  Future<List<Eleve>> getAllEleveFromOneModule(String id) async {
     final snapshot = await _ref.child('$moduleNode/$id/eleve').get();
 
     if (snapshot.exists) {
@@ -228,11 +232,17 @@ class FirebaseDBService {
 
       for (dynamic v in snapshot.children)
       {
-        final tempID = v.key.toString();
+        final tempID = v.key.toString();;
 
-        final DataSnapshot tempSnapshot = await _ref.child("$eleveNode/$tempID").get();
+        try{
+          final DataSnapshot tempSnapshot = await _ref.child("$eleveNode/$tempID").get();
 
-        eleves.add(Eleve.fromJson(tempSnapshot.value as Map<String, dynamic>));
+          eleves.add(Eleve.fromJson(tempSnapshot.value as Map<String, dynamic>));
+        }catch(e){
+          print(e);
+          //TODO retour a letat de base
+        }
+        
       }
 
       return eleves;
@@ -282,45 +292,52 @@ class FirebaseDBService {
   final String moduleNode = "module";
   final String eleveNode = "eleve";
   
-  Future<void> addModuleFromJson(String data) async {
+  Future<List<Module>?> addModuleFromJson(String data) async {
     // await _ref.child(moduleNode).remove();
     // await _ref.child(eleveNode).remove();
-
+    List<Module>? moduleList = [];
     // final data = await rootBundle.loadString("./json/module.json");
     List<dynamic> json = jsonDecode(data);
-
     for(int i = 0; i < json.length; i++){
       await _ref.child("$moduleNode/${json[i]["nom"]}").update(json[i]);
+      moduleList.add(Module.fromJson(json[i]));
     }
-
+    return moduleList;
   }
 
-  Future<void> addModuleFromCsv(String data) async {
-
-
-
-    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
-
-    // for(int i = 0; i < json.length; i++){
-    //   await _ref.child("$moduleNode/${json[i]["nom"]}").update(json[i]);
-    // }
-    //print(rowsAsListOfValues[1][0]);
+  Future<List<Module>> addModuleFromCsv(String data) async {
+    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter(
+      fieldDelimiter: ";",
+    ).convert(data);
+    
     List<Module> moduleList = [];
     for(int i = 1; i < rowsAsListOfValues.length; i++){
-      final moduleArray = rowsAsListOfValues[i][0].split(";");
+      final moduleArray = rowsAsListOfValues[i][4].split("|");
+
+      
+
+      List<EleveReference>? eleveReferenceList = [];
+      for (var v in moduleArray) {
+        eleveReferenceList.add(EleveReference(id: v));
+      }
+
+
       moduleList.add(
         Module(
-          nom: moduleArray[0], 
-          description: moduleArray[1], 
-          horaire: moduleArray[2], 
-          classe: moduleArray[3], 
-          eleve: moduleArray[4],
+          nom: rowsAsListOfValues[i][0], 
+          description: rowsAsListOfValues[i][1], 
+          horaire: rowsAsListOfValues[i][2], 
+          classe: rowsAsListOfValues[i][3], 
+          eleve: eleveReferenceList,
         ),
       );
     }
+
     for(int i = 0; i < moduleList.length; i++){
-      await _ref.child("$moduleNode/${moduleList[i].nom}").update(moduleList[i].toJson());
+      await _ref.child("$moduleNode/${moduleList[i].nom}").update(moduleList[i].fromCsvToJson());
     }
+
+    return moduleList;
   }
 
   
@@ -333,6 +350,7 @@ class FirebaseDBService {
 
         for(dynamic v in data.children){
           modules.add(Module.fromJson(v.value));
+          print(v.value);
         }
 
         return modules;

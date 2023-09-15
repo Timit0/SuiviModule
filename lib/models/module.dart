@@ -1,5 +1,4 @@
 import 'dart:js_interop';
-
 import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/test.dart';
@@ -60,6 +59,50 @@ class Module{
     classe: 'base',
     eleve: []
   );
+
+  factory Module.error() => Module(
+    nom: 'Error', 
+    description: 'Error', 
+    horaire: 'Error', 
+    classe: 'Error', 
+    eleve: [EleveReference.error()]
+  );
+
+  Map<String, dynamic> fromCsvToJson(){
+    Map<String, Map<String, dynamic>> eleveListToJson = {};
+    List<Map<String, dynamic>> devoirListToJson = [];
+    List<Map<String, dynamic>> testListToJson = [];
+    
+    if(eleve != null){
+      for (var v in eleve!) {
+        eleveListToJson["${v.id}"] = v.toJson();
+      }
+    }
+
+    if (!devoirs.isNull) {
+      for (var v in devoirs) {
+        devoirListToJson.add(v.toJson());
+      }
+    }
+
+    if (!tests.isNull) {
+      for (var v in tests) {
+        testListToJson.add(v.toJson());
+      }
+    }
+
+    return {
+      "nom":nom,
+      "description":description,
+      "horaire":horaire,
+      "classe":classe,
+      "eleve":eleveListToJson,
+      //"eleve":eleve,
+      "devoir": devoirListToJson,
+      "test": testListToJson
+
+    };
+  }
 
   Map<String, dynamic> toJson(){
     List<Map<String, dynamic>> eleveListToJson = [];

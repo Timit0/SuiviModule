@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/provider/student_provider.dart';
+import 'package:suivi_de_module/widget/avatar_widget.dart';
 import 'package:suivi_de_module/widget/eleve_action_screen.dart';
 import 'package:suivi_de_module/widget/module_widget.dart';
 import 'package:csv/csv.dart'; // pour pouvoir traiter les donnees provenant d'un fichier CSV
-import 'package:intl/intl.dart'; // DateFormat
+import 'package:intl/intl.dart';
+import 'package:suivi_de_module/widget/moyenne_widget.dart';
+import 'package:suivi_de_module/widget/student_card.dart'; // DateFormat
 import 'package:file_picker/file_picker.dart';
 
-import '../enum/module.dart';
+import '../enum/mode.dart';
+import '../enum/stage.dart';
 import '../infrastructure/firebase_db_service.dart';
 import '../widget/pick_file.dart';
+
 
 
 
@@ -37,14 +44,55 @@ class _ModuleScreenState extends State<ModuleScreen> {
   final moduleDayDateController = TextEditingController();
   final moduleClassController = TextEditingController();
 
-  late Mode mode = Mode.none; 
+  final eleveRefController = TextEditingController();
+
+  late Mode mode = Mode.none;
+  late Stage level = Stage.module;
+
+  bool done00 = false;
+
+  Module? selectedModule;
+  Eleve? selectedEleve;
+
+  Widget changeScreen(ModuleProvider moduleProvider, Module? selectedModule, Eleve? selectedEleve){
+    //Va dans ScreenModule
+    if(level == Stage.module && _selectedIndex == 0){
+      return screenModule(moduleProvider);
+    }
+    //Va dans ajouter modifier supprimer eleve
+    if(level == Stage.module && _selectedIndex == 1){
+      return EleveActionScreen();
+    }
+
+    //Va dans la liste d'élève d'un module
+    if(level == Stage.eleves){
+      if(selectedModule != null){
+        return screenStudentList(selectedModule, context);
+      }
+    }
+    //Va dans details eleve
+    if(level == Stage.eleveDetail){
+      if(selectedEleve != null){
+        return screenStudentDetail(selectedEleve, context);
+      }
+    }
+    return Text("data");
+  }
 
   @override
   void didChangeDependencies() async {
 
     if (_isInit) {
       _isLoading = true;
-      await Provider.of<ModuleProvider>(context).fetchAndSetModules();
+
+      if (level == Stage.module)
+      {
+        await Provider.of<ModuleProvider>(context).fetchAndSetModules();      
+      }
+      else if (level == Stage.eleves)
+      {
+        await Provider.of<StudentProvider>(context).fetchAndSetStudents(selectedModule!.nom);
+      }
       //await Provider.of<StudentProvider>(context).fetchAndSetAllStudents();
       setState(() {
         _isLoading = false;
@@ -81,6 +129,8 @@ class _ModuleScreenState extends State<ModuleScreen> {
             onDestinationSelected: (value) {
               setState(() {
                 _selectedIndex = value;
+
+                level = Stage.module;
               });
             },
             destinations: const[
@@ -97,7 +147,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
             labelType: labelType,
           ),
           Flexible(
-            child: screen(moduleProvider),
+            child: changeScreen(moduleProvider, selectedModule, selectedEleve)
           ),
           Container(
             decoration: const BoxDecoration(
@@ -214,7 +264,6 @@ class _ModuleScreenState extends State<ModuleScreen> {
                               }
                               return null;
                             }
-
                             return null;
                           },
                         ),
@@ -353,33 +402,143 @@ class _ModuleScreenState extends State<ModuleScreen> {
                             ],
                           ),
                       ]
-                      : []
+                      : mode == Mode.studentAdditionMode || mode == Mode.studentEditionMode
+                        ? [
+                            Row(
+                            children: [
+                              IconButton(onPressed: () {
+
+                                eleveRefController.text = "";
+
+                                setState(() {mode = Mode.none;});
+                                }, icon: const Icon(Icons.close)),
+
+                              Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: Text('${mode == Mode.studentAdditionMode ? 'Ajout' : 'Edition'} d\'un élève', style: const TextStyle(fontSize: 25)),
+                              ),
+                            ]
+                          ),
+                      ]
+                      : mode == Mode.studentAdditionMode || mode == Mode.studentEditionMode
+                        ? [
+                            Row(
+                            children: [
+                              IconButton(onPressed: () {
+
+                                eleveRefController.text = "";
+
+                                setState(() {mode = Mode.none;});
+                                }, icon: const Icon(Icons.close)),
+
+                              Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: Text('${mode == Mode.studentAdditionMode ? 'Ajout' : 'Edition'} d\'un élève', style: const TextStyle(fontSize: 25)),
+                              ),
+                            ]
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: SizedBox(
+                              width: 250,
+                              height: 100,
+                              child: TextFormField(
+                                controller: eleveRefController,
+                                decoration: const InputDecoration(
+                                  hintText: "L'identifiant de l'élève",
+                                  border: OutlineInputBorder(),
+                                  fillColor: Colors.white,
+                                  focusColor: Colors.black,
+                                ),
+                                validator: (value){
+                                  if (value == "")
+                                  {
+                                    return "Il faut que ce champ soit rempli!";
+                                  }
+
+                                  // TODO: tester ce code (verifier si l'ID inséré existes dans la DB)
+                                  if (Provider.of<StudentProvider>(context).getEleveFromId(value!) == null)
+                                  {
+                                    return "Cet élève n'existes pas!";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                          )
+                        ]
+                        : []
                   
               ),
             )
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier JSON'),
-        BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier CSV'),
-      ], currentIndex: _selectedIndex2, unselectedItemColor: Colors.black, unselectedFontSize: 20, selectedFontSize: 20, fixedColor: Colors.black, onTap: (value) {
+      bottomNavigationBar: level == Stage.eleveDetail ? Container(
+        height: 60,
+        color: Colors.white,
+        child: InkWell(
+          onTap: () { 
+            mode = Mode.none;
+            setState(() { level = Stage.eleves; }); 
+          },
+          child: const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Column(children: [
+              Icon(Icons.arrow_back, color: Colors.black,),
+              Text('Retour')
+            ]),
+          ),
+        ),
+      ) : BottomNavigationBar(items:  level == Stage.module 
+        ? const [
+          BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier JSON'),
+          BottomNavigationBarItem(icon: Icon(Icons.upload_file_outlined) ,label: 'Importer un fichier CSV'),
+        ]
+        : level == Stage.eleves 
+        ? const [
+            BottomNavigationBarItem(icon: Icon(Icons.person_add), label: 'Ajouter un élève'),
+            BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour')
+          ]
+        : level == Stage.eleveDetail
+          ? const [
+              BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour')
+            ]
+          : [], currentIndex: _selectedIndex2, unselectedItemColor: Colors.black, unselectedFontSize: 20, selectedFontSize: 20, fixedColor: Colors.black, onTap: (value) {
         // debug
         print(value);
         _selectedIndex2 = value;
 
           if (_selectedIndex2 == 0)
           {
-            setState(() {
-              mode = Mode.JSONimportMode;
-            });
+            if (level == Stage.module)
+            {
+              setState(() {
+                mode = Mode.JSONimportMode;
+              });
+            }
+            else if (level == Stage.eleves)
+            {
+              mode = Mode.studentAdditionMode;
+            }
           }
 
           else if (_selectedIndex2 == 1)
           {
-            setState(() {
-              mode = Mode.CSVimportMode;
-            });
+            if (level == Stage.module)
+            {
+              setState(() {
+                mode = Mode.CSVimportMode;
+              });
+            }
+            else if (level == Stage.eleves)
+            {
+              setState(() {
+                level = Stage.module;
+                mode = Mode.none;
+              });
+            }
           }
 
         setState(() {});
@@ -388,12 +547,122 @@ class _ModuleScreenState extends State<ModuleScreen> {
   }
 
   Widget screen(ModuleProvider moduleProvider){
-    if(_selectedIndex == 0){
-      return screenModule(moduleProvider);
-    }else{
-      return EleveActionScreen();
+
+    switch (level) {
+      case Stage.module:
+        return screenModule(moduleProvider);
+      default:
+        return Container();
     }
+
+    // if(level == Stage.module) {
+    //   return screenModule(moduleProvider);
+    // }else{
+    //   return EleveActionScreen();
+    // }
     
+  }
+
+  Widget screenStudentDetail(Eleve selectedEleve, BuildContext context)
+  {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Column(children: [
+          Stack(children: [
+            SingleChildScrollView(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: 400,
+                child: const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color.fromARGB(255, 80, 80, 80), Colors.grey]
+                    )
+                  )
+                ),
+              ),
+            ),
+            Container(
+              width: 400,
+              child: Column(
+                children: [
+                  Center(child: AvatarWidget(photoUrl: selectedEleve.photoFilename)),
+                  Text(selectedEleve.firstname, style: const TextStyle(fontSize: 45)),
+                  Text(selectedEleve.name, style: const TextStyle(fontSize: 25)),
+                  Padding(padding: const EdgeInsets.only(top: 58), child: MoyenneWidget())
+                ]
+              ),
+            )
+          ])
+        ]),
+        Flexible(child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(child: Container(
+              alignment: Alignment.center,
+              width: 150,
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.black, width: 2),
+                  bottom: BorderSide(color: Colors.black, width: 2)
+                )
+              ),
+              child: Text(selectedModule!.getOnlyNumbOfName(selectedModule!.nom), style: const TextStyle(fontSize: 50)),
+            )),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 50),
+                  child: Text("Devoirs", style: TextStyle(fontSize: 30)),
+                ),
+                // TODO: mettre un listOf
+              ],
+            ),
+          ]
+        ))
+      ],
+    );
+  }
+
+  Widget screenStudentList(Module selectedModule, BuildContext context) 
+  {
+    var stu = Provider.of<StudentProvider>(context);
+
+    if (!done00)
+    {
+      stu.fetchAndSetStudents(selectedModule.nom);
+      done00 = true;
+    }
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: stu.eleves.length,
+      itemBuilder: (context, index) {
+       
+        return StudentCard(
+          eleve: stu.eleves[index], 
+          moduleId: selectedModule.nom,
+          deleteButtonBehavios: (){
+            //Provider.of<ModuleProvider>(context).
+          },
+          detailButtonBehavior: (){
+            
+            selectedEleve = stu.eleves[index];
+
+            setState(() {
+              level = Stage.eleveDetail;
+            });
+          },
+        ); 
+      }
+    );
   }
 
   Widget screenModule(ModuleProvider moduleProvider){
@@ -408,23 +677,36 @@ class _ModuleScreenState extends State<ModuleScreen> {
             return index+1 == moduleProvider.modules.length ? Column(children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 28.0),
-                child: ModuleWidget(
-                  nom: moduleProvider.modules[index].nom, 
-                  description: moduleProvider.modules[index].description, 
-                  horaire: moduleProvider.modules[index].horaire, 
-                  classe: moduleProvider.modules[index].classe,
-                  eleve: moduleProvider.modules[index].eleve,
-                  editionBehavior: () {
-                    moduleNameController.text = moduleProvider.modules[index].nom;
-                    moduleClassController.text = moduleProvider.modules[index].classe;
-                    moduleDayDateController.text = moduleProvider.modules[index].horaire;
-                    moduleDescriptionController.text = moduleProvider.modules[index].description;
+                child: InkWell(
+                  onTap: () {
+                    selectedModule = Module(
+                      nom: moduleProvider.modules[index].nom, 
+                      description: moduleProvider.modules[index].description, 
+                      horaire: moduleProvider.modules[index].horaire, 
+                      classe: moduleProvider.modules[index].classe, 
+                      eleve: moduleProvider.modules[index].eleve
+                    );
 
-                    setState(() {
-                      mode = Mode.moduleEditionMode;
-                    });
-                  }
-                ).buildWidget(context, index),
+                    setState(() {level = Stage.eleves;});
+                  },
+                  child: ModuleWidget(
+                    nom: moduleProvider.modules[index].nom, 
+                    description: moduleProvider.modules[index].description, 
+                    horaire: moduleProvider.modules[index].horaire, 
+                    classe: moduleProvider.modules[index].classe,
+                    eleve: moduleProvider.modules[index].eleve,
+                    editionBehavior: () {
+                      moduleNameController.text = moduleProvider.modules[index].nom;
+                      moduleClassController.text = moduleProvider.modules[index].classe;
+                      moduleDayDateController.text = moduleProvider.modules[index].horaire;
+                      moduleDescriptionController.text = moduleProvider.modules[index].description;
+                
+                      setState(() {
+                        mode = Mode.moduleEditionMode;
+                      });
+                    }
+                  ).buildWidget(context, index),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -448,27 +730,40 @@ class _ModuleScreenState extends State<ModuleScreen> {
                       fontSize: 30
                       )
                     ),
-                )
+                  )
                 )
             ]) : Padding(
               padding: const EdgeInsets.only(bottom: 15),
-              child: ModuleWidget(
-                nom: moduleProvider.modules[index].nom, 
-                description: moduleProvider.modules[index].description, 
-                horaire: moduleProvider.modules[index].horaire, 
-                classe: moduleProvider.modules[index].classe,
-                eleve: moduleProvider.modules[index].eleve,
-                  editionBehavior: () {
-                    moduleNameController.text = moduleProvider.modules[index].nom;
-                    moduleClassController.text = moduleProvider.modules[index].classe;
-                    moduleDayDateController.text = moduleProvider.modules[index].horaire;
-                    moduleDescriptionController.text = moduleProvider.modules[index].description;
+              child: InkWell(
+                onTap: () {
+                    selectedModule = Module(
+                      nom: moduleProvider.modules[index].nom, 
+                      description: moduleProvider.modules[index].description, 
+                      horaire: moduleProvider.modules[index].horaire, 
+                      classe: moduleProvider.modules[index].classe, 
+                      eleve: moduleProvider.modules[index].eleve
+                    );
 
-                    setState(() {
-                      mode = Mode.moduleEditionMode;
-                    });
-                  }
-              ).buildWidget(context, index),
+                    setState(() {level = Stage.eleves;});
+                  },
+                child: ModuleWidget(
+                  nom: moduleProvider.modules[index].nom, 
+                  description: moduleProvider.modules[index].description, 
+                  horaire: moduleProvider.modules[index].horaire, 
+                  classe: moduleProvider.modules[index].classe,
+                  eleve: moduleProvider.modules[index].eleve,
+                    editionBehavior: () {
+                      moduleNameController.text = moduleProvider.modules[index].nom;
+                      moduleClassController.text = moduleProvider.modules[index].classe;
+                      moduleDayDateController.text = moduleProvider.modules[index].horaire;
+                      moduleDescriptionController.text = moduleProvider.modules[index].description;
+              
+                      setState(() {
+                        mode = Mode.moduleEditionMode;
+                      });
+                    }
+                ).buildWidget(context, index),
+              ),
             );
           },
         ),

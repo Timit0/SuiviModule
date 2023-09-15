@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 
-import '../enum/module.dart';
+import '../enum/mode.dart';
 
 
 class PickFile{
@@ -17,7 +17,6 @@ class PickFile{
       try{
         PlatformFile file = result.files.single;
         String fileFromBytes = String.fromCharCodes(file.bytes!);
-        //print(fileFromBytes);
         return utf8.decode(fileFromBytes.codeUnits);
       }catch(e){
         print(e);
