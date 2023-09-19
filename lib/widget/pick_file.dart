@@ -18,9 +18,7 @@ class PickFile{
         PlatformFile file = result.files.single;
         String fileFromBytes = String.fromCharCodes(file.bytes!);
         return utf8.decode(fileFromBytes.codeUnits);
-      }catch(e){
-        print(e);
-      }
+      }catch(e){}
       
     }
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
-import 'package:suivi_de_module/screen/main_screen.dart';
 //import 'package:suivi_de_module/widget/student_list_widget.dart';
 
 class ModuleWidget extends Module{

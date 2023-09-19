@@ -1,5 +1,0 @@
-class ImportFile{
-  String path = "";
-
-  
-}

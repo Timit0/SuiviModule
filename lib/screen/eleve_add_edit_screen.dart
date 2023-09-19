@@ -16,14 +16,14 @@ enum EleveState
   Delete
 }
 
-class EleveActionScreen extends StatefulWidget {
-  EleveActionScreen({super.key});
+class EleveAddEditScreen extends StatefulWidget {
+  EleveAddEditScreen({super.key});
 
   @override
-  State<EleveActionScreen> createState() => _EleveActionScreenState();
+  State<EleveAddEditScreen> createState() => _EleveAddEditScreenState();
 }
 
-class _EleveActionScreenState extends State<EleveActionScreen> {
+class _EleveAddEditScreenState extends State<EleveAddEditScreen> {
   EleveState formState = EleveState.Create;
 
   final _form = GlobalKey<FormState>();

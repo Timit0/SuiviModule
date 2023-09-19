@@ -36,8 +36,8 @@ class _CheckWidgetState extends State<CheckWidget> {
   }
 }
 
-Widget? isChecked(bool b){
-  if(b){
+Widget? isChecked(bool checked){
+  if(checked){
     return const Icon(
       Icons.check,
       size: 40,
