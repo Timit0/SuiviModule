@@ -15,15 +15,38 @@ class StudentProvider with ChangeNotifier
 
   String? _module;
 
+
+  static final instance = StudentProvider._();
+
+  // singleton
+  StudentProvider._() {}
+
+  StudentProvider();
+
+  ///fetch and set students, this function return himself
   Future<void> fetchAndSetStudents(String moduleID) async
   {
     _eleves.clear();
     final data = await FirebaseDBService.instance.getAllEleveFromOneModule(moduleID);
     _eleves.addAll(data);
+    print(eleves.length);
     notifyListeners();
   }
 
-  Eleve getEleveFromId(String eleveId) => _eleves.where((element) => element.id == eleveId).first;
+  Future<void> fetchAndSetStudentsWithoutClearList(String moduleID) async {
+    final data = await FirebaseDBService.instance.getAllEleveFromOneModule(moduleID);
+    _eleves.addAll(data);
+    //print(eleves.length);
+    notifyListeners();
+  }
+
+  void clearList(){
+    _eleves.clear();
+  }
+
+  Eleve getEleveFromId(String eleveId) {
+    return _eleves.where((element) => element.id == eleveId).first;
+  }
 
   Future<void> fetchAndSetAllStudents() async
   {

@@ -223,7 +223,7 @@ class FirebaseDBService {
   }
 
   Future<List<Eleve>> getAllEleveFromOneModule(String id) async {
-    final snapshot = await _ref.child('$moduleNode/$id/eleve').get();
+    final snapshot = await _ref.child('$moduleNode/$id/$eleveNode').get();
 
     if (snapshot.exists) {
 
@@ -232,15 +232,15 @@ class FirebaseDBService {
 
       for (dynamic v in snapshot.children)
       {
-        final tempID = v.key.toString();;
+        final tempID = v.key.toString();
 
         try{
           final DataSnapshot tempSnapshot = await _ref.child("$eleveNode/$tempID").get();
 
           eleves.add(Eleve.fromJson(tempSnapshot.value as Map<String, dynamic>));
         }catch(e){
-          print(e);
           //TODO retour a letat de base
+          //print(e);
         }
         
       }
@@ -293,8 +293,6 @@ class FirebaseDBService {
   final String eleveNode = "eleve";
   
   Future<List<Module>?> addModuleFromJson(String data) async {
-    // await _ref.child(moduleNode).remove();
-    // await _ref.child(eleveNode).remove();
     List<Module>? moduleList = [];
     // final data = await rootBundle.loadString("./json/module.json");
     List<dynamic> json = jsonDecode(data);
@@ -350,7 +348,6 @@ class FirebaseDBService {
 
         for(dynamic v in data.children){
           modules.add(Module.fromJson(v.value));
-          print(v.value);
         }
 
         return modules;
@@ -371,4 +368,15 @@ class FirebaseDBService {
     await _ref.child('$moduleNode/$id').remove();
   }
   // ====================================================================================
+
+
+  Future<void> addModuleDummy()async {
+    List<Module>? moduleList = [];
+    final data = await rootBundle.loadString("./json/module.json");
+    List<dynamic> json = jsonDecode(data);
+    for(int i = 0; i < json.length; i++){
+      await _ref.child("$moduleNode/${json[i]["nom"]}").update(json[i]);
+      moduleList.add(Module.fromJson(json[i]));
+    }
+  }
 }

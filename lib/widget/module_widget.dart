@@ -84,27 +84,27 @@ class ModuleWidget extends Module{
                   ],
                 ),
               ),
-          Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 150),
-                child: SizedBox.square(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(nom, style: const TextStyle(fontSize: 30),),
-                      Text(description, 
-                        style: const TextStyle(
-                          fontSize: 20
-                        ),
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 150),
+                    child: SizedBox.square(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(nom, style: const TextStyle(fontSize: 30),),
+                          Text(description, 
+                            style: const TextStyle(
+                              fontSize: 20
+                            ),
+                          ),
+                          Text(horaire),
+                        ],
                       ),
-                      Text(horaire),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
             ],
           ),
     
