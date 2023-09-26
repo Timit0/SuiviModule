@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/enum/stage.dart';
+import 'package:suivi_de_module/models/eleve_reference.dart';
+import 'package:suivi_de_module/screen/details_student_screen.dart';
 
+import '../provider/module_provider.dart';
 import '../provider/student_provider.dart';
 import '../widget/student_card.dart';
 
@@ -23,7 +27,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
       _isLoading = true;
       print("Fetch : ${widget.moduleId}");
       await Provider.of<StudentProvider>(context, listen: false).fetchAndSetStudents(widget.moduleId);
-      print("Set : "+StudentProvider.instance.eleves.length.toString());
+      print("Set : "+Provider.of<StudentProvider>(context, listen: false).eleves.length.toString());
       setState(() {
         _isLoading = false;
       });
@@ -35,29 +39,50 @@ class _StudentListScreenState extends State<StudentListScreen> {
   @override
   Widget build(BuildContext context) {
     print("Call");
+    StudentProvider studentProvider = Provider.of<StudentProvider>(context);
     return _isLoading ? const Center(child: CircularProgressIndicator())
-        : ListView.builder(
-        shrinkWrap: true,
-        itemCount: StudentProvider.instance.eleves.length,
-        itemBuilder: (context, index) {
-          print("Eleve : "+StudentProvider.instance.eleves.length.toString());
-          return StudentCard(
-            eleve: StudentProvider.instance.eleves[index], 
-            moduleId: widget.moduleId,
-            deleteButtonBehavios: (){
-              //Provider.of<ModuleProvider>(context).
-            },
-            detailButtonBehavior: (){
-              
-              // selectedEleve = StudentProvider.instance.eleves[index];
-
-              // setState(() {
-              //   level = Stage.eleveDetail;
-              // });
-            },
-          ); 
-        }
-      );
+        : screenDisplay(studentProvider);
     //return Text("Test");
+  }
+
+  Widget screenDisplay(StudentProvider studentProvider){
+    Stage stage = StageScreen.instance.getStageScreen();
+
+    if(stage == Stage.eleves){
+      return studentListBuilder(studentProvider);
+    }else if(stage == Stage.eleveDetail){
+      return DetailsStudentScreen();
+    }else{
+      return Text("ERROR");
+    }
+  }
+
+  Widget studentListBuilder(StudentProvider studentProvider){
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: studentProvider.eleves.length,
+      itemBuilder: (context, index) {
+        print("Eleve : "+studentProvider.eleves.length.toString());
+        return StudentCard(
+          eleve: studentProvider.eleves[index], 
+          moduleId: widget.moduleId,
+          deleteButtonBehavios: (){
+            // Provider.of<ModuleProvider>(context)
+            studentProvider.removeEleveFromOneModule(studentProvider.eleves[index].id, widget.moduleId);
+          },
+          detailButtonBehavior: (){
+            
+            // selectedEleve = StudentProvider.instance.eleves[index];
+
+            // setState(() {
+            //   level = Stage.eleveDetail;
+            // });
+            setState(() {
+              StageScreen.instance.setStageScreen(Stage.eleveDetail);
+            });
+          },
+        ); 
+      }
+    );
   }
 }
