@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/enum/stage.dart';
+import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/screen/eleve_add_edit_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
+import 'package:suivi_de_module/widget/pick_file.dart';
 
 import '../provider/student_provider.dart';
 
@@ -70,6 +75,39 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: Container(
+        height: 60,
+        color: Colors.white,
+        child: InkWell(
+          onTap: () async {
+            try{
+              
+              try{
+                await Provider.of<ModuleProvider>(context, listen: false).addModuleFromCsv(await PickFile.builder() as String);
+              }catch(e){
+                await Provider.of<ModuleProvider>(context, listen: false).addModuleFromJson(await PickFile.builder() as String);
+              }
+              setState(() {
+                Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+              });
+            }catch(e){
+              print(e);
+            }
+          },
+          child: const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.file_upload,
+                  color: Colors.black
+                ),
+                Text('Importer un fichier')
+              ]
+            ),
+          ),
+        ),
+      )
     );
   }
   
