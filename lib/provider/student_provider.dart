@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
+import 'package:suivi_de_module/models/eleve_reference.dart';
+import 'package:suivi_de_module/models/module.dart';
 
 import '../models/eleve.dart';
 
@@ -16,12 +18,6 @@ class StudentProvider with ChangeNotifier
   String? _module;
 
 
-  static final instance = StudentProvider._();
-
-  // singleton
-  StudentProvider._() {}
-
-  StudentProvider();
 
   ///fetch and set students, this function return himself
   Future<void> fetchAndSetStudents(String moduleID) async
@@ -93,6 +89,13 @@ class StudentProvider with ChangeNotifier
       return element.id == eleve.id;
     },);
 
+    notifyListeners();
+  }
+
+  Future<void> removeEleveFromOneModule(String eleveReferenceId, String moduleId) async{
+    print(eleveReferenceId);
+    await FirebaseDBService.instance.removeEleveRefOnModule(eleveReferenceId, moduleId);
+    _eleves.removeWhere((element) => element.id == eleveReferenceId);
     notifyListeners();
   }
 }

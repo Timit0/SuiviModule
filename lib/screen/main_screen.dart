@@ -81,11 +81,11 @@ class _MainScreenState extends State<MainScreen> {
         child: InkWell(
           onTap: () async {
             try{
-              
+              String myFileData = await PickFile.builder() as String;
               try{
-                await Provider.of<ModuleProvider>(context, listen: false).addModuleFromCsv(await PickFile.builder() as String);
+                await Provider.of<ModuleProvider>(context, listen: false).addModuleFromCsv(myFileData);
               }catch(e){
-                await Provider.of<ModuleProvider>(context, listen: false).addModuleFromJson(await PickFile.builder() as String);
+                await Provider.of<ModuleProvider>(context, listen: false).addModuleFromJson(myFileData);
               }
               setState(() {
                 Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();

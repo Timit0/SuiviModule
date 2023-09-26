@@ -175,10 +175,10 @@ class FirebaseDBService {
     return module;
   }
 
-  Future<Module> removeEleveRefOnModule(EleveReference ref, Module module) async
+  Future<void> removeEleveRefOnModule(String eleveReferenceId, String moduleId) async
   {
-    await _ref.child("$moduleNode/${module.nom}/${ref.id}}").remove().then((value) => module);
-    return module;
+    await _ref.child("$moduleNode/$moduleId/$eleveNode/$eleveReferenceId").remove();
+    //return module;
   }
 
   Future<void> addDevoir(Devoir devoir, String moduleId) async
