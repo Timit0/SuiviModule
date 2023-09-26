@@ -7,10 +7,10 @@ import '../enum/mode.dart';
 
 
 class PickFile{
-  static Future<String?> builder(Mode mode) async {
+  static Future<String?> builder(/*Mode mode*/) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom, 
-      allowedExtensions: [mode == Mode.JSONimportMode ? 'json' : 'csv'],
+      allowedExtensions: ['json', 'csv'],
     );
 
     if(result != null){
