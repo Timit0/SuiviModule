@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:suivi_de_module/enum/stage.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
+import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
 
 import '../provider/module_provider.dart';
 import '../provider/student_provider.dart';

@@ -1,7 +1,10 @@
 enum Stage
 {
+  ///Page de selection des modules
   module,
+  ///Page de list des élèves
   eleves,
+  ///Page de détails d'un élève
   eleveDetail
 }
 

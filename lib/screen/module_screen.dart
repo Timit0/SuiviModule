@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/enum/stage.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/screen/student_list_screen.dart';
+import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
 
 import '../models/module.dart';
 import '../provider/student_provider.dart';
@@ -10,7 +12,6 @@ import '../widget/module_widget.dart';
 
 class ModuleScreen extends StatefulWidget {
   const ModuleScreen({super.key});
-
   @override
   State<ModuleScreen> createState() => _ModuleScreenState();
 }
@@ -50,34 +51,37 @@ class _ModuleScreenState extends State<ModuleScreen> {
   Widget build(BuildContext context) {
     ModuleProvider moduleProvider = Provider.of<ModuleProvider>(context);
     return _isLoading ? const Center(child: CircularProgressIndicator())
-        : Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 100, right: 100, bottom: 200),
-        child:
-        (() {
-          if(StageScreen.instance.getStageScreen() == Stage.module){
-            if(moduleProvider.modules.length != 0){
-              return ListView.builder(
-            
-                itemCount: moduleProvider.modules.length,
-                itemBuilder: (context, index) {
-                  return displayModule(index, selectedModule, moduleProvider);
-                },
-              );
-            }else{
-              return Center(
-                child: textButton(selectedModule, moduleProvider));
+        : Scaffold(
+          body: Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Padding(
+          padding: const EdgeInsets.only(left: 100, right: 100, bottom: 200),
+          child:
+          (() {
+            if(StageScreen.instance.getStageScreen() == Stage.module){
+              if(moduleProvider.modules.length != 0){
+                return ListView.builder(
+              
+                  itemCount: moduleProvider.modules.length,
+                  itemBuilder: (context, index) {
+                    return displayModule(index, selectedModule, moduleProvider);
+                  },
+                );
+              }else{
+                return Center(
+                  child: textButton(selectedModule, moduleProvider));
+              }
             }
-          }
-          
-          
-          if(StageScreen.instance.getStageScreen() == Stage.eleves){
-            return StudentListScreen(moduleId: modId);
-          }
-        }()) 
-      ),
-    );
+            
+            
+            if(StageScreen.instance.getStageScreen() == Stage.eleves) {
+              return StudentListScreen(moduleId: modId);
+            }
+          }()) 
+              ),
+            ),
+            bottomNavigationBar: AppBottomNavigationBar(stage: StageScreen.instance.getStageScreen()),
+        );
   }
 
   Widget displayModule(int index, Module selectedModule, ModuleProvider moduleProvider){
