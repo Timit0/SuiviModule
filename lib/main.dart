@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    FirebaseDBService.instance.addModuleDummy(); // <-- UNIQUEMENT POUR LE DEBUGGING!!!
+    //FirebaseDBService.instance.addModuleDummy(); // <-- UNIQUEMENT POUR LE DEBUGGING!!!
     //final service = FirebaseDbService.instance;
 
     return MultiProvider(

@@ -25,9 +25,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
   void didChangeDependencies() async {
     if (_isInit) {
       _isLoading = true;
-      print("Fetch : ${widget.moduleId}");
       await Provider.of<StudentProvider>(context, listen: false).fetchAndSetStudents(widget.moduleId);
-      print("Set : "+Provider.of<StudentProvider>(context, listen: false).eleves.length.toString());
       setState(() {
         _isLoading = false;
       });
@@ -38,7 +36,6 @@ class _StudentListScreenState extends State<StudentListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Call");
     StudentProvider studentProvider = Provider.of<StudentProvider>(context);
     return _isLoading ? const Center(child: CircularProgressIndicator())
         : screenDisplay(studentProvider);
@@ -62,21 +59,16 @@ class _StudentListScreenState extends State<StudentListScreen> {
       shrinkWrap: true,
       itemCount: studentProvider.eleves.length,
       itemBuilder: (context, index) {
-        print("Eleve : "+studentProvider.eleves.length.toString());
         return StudentCard(
           eleve: studentProvider.eleves[index], 
           moduleId: widget.moduleId,
-          deleteButtonBehavios: (){
-            // Provider.of<ModuleProvider>(context)
-            studentProvider.removeEleveFromOneModule(studentProvider.eleves[index].id, widget.moduleId);
+          deleteButtonBehavios: () async{
+            await studentProvider.removeEleveFromOneModule(studentProvider.eleves[index].id, widget.moduleId);
+            setState(() /*async*/ {
+              // await Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+            });
           },
           detailButtonBehavior: (){
-            
-            // selectedEleve = StudentProvider.instance.eleves[index];
-
-            // setState(() {
-            //   level = Stage.eleveDetail;
-            // });
             setState(() {
               StageScreen.instance.setStageScreen(Stage.eleveDetail);
             });

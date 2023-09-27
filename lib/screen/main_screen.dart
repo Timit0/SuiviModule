@@ -19,21 +19,21 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // bool _isInit = true;
-  // bool _isLoading = false;
+  bool _isInit = true;
+  bool _isLoading = false;
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     _isLoading = true;
-  //     Provider.of<StudentProvider>(context).fetchAndSetStudents(widget.moduleId);
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      _isLoading = true;
+      await Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+      setState(() {
+        _isLoading = false;
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   int _selectedIndex = 0;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
@@ -115,6 +115,9 @@ class _MainScreenState extends State<MainScreen> {
     switch(_selectedIndex){
       case 0:
         StageScreen.instance.setStageScreen(Stage.module);
+        setState(() {
+          
+        });
         return ModuleScreen();
       case 1:
         return EleveAddEditScreen();

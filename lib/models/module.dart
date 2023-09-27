@@ -26,29 +26,33 @@ class Module{
   factory Module.fromJson(Map<dynamic, dynamic> json)
   {
 
-    List<EleveReference>? temp1 = [];
-    List<Test>? temp2 = [];
-    List<Devoir>? temp3 = [];
+    List<EleveReference>? listEleveRefs = [];
+    List<Test>? ListTest = [];
+    List<Devoir>? ListDevoir = [];
     
     try{
-      Map<String, dynamic> json2 = json['eleve'];
-      Map<String, dynamic> json3 = json['devoir'];
-      Map<String, dynamic> json4 = json['test'];
+      Map<String, dynamic> jsonEleve = json['eleve'];
+      jsonEleve.forEach((key, value){listEleveRefs.add(EleveReference.fromJson(value));}); 
+    }catch(e){print("ELEVE + $e");}
 
-      json2.forEach((key, value){temp1.add(EleveReference.fromJson(value));}); 
-      json3.forEach((key, value){temp3.add(Devoir.fromJson(value));});
-      json4.forEach((key, value){temp2.add(Test.fromJson(value));});
+    try{
+      Map<String, dynamic> jsonDevoir = json['devoir'];
+      jsonDevoir.forEach((key, value){ListDevoir.add(Devoir.fromJson(value));});
+    }catch(e){print("DEVOIR + $e");}
 
-    }catch(e){print(e);}
+    try{
+      Map<String, dynamic> jsonTest = json['test'];
+      jsonTest.forEach((key, value){ListTest.add(Test.fromJson(value));});
+    }catch(e){print("TEST + $e");}
 
     return Module(
       nom: json["nom"], 
       description: json["description"], 
       horaire: json["horaire"], 
       classe: json["classe"],
-      eleve: temp1,
-      tests: temp2,
-      devoirs: temp3
+      eleve: listEleveRefs,
+      tests: ListTest,
+      devoirs: ListDevoir
     );
   }
 

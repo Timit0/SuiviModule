@@ -25,7 +25,6 @@ class StudentProvider with ChangeNotifier
     _eleves.clear();
     final data = await FirebaseDBService.instance.getAllEleveFromOneModule(moduleID);
     _eleves.addAll(data);
-    print(eleves.length);
     notifyListeners();
   }
 
@@ -93,9 +92,13 @@ class StudentProvider with ChangeNotifier
   }
 
   Future<void> removeEleveFromOneModule(String eleveReferenceId, String moduleId) async{
-    print(eleveReferenceId);
     await FirebaseDBService.instance.removeEleveRefOnModule(eleveReferenceId, moduleId);
     _eleves.removeWhere((element) => element.id == eleveReferenceId);
     notifyListeners();
+  }
+
+  Future<int> getNumberOfStudentInThisModule(String moduleName)async{
+    List<Eleve> eleves = await FirebaseDBService.instance.getAllEleveFromOneModule(moduleName);
+    return eleves.length;
   }
 }
