@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/provider/student_provider.dart';
 //import 'package:suivi_de_module/widget/student_list_widget.dart';
 
 class ModuleWidget extends Module{
@@ -25,12 +26,12 @@ class ModuleWidget extends Module{
 
   //final String nom;
   String textEleve(int x){
-    if(x >= 2)
+    if(x >= 2) {
       return "Elèves";
-    else
+    } else {
       return "Elève";
+    }
   }
-
 
   Widget buildWidget(BuildContext context, int index) {
     this.context = context;
@@ -38,17 +39,12 @@ class ModuleWidget extends Module{
     final provider = Provider.of<ModuleProvider>(context);
 
     String classNumb = "";
-    // Future<int> asyncValue = provider.getLengthFromAllEleveFromOneModule(provider.modules[index].nom);
-    // asyncValue = asyncValue.then((value) {
-    //   return (value);
-    // });
 
     classNumb = " (0 Elève)";
     try{
-      // print("${provider.modules[index].eleve!.first}");
-      // print("${provider.modules[index].nom} : ${provider.modules[index].eleve!.length}");
-      classNumb = " (${provider.modules[index].eleve?.length} ${textEleve(provider.modules[index].eleve!.length)})";
-    }catch(e){}
+      classNumb = " (${provider.modules[index].eleve!.length} ${textEleve(provider.modules[index].eleve!.length)})";
+    }catch(e){
+    }
     classe += classNumb;
 
     return Card(

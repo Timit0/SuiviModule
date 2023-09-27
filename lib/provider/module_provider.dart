@@ -79,26 +79,17 @@ class ModuleProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  int _moduleLength = 0;
-  int get moduleLength => _moduleLength;
-  Future<void> getLengthFromAllEleveFromOneModule(String s) async{
-    _moduleLength = 0;
-    final list = await FirebaseDBService.instance.getAllEleveFromOneModule(s);
-    _moduleLength = list.length;
-    //return list.length;
-  }
-
   Future<void> addModuleFromJson(String json) async {
-    await FirebaseDBService.instance.addModuleFromJson(json);
-    // if(data != null){
-    //   _modules.addAll(data);
-    // }
+    var data = await FirebaseDBService.instance.addModuleFromJson(json);
+    if(data != null){
+      _modules.addAll(data);
+    }
     notifyListeners();
   }
 
   Future<void> addModuleFromCsv(String csv) async {
-    await FirebaseDBService.instance.addModuleFromCsv(csv);
-    //_modules.addAll(data);
+    var data = await FirebaseDBService.instance.addModuleFromCsv(csv);
+    _modules.addAll(data);
     notifyListeners();
   }
 }

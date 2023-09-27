@@ -27,6 +27,21 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  bool _isInit = true;
+  bool _isLoading = false;
+
+  // @override
+  // void didChangeDependencies() async {
+  //   if (_isInit) {
+  //     _isLoading = true;
+  //     await Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
 
   int _selectedIndex = 0;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
@@ -34,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     MainScreen._refreshCode = (){
       setState(() {
-        
+        Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
       });
     };
     return Scaffold(
@@ -62,7 +77,10 @@ class _MainScreenState extends State<MainScreen> {
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.person_add), 
-                label: Text("Ajouter/Modifier/Supprimer\nélèves"),
+                label: Text(
+                  "Ajouter/Modifier/Supprimer\nélèves",
+                  textAlign: TextAlign.center,
+                ),
               ),
             ], 
             selectedIndex: _selectedIndex,
@@ -76,61 +94,13 @@ class _MainScreenState extends State<MainScreen> {
       //bottomNavigationBar: AppBottomNavigationBar(stage: StageScreen.instance.getStageScreen())
     );
   }
-
-  // Widget bottomActionBarThing(Stage selectedMode)
-  // {
-  //   if (selectedMode == Stage.module)
-  //   {
-  //     return Container(
-  //       height: 60,
-  //       color: Colors.white,
-  //       child: InkWell(
-  //         onTap: () async {
-  //           try{
-  //             String myFileData = await PickFile.builder() as String;
-  //             try{
-  //               await Provider.of<ModuleProvider>(context, listen: false).addModuleFromCsv(myFileData);
-  //             }catch(e){
-  //               await Provider.of<ModuleProvider>(context, listen: false).addModuleFromJson(myFileData);
-  //             }
-  //             setState(() {
-  //               Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
-  //             });
-  //           }catch(e){
-  //             print(e);
-  //           }
-  //         },
-  //         child: const Padding(
-  //           padding: EdgeInsets.only(top: 8),
-  //           child: Column(
-  //             children: [
-  //               Icon(
-  //                 Icons.file_upload,
-  //                 color: Colors.black
-  //               ),
-  //               Text('Importer un fichier')
-  //             ]
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //   else if (selectedMode == Stage.eleves)
-  //   {
-  //     return BottomNavigationBar(items: const [
-  //       BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour'),
-  //       BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Ajouter un eleve'), 
-  //     ]);
-  //   }
-
-  //   return Placeholder();
-  // }
   
   ///C'est le our le changement de screen quand on clique sur la NavigationRail (le truc a gauche)
   Widget screenDisplay(int _selectedIndex){
     switch(_selectedIndex){
       case 0:
         StageScreen.instance.setStageScreen(Stage.module);
+        MainScreen.Refresh();
         return ModuleScreen();
       case 1:
         return EleveAddEditScreen();

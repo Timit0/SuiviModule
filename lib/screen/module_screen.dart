@@ -20,18 +20,18 @@ class _ModuleScreenState extends State<ModuleScreen> {
   bool _isInit = true;
   bool _isLoading = false;
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      _isLoading = true;
-      Provider.of<ModuleProvider>(context).fetchAndSetModules();
-      setState(() {
-        _isLoading = false;
-      });
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   if (_isInit) {
+  //     _isLoading = true;
+  //     // Provider.of<ModuleProvider>(context).fetchAndSetModules();
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
 
 
   final formKey = GlobalKey<FormState>();
