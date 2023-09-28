@@ -43,8 +43,8 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
       Eleve args = SelectedStudentScreen.instance.getSelectedEleve()!;
 
-      await Provider.of<TestAndDevoirProvider>(context, listen: false).getTestAndDevoirFromOneStudent(id: args.id, moduleId: module);
-      await Provider.of<TestAndDevoirProvider>(context, listen: false).fetchAndSetDevoirAndTestForOneModule(module);
+      //await Provider.of<TestAndDevoirProvider>(context, listen: false).getTestAndDevoirFromOneStudent(id: args.id, moduleId: module);
+      //await Provider.of<TestAndDevoirProvider>(context, listen: false).fetchAndSetDevoirAndTestForOneModule(module);
 
       //await Provider.of<StudentProvider>(context).fetchAndSetAllStudents();
       setState(() {
@@ -69,7 +69,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
     final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
 
-    Eleve args = arguments['eleve'] ?? Eleve.base();
+    Eleve args = SelectedStudentScreen.instance.getSelectedEleve()! ?? Eleve.base();
     String module = arguments['module'] ?? "ICH-450";
 
 
