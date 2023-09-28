@@ -49,12 +49,11 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       });
     }
 
-
-    WebAppReloadDetector.onReload(
-      (){setState(() {
-        Navigator.of(context).pop();
-      });}
-    );
+    // WebAppReloadDetector.onReload(
+    //   (){setState(() {
+    //     Navigator.of(context).pop();
+    //   });}
+    // );
 
     _isInit = false;
     

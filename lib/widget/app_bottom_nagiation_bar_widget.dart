@@ -57,6 +57,8 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
     else if (widget.stage == Stage.eleves)
     {
       return BottomNavigationBar(
+        fixedColor: Colors.black,
+        unselectedItemColor: Colors.black,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour'),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Ajouter un eleve')
@@ -68,6 +70,31 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
             MainScreen.Refresh();
           }
         },
+      );
+    }
+    else if (widget.stage == Stage.eleveDetail)
+    {
+      return Container(
+        height: 90,
+        color: Colors.white,
+        child: InkWell(
+          onTap: () {
+            StageScreen.instance.setStageScreen(Stage.eleves);
+            MainScreen.Refresh();
+          },
+          child: const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.arrow_back,
+                  color: Colors.black
+                ),
+                Text('Retour')
+              ],
+            ),
+          ),
+        )
       );
     }
 

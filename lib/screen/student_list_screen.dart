@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:suivi_de_module/enum/stage.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
+import 'package:suivi_de_module/screen/main_screen.dart';
 import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
 
 import '../provider/module_provider.dart';
@@ -49,6 +50,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
     if(stage == Stage.eleves){
       return studentListBuilder(studentProvider);
     }else if(stage == Stage.eleveDetail){
+      MainScreen.Refresh();
       return DetailsStudentScreen();
     }else{
       return Text("ERROR");
@@ -70,9 +72,16 @@ class _StudentListScreenState extends State<StudentListScreen> {
             });
           },
           detailButtonBehavior: (){
+            /*
             setState(() {
               StageScreen.instance.setStageScreen(Stage.eleveDetail);
             });
+            */
+
+            print("go");
+
+            StageScreen.instance.setStageScreen(Stage.eleveDetail);
+            MainScreen.Refresh();
           },
         ); 
       }

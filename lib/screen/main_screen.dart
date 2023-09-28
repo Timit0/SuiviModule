@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'dart:js_interop';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/enum/stage.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/eleve_add_edit_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
 import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
@@ -17,7 +19,7 @@ class MainScreen extends StatefulWidget {
 
   static void Refresh()
   {
-    _refreshCode?.call();
+    _refreshCode!.call();
   }
 
   static Function? _refreshCode;
@@ -42,14 +44,16 @@ class _MainScreenState extends State<MainScreen> {
   //   _isInit = false;
   //   super.didChangeDependencies();
   // }
-
   int _selectedIndex = 0;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
   @override
   Widget build(BuildContext context) {
-    MainScreen._refreshCode = (){
+    Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+
+    print(StageScreen.instance.getStageScreen());
+    
+    MainScreen._refreshCode = () {
       setState(() {
-        Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
       });
     };
     return Scaffold(
@@ -97,16 +101,25 @@ class _MainScreenState extends State<MainScreen> {
   
   ///C'est le our le changement de screen quand on clique sur la NavigationRail (le truc a gauche)
   Widget screenDisplay(int _selectedIndex){
-    switch(_selectedIndex){
-      case 0:
-        StageScreen.instance.setStageScreen(Stage.module);
-        MainScreen.Refresh();
-        return ModuleScreen();
-      case 1:
-        return EleveAddEditScreen();
-      default:
-        StageScreen.instance.setStageScreen(Stage.module);
-        return ModuleScreen();
+    if (StageScreen.instance.getStageScreen() == Stage.module)
+    {
+      switch(_selectedIndex){
+        case 0:
+          StageScreen.instance.setStageScreen(Stage.module);
+          MainScreen.Refresh();
+          return ModuleScreen();
+        case 1:
+          return EleveAddEditScreen();
+        default:
+          StageScreen.instance.setStageScreen(Stage.module);
+          return ModuleScreen();
+      }
     }
+    else if (StageScreen.instance.getStageScreen() == Stage.eleveDetail)
+    {
+      return DetailsStudentScreen();
+    }
+
+    return Placeholder();
   }
 }
