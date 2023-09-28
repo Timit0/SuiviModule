@@ -128,7 +128,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                           child: AvatarWidget(photoUrl: args.photoFilename),
                         ),
                         Text(
-                          args.firstname,//"Ogan",
+                          args.firstname,
                           style: const TextStyle(
                             fontSize: 45
                           ),
