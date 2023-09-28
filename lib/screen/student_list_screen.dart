@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/enum/stage.dart';
+import 'package:suivi_de_module/infrastructure/selected_student_screen.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/main_screen.dart';
@@ -78,9 +79,9 @@ class _StudentListScreenState extends State<StudentListScreen> {
             });
             */
 
-            print("go");
-
             StageScreen.instance.setStageScreen(Stage.eleveDetail);
+            SelectedStudentScreen.instance.setSelectedEleve(studentProvider.eleves[index]);
+
             MainScreen.Refresh();
           },
         ); 

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/infrastructure/selected_student_screen.dart';
 import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/card_state.dart';
@@ -37,8 +38,10 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
     if (_isInit) {
       _isLoading = true;
       final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
-      Eleve args = arguments['eleve'] ?? Eleve.base();
+      // Eleve args = arguments['eleve'] ?? Eleve.base();
       String module = arguments['module'] ?? "ICH-450";
+
+      Eleve args = SelectedStudentScreen.instance.getSelectedEleve()!;
 
       await Provider.of<TestAndDevoirProvider>(context, listen: false).getTestAndDevoirFromOneStudent(id: args.id, moduleId: module);
       await Provider.of<TestAndDevoirProvider>(context, listen: false).fetchAndSetDevoirAndTestForOneModule(module);
