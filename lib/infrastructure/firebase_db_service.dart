@@ -268,6 +268,12 @@ class FirebaseDBService {
     return [];
   }
 
+  Future<EleveReference> addEleveRefToModule(String moduleId, String eleveRef) async{
+    print("ELEVEREAF : "+eleveRef);
+    await _ref.child("$moduleNode/$moduleId/$eleveNode/$eleveRef").update(EleveReference(id: eleveRef).toJson());
+    return EleveReference(id: eleveRef);
+  }
+
   Future<List<Eleve>> getAllEleves() async {
     final snapshot = await _ref.child(eleveNode).get();
 

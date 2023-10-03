@@ -101,4 +101,9 @@ class StudentProvider with ChangeNotifier
     List<Eleve> eleves = await FirebaseDBService.instance.getAllEleveFromOneModule(moduleName);
     return eleves.length;
   }
+
+  Future<void> addEleveRefToModule(String moduleId, String eleveRef) async{
+    await FirebaseDBService.instance.addEleveRefToModule(moduleId, eleveRef);
+    notifyListeners();
+  }
 }

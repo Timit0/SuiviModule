@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:suivi_de_module/enum/stage.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/screen/main_screen.dart';
+import 'package:suivi_de_module/screen/module_screen.dart';
+import 'package:suivi_de_module/screen/student_list_screen.dart';
 import 'package:suivi_de_module/widget/pick_file.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
@@ -22,7 +24,7 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
     {
       return Container(
         height: 90,
-        color: Colors.white,
+        //color: Colors.grey,
         child: InkWell(
           onTap: () async {
             try {
@@ -42,6 +44,7 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
           child: const Padding(
             padding: EdgeInsets.only(top: 8),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   Icons.file_upload,
@@ -56,18 +59,73 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
     }
     else if (widget.stage == Stage.eleves)
     {
-      return BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Retour'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Ajouter un eleve')
-        ],
-        onTap: (value) {
-          if (value == 0)
-          {
-            StageScreen.instance.setStageScreen(Stage.module);
-            MainScreen.Refresh();
-          }
-        },
+      return Container(
+        height: 90,
+        //color: Colors.grey,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  StageScreen.instance.setStageScreen(Stage.module);
+                  MainScreen.Refresh();
+                },
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.arrow_back,
+                      color: Colors.black
+                    ),
+                    Text('Retour'),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  StudentListScreen.Refresh();
+                },
+                child: const  Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.add,
+                      color: Colors.black
+                    ),
+                    Text('Ajouter un élève'),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+      );
+    }else if(widget.stage == Stage.eleveDetail){
+      return Container(
+        height: 90,
+        //color: Colors.grey,
+        child: InkWell(
+          onTap: () async {
+            StageScreen.instance.setStageScreen(Stage.eleves);
+            ModuleScreen.Refresh();
+          },
+          child: const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.arrow_back,
+                  color: Colors.black
+                ),
+                Text('Retour')
+              ],
+            ),
+          ),
+        )
       );
     }
 
