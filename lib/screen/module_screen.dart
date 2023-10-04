@@ -71,15 +71,19 @@ class _ModuleScreenState extends State<ModuleScreen> {
   @override
   Widget build(BuildContext context) {
     ModuleScreen._refreshCode = (){
-      setState(() {
-        
-      });
+      // if(mounted){
+        setState(() {
+          
+        });
+      // }
     };
 
     ModuleScreen._resetModeCode = (){
-      setState(() {
-        widget._mode = Mode.none;
-      });
+      if(mounted){
+        setState(() {
+          widget._mode = Mode.none;
+        });
+      }
     };
 
     ModuleProvider moduleProvider = Provider.of<ModuleProvider>(context);

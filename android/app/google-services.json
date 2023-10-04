@@ -1,57 +1,34 @@
 {
   "project_info": {
-<<<<<<< HEAD
-    "project_number": "446650857393",
-    "firebase_url": "https://suivi-de-module-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "suivi-de-module",
-    "storage_bucket": "suivi-de-module.appspot.com"
-=======
     "project_number": "406285362095",
     "firebase_url": "https://suivimodule-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "suivimodule",
     "storage_bucket": "suivimodule.appspot.com"
->>>>>>> Ogan
   },
   "client": [
     {
       "client_info": {
-<<<<<<< HEAD
-        "mobilesdk_app_id": "1:446650857393:android:51a0291df93b1c0e26af90",
-=======
         "mobilesdk_app_id": "1:406285362095:android:e8ccc13da016ebe0a9c55a",
->>>>>>> Ogan
         "android_client_info": {
           "package_name": "com.example.suivi_de_module"
         }
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
-          "client_id": "446650857393-obua0k9tpl00hkgmin2k6itngvuvdmt5.apps.googleusercontent.com",
-=======
           "client_id": "406285362095-um3s2d231t7u8nfv9660inaljnsb0dll.apps.googleusercontent.com",
->>>>>>> Ogan
           "client_type": 3
         }
       ],
       "api_key": [
         {
-<<<<<<< HEAD
-          "current_key": "AIzaSyAoax5K_GNjSQy2SbXB8rxe6PmeaLX_JUw"
-=======
           "current_key": "AIzaSyDN_lsr0DImShGI20HNJHdrjKIjx2sUQYk"
->>>>>>> Ogan
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-<<<<<<< HEAD
-              "client_id": "446650857393-obua0k9tpl00hkgmin2k6itngvuvdmt5.apps.googleusercontent.com",
-=======
               "client_id": "406285362095-um3s2d231t7u8nfv9660inaljnsb0dll.apps.googleusercontent.com",
->>>>>>> Ogan
               "client_type": 3
             }
           ]

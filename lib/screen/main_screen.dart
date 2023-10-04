@@ -80,9 +80,9 @@ class _MainScreenState extends State<MainScreen> {
                 label: Text("Modules"),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.person_add), 
+                icon: Icon(Icons.person_4), 
                 label: Text(
-                  "Ajouter/Modifier/Supprimer\nélèves",
+                  "Gestrion des élèves",
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -101,25 +101,18 @@ class _MainScreenState extends State<MainScreen> {
   
   ///C'est le our le changement de screen quand on clique sur la NavigationRail (le truc a gauche)
   Widget screenDisplay(int _selectedIndex){
-    if (StageScreen.instance.getStageScreen() == Stage.module)
-    {
-      switch(_selectedIndex){
-        case 0:
-          StageScreen.instance.setStageScreen(Stage.module);
-          MainScreen.Refresh();
-          return ModuleScreen();
-        case 1:
-          return EleveAddEditScreen();
-        default:
-          StageScreen.instance.setStageScreen(Stage.module);
-          return ModuleScreen();
-      }
-    }
-    else if (StageScreen.instance.getStageScreen() == Stage.eleveDetail)
-    {
-      return DetailsStudentScreen();
-    }
 
-    return Placeholder();
+    switch(_selectedIndex){
+      case 0:
+        StageScreen.instance.setStageScreen(Stage.module);
+        MainScreen.Refresh();
+        return ModuleScreen();
+      case 1:
+        return EleveAddEditScreen();
+      default:
+        StageScreen.instance.setStageScreen(Stage.module);
+        MainScreen.Refresh();
+        return ModuleScreen();
+    }
   }
 }
