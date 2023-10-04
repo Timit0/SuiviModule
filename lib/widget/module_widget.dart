@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/enum/mode.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
 //import 'package:suivi_de_module/widget/student_list_widget.dart';
 
 class ModuleWidget extends Module{
+  static Mode? mode;
+
+  //static Mode mode;
+
   ModuleWidget({
     required super.nom, 
     required super.description, 

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_de_module/infrastructure/selected_student_screen.dart';
+import 'package:suivi_de_module/global/global_information.dart';
 import 'package:suivi_de_module/models/devoir.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/card_state.dart';
@@ -11,6 +11,8 @@ import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/models/test.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/provider/test_provider.dart';
+import 'package:suivi_de_module/screen/module_screen.dart';
+import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
 import 'package:suivi_de_module/widget/moyenne_widget.dart';
 import 'package:suivi_de_module/widget/avatar_widget.dart';
 import 'package:suivi_de_module/widget/widget_card.dart';
@@ -38,13 +40,11 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
     if (_isInit) {
       _isLoading = true;
       final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
-      // Eleve args = arguments['eleve'] ?? Eleve.base();
+      Eleve args = arguments['eleve'] ?? Eleve.base();
       String module = arguments['module'] ?? "ICH-450";
 
-      Eleve args = SelectedStudentScreen.instance.getSelectedEleve()!;
-
-      //await Provider.of<TestAndDevoirProvider>(context, listen: false).getTestAndDevoirFromOneStudent(id: args.id, moduleId: module);
-      //await Provider.of<TestAndDevoirProvider>(context, listen: false).fetchAndSetDevoirAndTestForOneModule(module);
+      await Provider.of<TestAndDevoirProvider>(context, listen: false).getTestAndDevoirFromOneStudent(id: args.id, moduleId: module);
+      await Provider.of<TestAndDevoirProvider>(context, listen: false).fetchAndSetDevoirAndTestForOneModule(module);
 
       //await Provider.of<StudentProvider>(context).fetchAndSetAllStudents();
       setState(() {
@@ -52,11 +52,12 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
       });
     }
 
-    // WebAppReloadDetector.onReload(
-    //   (){setState(() {
-    //     Navigator.of(context).pop();
-    //   });}
-    // );
+
+    WebAppReloadDetector.onReload(
+      (){setState(() {
+        Navigator.of(context).pop();
+      });}
+    );
 
     _isInit = false;
     
@@ -69,8 +70,8 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
 
     final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
 
-    Eleve args = SelectedStudentScreen.instance.getSelectedEleve()! ?? Eleve.base();
-    String module = arguments['module'] ?? "ICH-450";
+    Eleve args = GlobalInformation.eleve ?? Eleve.base();
+    String module = GlobalInformation.moduleNum ?? "ICH-450";
 
 
     final ScrollController controllerDevoir = ScrollController();
@@ -86,27 +87,20 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
     final provider = Provider.of<TestAndDevoirProvider>(context);
 
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Devoir - Test",
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.grey,
-      ),
-      body: Row(
-        //crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Column(
-            children: [
-              Stack(
+    return Row(
+      //crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Column(
+          children: [
+            Flexible(
+              child: Stack(
                 children:[ 
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height - AppBar().preferredSize.height,
+                  const SizedBox(
+                    height: double.infinity,
                     width: 400,
-                    child: const DecoratedBox(
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -119,7 +113,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 400,
                     child: Column(
                       children: [
@@ -128,7 +122,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                           child: AvatarWidget(photoUrl: args.photoFilename),
                         ),
                         Text(
-                          args.firstname,
+                          args.firstname,//"Ogan",
                           style: const TextStyle(
                             fontSize: 45
                           ),
@@ -139,7 +133,7 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                             fontSize: 25
                           ),
                         ),
-
+            
                         Padding(
                           padding: const EdgeInsets.only(top: 58.0),
                           child: MoyenneWidget(),
@@ -149,73 +143,74 @@ class _DetailsStudentScreenState extends State<DetailsStudentScreen> {
                   ),
                 ]
               ),
-            ]
-          ),
-          Flexible(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 150,
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: Colors.black,
-                          width: 2
-                        ),
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 2
-                        )
-                      )
-                    ),
-                    child: Text(
-                      Module.getOnlyNumbOfNameStatic(module), //ICH-322
-                      style: TextStyle(
-                        fontSize: 50
+            ),
+          ]
+        ),
+        Flexible(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 150,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: Colors.black,
+                        width: 2
                       ),
+                      bottom: BorderSide(
+                        color: Colors.black,
+                        width: 2
+                      )
+                    )
+                  ),
+                  child: Text(
+                    Module.getOnlyNumbOfNameStatic(module), //ICH-322
+                    style: TextStyle(
+                      fontSize: 50
                     ),
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: paddingList),
-                      child: const Text(
-                        "Devoirs",
-                        style: TextStyle(
-                          fontSize: 30
-                        ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: paddingList),
+                    child: const Text(
+                      "Devoirs",
+                      style: TextStyle(
+                        fontSize: 30
                       ),
                     ),
-                    listOf(CardState.Devoir, controllerDevoir, varDebug, paddingList, provider, module),
-                    
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: paddingList),
-                      child: const Text(
-                        "Tests",
-                        style: TextStyle(
-                          fontSize: 30
-                        ),
+                  ),
+                  listOf(CardState.Devoir, controllerDevoir, varDebug, paddingList, provider, module),
+                  
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: paddingList),
+                    child: const Text(
+                      "Tests",
+                      style: TextStyle(
+                        fontSize: 30
                       ),
                     ),
-                    listOf(CardState.Test, controllerTest, varDebug, paddingList, provider, module),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+                  ),
+                  listOf(CardState.Test, controllerTest, varDebug, paddingList, provider, module),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+      
     );
   }
 

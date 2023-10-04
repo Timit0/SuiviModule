@@ -70,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
             onDestinationSelected: (value) {
               setState(() {
                 _selectedIndex = value;
-
+                ModuleScreen.ResetMode();
                 //level = Stage.module;
               });
             },

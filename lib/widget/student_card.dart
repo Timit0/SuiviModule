@@ -25,7 +25,7 @@ class StudentCard extends StatefulWidget {
     this.kind = Kind.big, 
     required this.moduleId,
     required this.detailButtonBehavior,
-    required this.deleteButtonBehavios
+    required this.deleteButtonBehavior
   });
 
   final Eleve eleve;
@@ -33,7 +33,7 @@ class StudentCard extends StatefulWidget {
   FirebaseDBService? dbInstance;
 
   Function detailButtonBehavior;
-  Function deleteButtonBehavios;
+  Function deleteButtonBehavior;
 
   @override
   State<StudentCard> createState() => _StudentCardState();
@@ -99,7 +99,7 @@ class _StudentCardState extends State<StudentCard> {
             ]),
           ),
           IconButton(onPressed: () => widget.detailButtonBehavior.call(), icon: const Icon(Icons.art_track), iconSize: 50),
-          IconButton(onPressed: () => widget.deleteButtonBehavios.call(), icon: const Icon(Icons.delete), iconSize: 50)
+          IconButton(onPressed: () => widget.deleteButtonBehavior.call(), icon: const Icon(Icons.delete), iconSize: 50)
         ],),
       )
     );
