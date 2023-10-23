@@ -87,32 +87,64 @@ class _StudentListScreenState extends State<StudentListScreen> {
       children: [
         Flexible(
           child: Padding(
-            padding: const EdgeInsets.only(left: 100, right: 100, bottom: 200, top: 50),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: studentProvider.eleves.length,
-              itemBuilder: (context, index) {
-                return StudentCard(
-                  eleve: studentProvider.eleves[index], 
-                  moduleId: widget.moduleId,
-                  deleteButtonBehavior: () async{
-                    await studentProvider.removeEleveFromOneModule(studentProvider.eleves[index].id, widget.moduleId);
-                    //ModuleScreen.Refresh();
-                    
-                    setState(() /*async*/ {
-                      // await Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
-                    });
-                  },
-                  detailButtonBehavior: (){
-                    setState(() {
-                      StageScreen.instance.setStageScreen(Stage.eleveDetail);
-                      GlobalInformation.eleve = studentProvider.eleves[index];
-                      GlobalInformation.moduleNum = widget.moduleId;
-                      ModuleScreen.Refresh();
-                    });
-                  },
-                ); 
-              }
+            padding: const EdgeInsets.only(left: 100, right: 100, bottom: 100, top: 50),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Center(
+                    child: Container(
+                      width: 200,
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            color: Colors.black,
+                            width: 2
+                          ),
+                          bottom: BorderSide(
+                            color: Colors.black,
+                            width: 2
+                          )
+                        )
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.moduleId,
+                          style: const TextStyle(
+                            fontSize: 40
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: studentProvider.eleves.length,
+                  itemBuilder: (context, index) {
+                    return StudentCard(
+                      eleve: studentProvider.eleves[index], 
+                      moduleId: widget.moduleId,
+                      deleteButtonBehavior: () async{
+                        await studentProvider.removeEleveFromOneModule(studentProvider.eleves[index].id, widget.moduleId);
+                        //ModuleScreen.Refresh();
+                        
+                        setState(() /*async*/ {
+                          // await Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+                        });
+                      },
+                      detailButtonBehavior: (){
+                        setState(() {
+                          StageScreen.instance.setStageScreen(Stage.eleveDetail);
+                          GlobalInformation.eleve = studentProvider.eleves[index];
+                          GlobalInformation.moduleNum = widget.moduleId;
+                          ModuleScreen.Refresh();
+                        });
+                      },
+                    ); 
+                  }
+                ),
+              ],
             ),
           ),
         ),
@@ -170,16 +202,33 @@ class _StudentListScreenState extends State<StudentListScreen> {
                           if(value.split("-").length != 2){
                             return "Le nommage ne correspond pas !!!";
                           }
+
+                          bool studentExist = false;
+                          for (var v in provider.allEleves) {
+                            if(v.id == getId.text){
+                              studentExist = true;
+                            }
+                          }
+
+                          final eleveRefsList = Provider.of<ModuleProvider>(context, listen: false).getModuleFromId(widget.moduleId).eleve;
+                          if(studentExist){
+                            if(eleveRefsList != null){
+                              for (var v in eleveRefsList) {
+                                if(v.id == getId.text){
+                                  return "L'élève est deja dans le module";
+                                }
+                              }
+                            }
+                          }else{
+                            return "L'élève n'existe pas";
+                          }
                                 
                           return null;
                         },
                         onChanged: (value) {
-                          print(getId.text);
                           for (var v in provider.allEleves) {
-                            print(v.id);
                             if(v.id == getId.text){
                               setState(() {
-                                print("SetState");
                                 state = "L'élève exist";
                               });
                               return;

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/widget/eleve_gestion_form.dart';
+import 'package:suivi_de_module/widget/student_list_grid_widget.dart';
 
 import '../enum/eleve_state.dart';
 
@@ -65,11 +66,7 @@ class _EleveAddEditScreenState extends State<EleveAddEditScreen> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 1200,
-          height: double.infinity,
-          color: Colors.red,
-        ),
+        StudentListGridWidget(),
         Flexible(
           child: EleveGestionForm(
             disposeOption: disposeOption, 

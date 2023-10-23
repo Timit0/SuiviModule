@@ -48,6 +48,7 @@ class _EleveGestionFormState extends State<EleveGestionForm> {
           title: const Text('Supprimer'),
           value: widget.disposeOption,
           onChanged: (bool value) {
+            if(!value){widget.formState = EleveState.Create;}
             setState(() {
               widget.disposeOption = value;
               if(value){
@@ -297,7 +298,9 @@ class _EleveGestionFormState extends State<EleveGestionForm> {
                 }
   
                 if(widget.getPicture.text.isEmpty){
-                  widget.getPicture.text == "assets/img/placeholderImage.png";
+                  try{
+                    widget.getPicture.text = "assets/img/placeholderImage.png";
+                  }catch(e){}
                 }
   
                 final eleve = Eleve(

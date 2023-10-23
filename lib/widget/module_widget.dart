@@ -59,7 +59,7 @@ class ModuleWidget extends Module{
         borderRadius: BorderRadius.all(Radius.circular(0)),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Stack(
             children: [
@@ -108,33 +108,53 @@ class ModuleWidget extends Module{
               ),
             ],
           ),
-    
-          Expanded(  
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Container(
-                    // padding: const EdgeInsets.only(left: 50, right: 50),
-                    alignment: Alignment.center,
-                    child: Text(
-                      classe,
-                      style: const TextStyle(fontSize: 25),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+        
+        //TODO faire en sorte que le text soit responsive
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 300),
+                child: Text(
+                  classe,
+                  style: const TextStyle(fontSize: 25),
+                  textAlign: TextAlign.center,
                 ),
-                Row(children: [
-                  IconButton(onPressed: () => editionBehavior!.call(), icon: const Icon(Icons.edit, size: 50)),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 50.0),
-                    child: IconButton(onPressed: (){
-                      Provider.of<ModuleProvider>(context, listen: false).removeModule(moduleNom: nom);
-                    }, icon: const Icon(Icons.delete, size: 50)),
-                  ),
-                ])
-              ],
-            ),
+              ),
+              Row(
+                children: [
+                IconButton(onPressed: () => editionBehavior!.call(), icon: const Icon(Icons.edit, size: 30)),
+                Padding(
+                  padding: const EdgeInsets.only(right: 50.0),
+                  child: IconButton(onPressed: (){
+      
+                    showDialog(context: context, builder: (context) => AlertDialog(
+                      title: Text("Êtes - vous sûre de supprimer le module $nom?"),
+                      content: SizedBox(
+                        width: 10,
+                        height: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextButton(onPressed: (){
+                              Provider.of<ModuleProvider>(context, listen: false).removeModule(moduleNom: nom);
+                              Navigator.of(context).pop();
+                            }, child: const Text('oui', style: TextStyle(fontSize: 20))),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text('non', style: TextStyle(fontSize: 20))
+                            )
+                          ]
+                        ),
+                      ),
+                    ));
+      
+                    // TODO: a mettre lorsqu'on clique sur "oui"
+                    //
+                  }, icon: const Icon(Icons.delete, size: 30)),
+                ),
+              ])
+            ],
           ),
         ],
       ),

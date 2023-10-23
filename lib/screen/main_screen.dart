@@ -5,10 +5,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/enum/stage.dart';
+import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/eleve_add_edit_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
+import 'package:suivi_de_module/screen/student_list_screen.dart';
 import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
 import 'package:suivi_de_module/widget/pick_file.dart';
 
@@ -26,6 +28,12 @@ class MainScreen extends StatefulWidget {
 
   @override
   State<MainScreen> createState() => _MainScreenState();
+
+  static String appBarTitleContent = "Module";
+
+  static void refreshAppBarTitle(String s){
+    appBarTitleContent = s;
+  }
 }
 
 class _MainScreenState extends State<MainScreen> {
@@ -54,11 +62,12 @@ class _MainScreenState extends State<MainScreen> {
     
     MainScreen._refreshCode = () {
       setState(() {
+        MainScreen.appBarTitleContent = MainScreen.appBarTitleContent;
       });
     };
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Module"),
+        title: Text(MainScreen.appBarTitleContent),
         centerTitle: true,
         backgroundColor: Colors.grey,
       ),
@@ -70,6 +79,14 @@ class _MainScreenState extends State<MainScreen> {
             onDestinationSelected: (value) {
               setState(() {
                 _selectedIndex = value;
+
+                switch(value){
+                  case 0:
+                    MainScreen.appBarTitleContent = "Module";
+                  case 1:
+                    MainScreen.appBarTitleContent = "Gestion des élèves";
+                }
+
                 ModuleScreen.ResetMode();
                 //level = Stage.module;
               });
@@ -80,9 +97,9 @@ class _MainScreenState extends State<MainScreen> {
                 label: Text("Modules"),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.person_4), 
+                icon: Icon(Icons.person_rounded), 
                 label: Text(
-                  "Gestrion des élèves",
+                  "Gestion des élèves",
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -101,7 +118,6 @@ class _MainScreenState extends State<MainScreen> {
   
   ///C'est le our le changement de screen quand on clique sur la NavigationRail (le truc a gauche)
   Widget screenDisplay(int _selectedIndex){
-
     switch(_selectedIndex){
       case 0:
         StageScreen.instance.setStageScreen(Stage.module);

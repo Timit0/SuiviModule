@@ -362,12 +362,13 @@ class FirebaseDBService {
   }
   
 
-  Future<void> addModule(Module module) async {
-    await _ref.child("$moduleNode/${module.nom}").update(module.toJson());
-    await _ref.child("$moduleNode/${module.nom}").update({
-      devoirNode: '',
-      testNode: ''
-    });
+  Future<void> addOrUpdateModule(Module module) async {
+    print("NOM : "+module.nom);
+    await _ref.child("$moduleNode/${module.nom}/").update(module.toJson());
+    // await _ref.child("$moduleNode/${module.nom}").update({
+    //   devoirNode: '',
+    //   testNode: ''
+    // });
   }
 
   Future<void> removeModule(String id) async {
