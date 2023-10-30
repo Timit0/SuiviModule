@@ -1,44 +1,40 @@
-import 'dart:developer' as dev;
+import 'dart:convert';
+import 'dart:developer' as dev show log;
 import 'dart:js_interop';
 
 import 'package:csv/csv.dart';
+import 'package:devoir_repository/devoir_repository.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:suivi_de_module/models/devoir.dart';
-import 'package:suivi_de_module/models/devoir_reference.dart';
-import 'package:suivi_de_module/models/eleve.dart';
-import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:suivi_de_module/models/eleve_reference.dart';
-import 'package:suivi_de_module/models/module.dart';
-import 'package:suivi_de_module/models/test.dart';
-import 'package:suivi_de_module/models/test_reference.dart';
+
+import 'package:module_repository/module_repository.dart';
+import 'package:test_repository/test_repository.dart';
+import 'package:test_reference_repository/test_reference_repository.dart';
+import 'package:devoir_reference_repository/devoir_reference_repository.dart';
+import 'package:eleve_repository/eleve_repository.dart';
+import 'package:eleve_reference_repository/eleve_reference_repository.dart';
 
 class FirebaseDBService {
-
-
+  
   final FirebaseDatabase db = FirebaseDatabase.instance;
   late DatabaseReference _ref;
 
-  static final instance = FirebaseDBService._();
-
-  // singleton
-  FirebaseDBService._() {
+  FirebaseDBService._(){
     db.useDatabaseEmulator("127.0.0.1", 9000);
     _ref = db.ref();
   }
 
-  final String testNode = "test";
-  final String devoirNode = "devoir";
-  final String modulePendingListNode = "pendingModule";
+  final String _testNode = "test";
+  final String _devoirNode = "devoir";
+  final String _modulePendingListNode = "pendingModule";
+  final String _moduleNode = "module";
+  final String _eleveNode = "eleve";
 
-  Future<List<Module>> getAllPendingModules() async
-  {
-    final data = await _ref.child(modulePendingListNode).get();
-    if (data.exists)
-    {
+  Future<List<Module>> getAllPendingModules() async {
+    final data = await _ref.child(_modulePendingListNode).get();
+    if (data.exists) {
       List<Module>? pendingMods = [];
-      for (dynamic v in data.children)
-      {
+      for (dynamic v in data.children) {
         pendingMods.add(Module.fromJson(v.value));
       }
       return pendingMods;
@@ -47,115 +43,126 @@ class FirebaseDBService {
   }
 
   Future<List<Test?>> getAllTest(String idModule) async {
-    final data = await _ref.child("$moduleNode/$idModule/$testNode").get();
+    final data = await _ref.child("$_moduleNode/$idModule/$_testNode").get();
 
-    if(data.exists){
+    if (data.exists) {
       List<Test>? test = [];
 
       for (dynamic v in data.children) {
         test.add(Test.fromJson(v.value));
       }
-      
       return test;
     }
     return [];
   }
 
   Future<List<Devoir?>> getAllDevoir(String idModule) async {
-    final data = await _ref.child("$moduleNode/$idModule/$devoirNode").get();
-
-    if(data.exists){
-      List<Devoir>? devoir = [];
+    final data = await _ref.child("$_moduleNode/$idModule/$_devoirNode").get();
+    
+    if (data.exists) {
+      List<Devoir> devoir = [];
 
       for (dynamic v in data.children) {
-        
         devoir.add(Devoir.fromJson(v.value));
-        
       }
-      
+
       return devoir;
     }
+
     return [];
   }
 
-
   Future<Test?> getTest(String idTest, String idModule) async {
-    final data = await _ref.child("$moduleNode/$idModule/$testNode/$idTest").get();
+    final data = await _ref.child("$_moduleNode/$idModule/$_testNode/$idTest").get();
 
-    if(data.exists){
+    if (data.exists) {
       Test? test;
 
       Map<String, dynamic> map = {};
+      
       for (dynamic v in data.children) {
         map[v.key] = v.value;
       }
+
       test = Test.fromJson(map);
       return test;
     }
   }
 
   Future<Devoir?> getDevoir(String idDevoir, String idModule) async {
-    final data = await _ref.child("$moduleNode/$idModule/$devoirNode/$idDevoir").get();
+    final data = await _ref.child("$_moduleNode/$idModule/$_devoirNode/$idDevoir").get();
 
-    if(data.exists){
+    if (data.exists) {
       Devoir? devoir;
+
       Map<String, dynamic> map = {};
+
       for (dynamic v in data.children) {
-        
         map[v.key] = v.value;
-        
       }
+      
       devoir = Devoir.fromJson(map);
       return devoir;
     }
   }
 
+  Future<List<TestReference>?> getTestsForOneStudent({
+    required String studentId, 
+    required String moduleId
+  }) async {
+    final data = await _ref.child("$_moduleNode/$moduleId/$_eleveNode/$studentId/$_testNode").get();
 
-
-
-  Future<List<TestReference>?> getTestsForOneStudent({required String studentId, required String moduleId}) async {
-    final data = await _ref.child("$moduleNode/$moduleId/$eleveNode/$studentId/$testNode").get();
-    
-    if(data.exists){
+    if (data.exists) {
       List<TestReference>? testList = [];
-    
+
       for (dynamic v in data.children) {
-        testList.add(TestReference.fromJson(v.value));
+        TestReferenceEntity temp = TestReferenceEntity.fromJson(v.value);
+        testList.add(TestReference(
+          id: temp.id, 
+          done: temp.done, 
+          note: temp.note
+        ));
       }
 
       return testList;
     }
   }
 
-   Future<List<DevoirReference>?> getDevoirsForOneStudent({required String studentId, required String moduleId}) async {
-    final data = await _ref.child("$moduleNode/$moduleId/$eleveNode/$studentId/$devoirNode").get();
-    
-    if(data.exists){
+  Future<List<DevoirReference>?> getDevoirsForOneStudent({
+    required String studentId,
+    required String moduleId
+  }) async {
+    final data = await _ref.child("$_moduleNode/$moduleId/$_eleveNode/$studentId/$_devoirNode").get();
+
+    if (data.exists) {
       List<DevoirReference>? testList = [];
-    
+
       for (dynamic v in data.children) {
-        testList.add(DevoirReference.fromJson(v.value));
+        DevoirReferenceEntity temp = DevoirReferenceEntity.fromJson(v.value);
+        testList.add(DevoirReference(
+          id: temp.id, 
+          done: temp.done
+        ));
       }
       return testList;
     }
   }
 
-
-  Future<Module> addPendingModule(Module module) async
-  {
-    await _ref.child("$modulePendingListNode/${module.nom}").update(module.toJson());
+  Future<Module> addPendingModule(Module module) async {
+    await _ref.child("$_modulePendingListNode/${module.nom}").update(module.toJson());
     return Module.base();
   }
 
   Future<Eleve> addEleve(Eleve eleve, String id) async {
-    await _ref.child("$moduleNode/$id/$eleveNode/${eleve.id}").update(EleveReference(id: eleve.id).toJson());
+    await _ref.child("$_moduleNode/$id/$_eleveNode/${eleve.id}").update(EleveReference(id: eleve.id).toJson());
     return Eleve.base();
   }
 
   Future<Eleve> createOrEditOneEleve(Eleve eleve) async {
-    await _ref.child('$eleveNode/${eleve.id}').update(eleve.toJson());
+    await _ref.child('$_eleveNode/${eleve.id}').update(eleve.toJson());
     return eleve;
   }
+
 
   Future<Eleve> updateEleve(Eleve eleve) async {
     _ref
@@ -171,58 +178,72 @@ class FirebaseDBService {
 
   Future<Module> updatePendingModule(Module module) async
   {
-    _ref.child("$modulePendingListNode/${module.nom}").update(module.toJson()).then((value) => null).catchError((e) => dev.log(e));
+    _ref.child("$_modulePendingListNode/${module.nom}").update(module.toJson()).then((value) => null).catchError((e) => dev.log(e));
     return module;
   }
 
   Future<void> removeEleveRefOnModule(String eleveReferenceId, String moduleId) async
   {
-    await _ref.child("$moduleNode/$moduleId/$eleveNode/$eleveReferenceId").remove();
+    await _ref.child("$_moduleNode/$moduleId/$_eleveNode/$eleveReferenceId").remove();
   }
 
   Future<void> addDevoir(Devoir devoir, String moduleId) async
   {
-    await _ref.child("$moduleNode/$moduleId/$devoirNode/${devoir.id}").update(devoir.toJson());
+    await _ref.child("$_moduleNode/$moduleId/$_devoirNode/${devoir.id}").update(devoir.toJson());
   }
 
   Future<void> addTest(Test test, String moduleId) async
   {
-    await _ref.child("$moduleNode/$moduleId/$testNode/${test.id}").update(test.toJson());
+    await _ref.child("$_moduleNode/$moduleId/$_testNode/${test.id}").update(test.toJson());
   }
 
   Future<void> removePendingModule(Module module) async
   {
-    _ref.child("$modulePendingListNode/${module.nom}").remove().then((value) => null).catchError((e) => dev.log(e));
+    _ref.child("$_modulePendingListNode/${module.nom}").remove().then((value) => null).catchError((e) => dev.log(e));
   }
 
   Future<void> removeEleve(Eleve eleve, String moduleId) async {
-    _ref.child('$moduleNode/$moduleId/$eleveNode/${eleve.id}').remove().then((_) => null).catchError((e) {
+    _ref.child('$_moduleNode/$moduleId/$_eleveNode/${eleve.id}').remove().then((_) => null).catchError((e) {
       dev.log(e);
     });
   }
 
+  Future<List<Module>> getAllModule() async {
+      final data = await _ref.child("$_moduleNode/").get();
+
+      if(data.exists){
+ 
+        var modules = <Module>[];
+
+        for(dynamic v in data.children){
+          modules.add(Module.fromJson(v.value));
+        }
+
+        return modules;
+      }
+      return [];
+  }
+
   Future<void> removeEleveAndRef(Eleve eleve) async{
-    await _ref.child('$eleveNode/${eleve.id}').remove();
+    await _ref.child('$_eleveNode/${eleve.id}').remove();
     try{
       List<Module> modules = await getAllModule();
 
 
       for (Module v in modules) {
         try{
-          _ref.child("$moduleNode/${v.nom}/$eleveNode/${eleve.id}").remove();
+          _ref.child("$_moduleNode/${v.nom}/$_eleveNode/${eleve.id}").remove();
         }catch(e){
 
         }
       }
-
-    }catch(e){
+    }catch(e) {
 
     }
-    
   }
 
   Future<List<Eleve>> getAllEleveFromOneModule(String id) async {
-    final snapshot = await _ref.child('$moduleNode/$id/$eleveNode').get();
+    final snapshot = await _ref.child('$_moduleNode/$id/$_eleveNode').get();
 
     if (snapshot.exists) {
 
@@ -234,7 +255,7 @@ class FirebaseDBService {
         final tempID = v.key.toString();
 
         try{
-          final DataSnapshot tempSnapshot = await _ref.child("$eleveNode/$tempID").get();
+          final DataSnapshot tempSnapshot = await _ref.child("$_eleveNode/$tempID").get();
 
           eleves.add(Eleve.fromJson(tempSnapshot.value as Map<String, dynamic>));
         }catch(e){
@@ -252,7 +273,7 @@ class FirebaseDBService {
 
   Future<List<Devoir>> getDevoirsFromModule(String moduleID) async
   {
-    final snapshot = await _ref.child('$moduleNode/$moduleID/$devoirNode').get();
+    final snapshot = await _ref.child('$_moduleNode/$moduleID/$_devoirNode').get();
     if (snapshot.exists)
     {
       final devoirs = <Devoir>[];
@@ -269,12 +290,12 @@ class FirebaseDBService {
 
   Future<EleveReference> addEleveRefToModule(String moduleId, String eleveRef) async{
     print("ELEVEREAF : "+eleveRef);
-    await _ref.child("$moduleNode/$moduleId/$eleveNode/$eleveRef").update(EleveReference(id: eleveRef).toJson());
+    await _ref.child("$_moduleNode/$moduleId/$_eleveNode/$eleveRef").update(EleveReference(id: eleveRef).toJson());
     return EleveReference(id: eleveRef);
   }
 
   Future<List<Eleve>> getAllEleves() async {
-    final snapshot = await _ref.child(eleveNode).get();
+    final snapshot = await _ref.child(_eleveNode).get();
 
     if (snapshot.exists) {
       final eleves = <Eleve>[];
@@ -283,7 +304,7 @@ class FirebaseDBService {
       {
         final tempID = v.key.toString();
 
-        final DataSnapshot tempSnapshot = await _ref.child("$eleveNode/$tempID").get();
+        final DataSnapshot tempSnapshot = await _ref.child("$_eleveNode/$tempID").get();
 
         eleves.add(Eleve.fromJson(tempSnapshot.value as Map<String, dynamic>));
       }
@@ -294,15 +315,12 @@ class FirebaseDBService {
     return [];
   }
 
-  final String moduleNode = "module";
-  final String eleveNode = "eleve";
-  
   Future<List<Module>?> addModuleFromJson(String data) async {
     List<Module>? moduleList = [];
     // final data = await rootBundle.loadString("./json/module.json");
     List<dynamic> json = jsonDecode(data);
     for(int i = 0; i < json.length; i++){
-      await _ref.child("$moduleNode/${json[i]["nom"]}").update(json[i]);
+      await _ref.child("$_moduleNode/${json[i]["nom"]}").update(json[i]);
       moduleList.add(Module.fromJson(json[i]));
     }
     return moduleList;
@@ -337,51 +355,27 @@ class FirebaseDBService {
     }
 
     for(int i = 0; i < moduleList.length; i++){
-      await _ref.child("$moduleNode/${moduleList[i].nom}").update(moduleList[i].fromCsvToJson());
+      await _ref.child("$_moduleNode/${moduleList[i].nom}").update(moduleList[i].fromCsvToJson());
     }
 
     return moduleList;
   }
 
-  
-  Future<List<Module>> getAllModule() async {
-      final data = await _ref.child("$moduleNode/").get();
-
-      if(data.exists){
- 
-        var modules = <Module>[];
-
-        for(dynamic v in data.children){
-          modules.add(Module.fromJson(v.value));
-        }
-
-        return modules;
-      }
-      return [];
-  }
-  
-
   Future<void> addOrUpdateModule(Module module) async {
     print("NOM : "+module.nom);
-    await _ref.child("$moduleNode/${module.nom}/").update(module.toJson());
-    // await _ref.child("$moduleNode/${module.nom}").update({
-    //   devoirNode: '',
-    //   testNode: ''
-    // });
+    await _ref.child("$_moduleNode/${module.nom}/").update(module.toJson());
   }
 
   Future<void> removeModule(String id) async {
-    await _ref.child('$moduleNode/$id').remove();
+    await _ref.child('$_moduleNode/$id').remove();
   }
-  // ====================================================================================
-
 
   Future<void> addModuleDummy()async {
     List<Module>? moduleList = [];
     final data = await rootBundle.loadString("./json/module.json");
     List<dynamic> json = jsonDecode(data);
     for(int i = 0; i < json.length; i++){
-      await _ref.child("$moduleNode/${json[i]["nom"]}").update(json[i]);
+      await _ref.child("$_moduleNode/${json[i]["nom"]}").update(json[i]);
       moduleList.add(Module.fromJson(json[i]));
     }
   }

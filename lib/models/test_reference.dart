@@ -1,5 +1,3 @@
-import 'package:suivi_de_module/models/test.dart';
-
 class TestReference
 {
   final String id;

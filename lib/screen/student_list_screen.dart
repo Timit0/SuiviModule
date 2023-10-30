@@ -73,7 +73,18 @@ class _StudentListScreenState extends State<StudentListScreen> {
     Stage stage = StageScreen.instance.getStageScreen();
 
     if(stage == Stage.eleves){
-      return studentListBuilder(studentProvider);
+      if(studentProvider.eleves.length > 0){
+        return studentListBuilder(studentProvider);
+      }else{
+        return const Center(
+          child: Text(
+            "Il n'y a pas délèves dans ce module",
+            style: TextStyle(
+              fontSize: 30
+            )
+          ),
+        );
+      }
     }else if(stage == Stage.eleveDetail){
       return DetailsStudentScreen();
     }else{

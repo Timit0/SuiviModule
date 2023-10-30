@@ -1,0 +1,30 @@
+name: firebase_db_service_repository
+description: repo de tout ce qui va concerner la db de firebase
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  firebase_core: ^2.20.0
+  firebase_database: ^10.3.2
+  flutter:
+    sdk: flutter
+  devoir_repository:
+    path: ../devoir_repository
+  module_repository:
+    path: ../module_repository
+  test_reference_repository:
+    path: ../test_reference_repository
+  devoir_reference_repository:
+    path: ../devoir_reference_repository
+  eleve_repository:
+    path: ../eleve_repository
+  eleve_reference_repository:
+    path: ../eleve_reference_repository
+  csv: ^5.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0

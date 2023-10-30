@@ -4,7 +4,7 @@ import 'package:suivi_de_module/provider/student_provider.dart';
 import 'package:suivi_de_module/widget/eleve_card_widget.dart';
 
 class StudentListGridWidget extends StatefulWidget {
-  const StudentListGridWidget({super.key});
+  StudentListGridWidget({super.key});
 
   @override
   State<StudentListGridWidget> createState() => _StudentListGridWidgetState();
@@ -15,9 +15,10 @@ class _StudentListGridWidgetState extends State<StudentListGridWidget> {
   bool _isInit = true;
   bool _isLoading = false;
 
+  
+
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       width: MediaQuery.of(context).size.width/2,
       child: Padding(
@@ -33,6 +34,7 @@ class _StudentListGridWidgetState extends State<StudentListGridWidget> {
       return GridView.builder(
         itemCount: eleveLength,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          mainAxisSpacing: 18,
           crossAxisCount: 5,
           childAspectRatio: 0.8
         ),

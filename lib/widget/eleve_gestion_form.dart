@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/global/eleve_gestion_form_global.dart';
 
 import '../enum/eleve_state.dart';
 import '../models/eleve.dart';
@@ -33,11 +34,31 @@ class EleveGestionForm extends StatefulWidget {
 
   @override
   State<EleveGestionForm> createState() => _EleveGestionFormState();
+
+  static void Refresh(){
+    _refreshCode!.call();
+  }
+
+  static Function? _refreshCode;
+
+  void updateController(){
+    getCp.text = EleveGestionFormGlobal.cp;
+    getName.text = EleveGestionFormGlobal.name;
+    getNickName.text = EleveGestionFormGlobal.nickName;
+    getPicture.text = EleveGestionFormGlobal.picture;
+  }
 }
 
 class _EleveGestionFormState extends State<EleveGestionForm> {
   @override
   Widget build(BuildContext context) {
+    EleveGestionForm._refreshCode = (){
+      // if(mounted){
+        setState(() {
+          widget.updateController();
+        });
+      // }
+    };
     final provider = Provider.of<StudentProvider>(context);
     return Stack(
       children: [
