@@ -1,6 +1,7 @@
 import 'dart:js_interop';
 import 'package:devoir_repository/devoir_repository.dart';
 import 'package:eleve_reference_repository/eleve_reference_repository.dart';
+import 'package:module_repository/module_repository.dart';
 import 'package:test_repository/test_repository.dart';
 
 class Module /*implements Equatable*/{
@@ -154,6 +155,10 @@ class Module /*implements Equatable*/{
     List<String> number = [];
     number.addAll(s.split("-"));
     return number[1];
+  }
+
+  ModuleEntity toEntity(){
+    return ModuleEntity(nom: nom, description: description, horaire: horaire, classe: classe, eleve: eleve);
   }
   
   @override

@@ -17,25 +17,25 @@ class FirebaseDevoirReferenceRepository implements DevoirReferenceRepository{
   }
 
   @override
-  Future<DevoirReference> add({required DevoirReference devoirReference}) async {
-    try{
+  Future<DevoirReference> create({required DevoirReference devoirReference}) async {
+    // try{
       await _ref.child("path").update(devoirReference.toEntity().toJson());
       return devoirReference;
-    }
-    catch(e){
-      dev.log(e.toString());
-      return DevoirReference.base(devoirReference.id);
-    }
+    // }
+    // catch(e){
+      // dev.log(e.toString());
+      // return DevoirReference.base(devoirReference.id);
+    // }
   }
 
   @override
   Future<void> remove({required String id}) async {
-    try{
+    // try{
       await _ref.child("path/$id").remove();
-    }
-    catch(e){
-      dev.log(e.toString());
-    }
+    // }
+    // catch(e){
+      // dev.log(e.toString());
+    // }
   }
 
 }

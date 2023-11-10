@@ -11,6 +11,10 @@ dependencies:
   firebase_database: ^10.3.2
   flutter:
     sdk: flutter
+  eleve_repository:
+    path: ../eleve_repository
+  module_repository:
+    path: ../module_repository
 
 dev_dependencies:
   flutter_test:

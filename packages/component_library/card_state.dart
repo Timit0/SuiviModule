@@ -1,0 +1,4 @@
+enum CardState {
+  Test,
+  Devoir,
+}

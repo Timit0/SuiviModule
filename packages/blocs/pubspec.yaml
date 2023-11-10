@@ -1,0 +1,31 @@
+name: blocs
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  firebase_core: ^2.15.1
+  firebase_database: ^10.2.5
+
+  bloc: ^8.1.2
+  flutter_bloc: ^8.1.3
+
+  module_repository:
+    path: ../module_repository
+  eleve_repository:
+    path: ../eleve_repository
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

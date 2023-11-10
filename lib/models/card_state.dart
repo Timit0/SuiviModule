@@ -1,5 +1,0 @@
-// ;)
-enum CardState {
-  Test,
-  Devoir,
-}

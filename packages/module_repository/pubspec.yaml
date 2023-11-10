@@ -15,6 +15,7 @@ dependencies:
     path: ../eleve_reference_repository
   test_repository:
     path: ../test_repository
+  firebase_database: ^10.3.2
 
 dev_dependencies:
   flutter_test:

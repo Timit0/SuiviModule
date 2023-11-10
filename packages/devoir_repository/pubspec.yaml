@@ -8,8 +8,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_db_service_repository:
-    path: ../firebase_db_service_repository
   firebase_core: ^2.15.1
   firebase_database: ^10.2.5
   devoir_reference_repository:
