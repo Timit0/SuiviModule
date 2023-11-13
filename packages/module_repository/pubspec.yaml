@@ -1,0 +1,23 @@
+name: module_repository
+description: repo des modules
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  equatable: ^2.0.5
+  flutter:
+    sdk: flutter
+  devoir_repository:
+    path: ../devoir_repository
+  eleve_reference_repository:
+    path: ../eleve_reference_repository
+  test_repository:
+    path: ../test_repository
+  firebase_database: ^10.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0

@@ -7,11 +7,11 @@ import '../models/eleve.dart';
 
 class StudentProvider with ChangeNotifier
 {
-  final List<Eleve> _eleves = [];
+  List<Eleve> _eleves = [];
 
   List<Eleve> get eleves => [..._eleves];
 
-  final List<Eleve> _allEleves = [];
+  List<Eleve> _allEleves = [];
 
   List<Eleve> get allEleves => [..._allEleves];
 

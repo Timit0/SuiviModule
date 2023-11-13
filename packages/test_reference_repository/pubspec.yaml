@@ -1,0 +1,17 @@
+name: test_reference_repository
+description: repo des test references
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  equatable: ^2.0.5
+  firebase_database: ^10.3.3
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0

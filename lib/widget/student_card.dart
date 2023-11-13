@@ -85,7 +85,7 @@ class _StudentCardState extends State<StudentCard> {
                   child: CachedNetworkImage(
                     imageUrl: widget.eleve.photoFilename,
                     placeholder: (context, url) => Image.asset('assets/img/placeholderImage.png'),
-                    errorWidget: (context, url, error) => Image.asset('assets/img/errorImage.png'),
+                    errorWidget: (context, url, error) => const Icon(Icons.person_rounded, size: 50),
                     width: 50,
                   ),
                 )
@@ -98,8 +98,8 @@ class _StudentCardState extends State<StudentCard> {
               Text(Provider.of<ModuleProvider>(context).getModuleFromId(widget.moduleId).classe)
             ]),
           ),
-          IconButton(onPressed: () => widget.detailButtonBehavior.call(), icon: const Icon(Icons.art_track), iconSize: 50),
-          IconButton(onPressed: () => widget.deleteButtonBehavior.call(), icon: const Icon(Icons.delete), iconSize: 50)
+          IconButton(onPressed: () => widget.detailButtonBehavior.call(), icon: const Icon(Icons.art_track), iconSize: 35),
+          IconButton(onPressed: () => widget.deleteButtonBehavior.call(), icon: const Icon(Icons.delete), iconSize: 35)
         ],),
       )
     );

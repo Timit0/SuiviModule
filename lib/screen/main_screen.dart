@@ -1,12 +1,17 @@
 import 'dart:io';
+import 'dart:js_interop';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/blocs/module/get_module_bloc/get_module_bloc.dart';
 import 'package:suivi_de_module/enum/stage.dart';
+import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/eleve_add_edit_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
+import 'package:suivi_de_module/screen/student_list_screen.dart';
 import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
 import 'package:suivi_de_module/widget/pick_file.dart';
 
@@ -15,46 +20,40 @@ import '../provider/student_provider.dart';
 class MainScreen extends StatefulWidget {
   MainScreen({super.key});
 
-  static void Refresh()
-  {
-    _refreshCode?.call();
+  static void Refresh() {
+    _refreshCode!.call();
   }
 
   static Function? _refreshCode;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
+
+  static String appBarTitleContent = "Module";
+
+  static void refreshAppBarTitle(String s) {
+    appBarTitleContent = s;
+  }
 }
 
 class _MainScreenState extends State<MainScreen> {
   bool _isInit = true;
   bool _isLoading = false;
 
-  // @override
-  // void didChangeDependencies() async {
-  //   if (_isInit) {
-  //     _isLoading = true;
-  //     await Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
-
   int _selectedIndex = 0;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
   @override
   Widget build(BuildContext context) {
-    MainScreen._refreshCode = (){
+    Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+
+    MainScreen._refreshCode = () {
       setState(() {
-        Provider.of<ModuleProvider>(context, listen: false).fetchAndSetModules();
+        MainScreen.appBarTitleContent = MainScreen.appBarTitleContent;
       });
     };
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Module"),
+        title: Text(MainScreen.appBarTitleContent),
         centerTitle: true,
         backgroundColor: Colors.grey,
       ),
@@ -67,37 +66,43 @@ class _MainScreenState extends State<MainScreen> {
               setState(() {
                 _selectedIndex = value;
 
+                switch (value) {
+                  case 0:
+                    MainScreen.appBarTitleContent = "Module";
+                  case 1:
+                    MainScreen.appBarTitleContent = "Gestion des élèves";
+                }
+
+                ModuleScreen.ResetMode();
                 //level = Stage.module;
               });
             },
-            destinations: const[
+            destinations: const [
               NavigationRailDestination(
-                icon: Icon(Icons.view_module), 
+                icon: Icon(Icons.view_module),
                 label: Text("Modules"),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.person_add), 
+                icon: Icon(Icons.person_rounded),
                 label: Text(
-                  "Ajouter/Modifier/Supprimer\nélèves",
+                  "Gestion des élèves",
                   textAlign: TextAlign.center,
                 ),
               ),
-            ], 
+            ],
             selectedIndex: _selectedIndex,
             labelType: labelType,
           ),
-          Flexible(
-            child: screenDisplay(_selectedIndex)
-          ),
+          Flexible(child: screenDisplay(_selectedIndex)),
         ],
       ),
       //bottomNavigationBar: AppBottomNavigationBar(stage: StageScreen.instance.getStageScreen())
     );
   }
-  
+
   ///C'est le our le changement de screen quand on clique sur la NavigationRail (le truc a gauche)
-  Widget screenDisplay(int _selectedIndex){
-    switch(_selectedIndex){
+  Widget screenDisplay(int _selectedIndex) {
+    switch (_selectedIndex) {
       case 0:
         StageScreen.instance.setStageScreen(Stage.module);
         MainScreen.Refresh();
@@ -106,6 +111,7 @@ class _MainScreenState extends State<MainScreen> {
         return EleveAddEditScreen();
       default:
         StageScreen.instance.setStageScreen(Stage.module);
+        MainScreen.Refresh();
         return ModuleScreen();
     }
   }

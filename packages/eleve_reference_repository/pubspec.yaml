@@ -1,0 +1,22 @@
+name: eleve_reference_repository
+description: repo des eleve reference
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  equatable: ^2.0.5
+  firebase_core: ^2.20.0
+  firebase_database: ^10.3.3
+  flutter:
+    sdk: flutter
+  eleve_repository:
+    path: ../eleve_repository
+  module_repository:
+    path: ../module_repository
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0

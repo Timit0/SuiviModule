@@ -178,7 +178,6 @@ class FirebaseDBService {
   Future<void> removeEleveRefOnModule(String eleveReferenceId, String moduleId) async
   {
     await _ref.child("$moduleNode/$moduleId/$eleveNode/$eleveReferenceId").remove();
-    //return module;
   }
 
   Future<void> addDevoir(Devoir devoir, String moduleId) async
@@ -362,12 +361,13 @@ class FirebaseDBService {
   }
   
 
-  Future<void> addModule(Module module) async {
-    await _ref.child("$moduleNode/${module.nom}").update(module.toJson());
-    await _ref.child("$moduleNode/${module.nom}").update({
-      devoirNode: '',
-      testNode: ''
-    });
+  Future<void> addOrUpdateModule(Module module) async {
+    print("NOM : "+module.nom);
+    await _ref.child("$moduleNode/${module.nom}/").update(module.toJson());
+    // await _ref.child("$moduleNode/${module.nom}").update({
+    //   devoirNode: '',
+    //   testNode: ''
+    // });
   }
 
   Future<void> removeModule(String id) async {

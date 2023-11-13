@@ -9,7 +9,7 @@ class Module{
   final String description;
   final String horaire;
   String classe;
-  final List<EleveReference>? eleve;
+  List<EleveReference>? eleve;
   List<Devoir> devoirs;
   List<Test> tests;
 

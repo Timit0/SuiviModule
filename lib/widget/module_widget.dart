@@ -1,11 +1,19 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_de_module/enum/mode.dart';
 import 'package:suivi_de_module/models/module.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/provider/student_provider.dart';
+import 'package:suivi_de_module/screen/module_screen.dart';
 //import 'package:suivi_de_module/widget/student_list_widget.dart';
 
 class ModuleWidget extends Module{
+  static Mode? mode;
+
+  //static Mode mode;
+
   ModuleWidget({
     required super.nom, 
     required super.description, 
@@ -46,6 +54,18 @@ class ModuleWidget extends Module{
     }catch(e){
     }
     classe += classNumb;
+    
+    editionBehavior = () {
+      if (mode != Mode.moduleEditionMode) {
+
+        ModuleScreen.refreshInsideCode = () {
+          ModuleScreen.mode = Mode.moduleEditionMode;
+          ModuleScreen.modId = nom;
+        };
+
+        ModuleScreen.Refresh();
+      }
+    };
 
     return Card(
       color: const Color.fromARGB(255, 216, 216, 216),
@@ -54,7 +74,7 @@ class ModuleWidget extends Module{
         borderRadius: BorderRadius.all(Radius.circular(0)),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Stack(
             children: [
@@ -103,33 +123,53 @@ class ModuleWidget extends Module{
               ),
             ],
           ),
-    
-          Expanded(  
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Container(
-                    // padding: const EdgeInsets.only(left: 50, right: 50),
-                    alignment: Alignment.center,
-                    child: Text(
-                      classe,
-                      style: const TextStyle(fontSize: 25),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+        
+        //TODO faire en sorte que le text soit responsive
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 300),
+                child: Text(
+                  classe,
+                  style: const TextStyle(fontSize: 25),
+                  textAlign: TextAlign.center,
                 ),
-                Row(children: [
-                  IconButton(onPressed: () => editionBehavior!.call(), icon: const Icon(Icons.edit, size: 50)),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 50.0),
-                    child: IconButton(onPressed: (){
-                      Provider.of<ModuleProvider>(context, listen: false).removeModule(moduleNom: nom);
-                    }, icon: const Icon(Icons.delete, size: 50)),
-                  ),
-                ])
-              ],
-            ),
+              ),
+              Row(
+                children: [
+                IconButton(onPressed: () => editionBehavior!.call(), icon: const Icon(Icons.edit, size: 30)),
+                Padding(
+                  padding: const EdgeInsets.only(right: 50.0),
+                  child: IconButton(onPressed: (){
+      
+                    showDialog(context: context, builder: (context) => AlertDialog(
+                      title: Text("Êtes - vous sûre de supprimer le module $nom?"),
+                      content: SizedBox(
+                        width: 10,
+                        height: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextButton(onPressed: (){
+                              Provider.of<ModuleProvider>(context, listen: false).removeModule(moduleNom: nom);
+                              Navigator.of(context).pop();
+                            }, child: const Text('oui', style: TextStyle(fontSize: 20))),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text('non', style: TextStyle(fontSize: 20))
+                            )
+                          ]
+                        ),
+                      ),
+                    ));
+      
+                    // TODO: a mettre lorsqu'on clique sur "oui"
+                    //
+                  }, icon: const Icon(Icons.delete, size: 30)),
+                ),
+              ])
+            ],
           ),
         ],
       ),

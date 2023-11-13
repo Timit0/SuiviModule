@@ -4,6 +4,8 @@ import 'package:suivi_de_module/models/eleve.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/models/module.dart';
 
+import '../enum/mode.dart';
+
 class ModuleProvider with ChangeNotifier{
   
   final List<Module> _modules = [];
@@ -12,7 +14,7 @@ class ModuleProvider with ChangeNotifier{
   // ModuleProvider(this.service);
   // Service service;
 
-  List<Module> get modules => [..._modules];
+  List<Module> get modules => [..._modules].reversed.toList();
   List<Module> get pendingModules => [..._pendingModules];
 
   Module getModuleFromId(String moduleID) => _modules.where((element) => element.nom == moduleID).first;
@@ -56,15 +58,26 @@ class ModuleProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> createModule(Module module) async{
-    await FirebaseDBService.instance.addModule(module);
-    _modules.add(module);
-    //fetchAndSetModules();
+  Future<void> createOrUpdateModule(Module module, Mode mode) async{
+    List<Eleve> listEleve = [];
+    List<EleveReference> listRef = [];
+    if(mode == Mode.moduleEditionMode){
+      final data = await FirebaseDBService.instance.getAllEleveFromOneModule(module.nom);
+      listEleve = data;
+      for (var v in listEleve) {
+        listRef.add(new EleveReference(id: v.id));
+      }
+    }
+    module.eleve = listRef;
+    await FirebaseDBService.instance.addOrUpdateModule(module);
+    if(mode == Mode.moduleAdditionMode){
+      _modules.add(module);
+    }
     notifyListeners();
   }
 
   Future<void> editModule(Module module) async{
-    await FirebaseDBService.instance.addModule(module);
+    await FirebaseDBService.instance.addOrUpdateModule(module);
     for(var v in _modules){
       if(v.nom == module.nom){
         v = module;

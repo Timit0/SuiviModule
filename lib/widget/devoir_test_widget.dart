@@ -17,7 +17,9 @@ class DevoirTestWidget extends StatefulWidget {
   String? tempID;
   String? tempDescription;
 
-
+  /// <summary>
+  /// permets d'afficher du text
+  /// </summary>
   final args;
 
   @override

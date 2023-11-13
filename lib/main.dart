@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_de_module/firebase_options.dart';
 import 'package:suivi_de_module/infrastructure/firebase_db_service.dart';
@@ -11,8 +12,11 @@ import 'package:suivi_de_module/provider/test_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/main_screen.dart';
 
-Future<void> main() async {
+import 'package:bloc/bloc.dart';
 
+import 'blocs/module/get_module_bloc/get_module_bloc.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -25,7 +29,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     //FirebaseDBService.instance.addModuleDummy(); // <-- UNIQUEMENT POUR LE DEBUGGING!!!
     //final service = FirebaseDbService.instance;
 
@@ -34,39 +37,34 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ModuleProvider>(
           create: (_) => ModuleProvider(),
         ),
-
         ChangeNotifierProvider<StudentProvider>(
           create: (_) => StudentProvider(),
         ),
-
         ChangeNotifierProvider<DevorProvider>(
           create: (_) => DevorProvider(),
         ),
-
-        ChangeNotifierProvider<TestProvider>(
-          create: (_) => TestProvider()
-        ),
-
+        ChangeNotifierProvider<TestProvider>(create: (_) => TestProvider()),
         ChangeNotifierProvider<TestAndDevoirProvider>(
-          create: (_) => TestAndDevoirProvider()
-        ),
+            create: (_) => TestAndDevoirProvider()),
       ],
-
       child: MaterialApp(
-        //scrollBehavior: MyCustomScrollBehavior(),
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: MainScreen(),
-        routes: {
-          // StudentListScreen.routeName:(context) => StudentListScreen(),
-          DetailsStudentScreen.routeName:(context) => DetailsStudentScreen(),
-        }
-        // home: LoginScreen(),
-      ),
+          //scrollBehavior: MyCustomScrollBehavior(),
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: BlocProvider(
+            create: (context) => GetModuleBloc()..add(GetModules()),
+            child: MainScreen(),
+          ),
+          routes: {
+            // StudentListScreen.routeName:(context) => StudentListScreen(),
+            DetailsStudentScreen.routeName: (context) => DetailsStudentScreen(),
+          }
+          // home: LoginScreen(),
+          ),
     );
   }
 }

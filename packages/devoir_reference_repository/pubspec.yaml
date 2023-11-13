@@ -1,0 +1,16 @@
+name: devoir_reference_repository
+description: repo de tout ce qui va concerner les refs de devoir
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  firebase_database: ^10.3.3
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0

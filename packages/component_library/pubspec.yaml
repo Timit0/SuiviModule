@@ -1,0 +1,20 @@
+name: component_library
+publish_to: none
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  cached_network_image: ^3.3.0
+  flutter:
+    sdk: flutter
+  storybook_flutter: ^0.14.0
+  suivi_de_module:
+    path: ../../
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+
+flutter:
+  assets:
+    - assets/

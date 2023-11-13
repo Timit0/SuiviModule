@@ -1,0 +1,20 @@
+name: devoir_repository
+description: repo des devoir
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_core: ^2.15.1
+  firebase_database: ^10.3.3
+  devoir_reference_repository:
+    path: ../devoir_reference_repository
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
