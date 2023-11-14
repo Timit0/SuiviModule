@@ -1,21 +1,16 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:module_repository/module_repository.dart';
-import 'package:provider/provider.dart';
 import 'package:suivi_de_module/blocs/module/get_module_bloc/get_module_bloc.dart';
 import 'package:suivi_de_module/enum/mode.dart';
 import 'package:suivi_de_module/enum/stage.dart';
 import 'package:suivi_de_module/models/eleve_reference.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
-import 'package:suivi_de_module/screen/eleve_add_edit_screen.dart';
-import 'package:suivi_de_module/screen/main_screen.dart';
 import 'package:suivi_de_module/screen/student_list_screen.dart';
 import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
 import 'package:suivi_de_module/widget/module_form.dart';
 
-import '../provider/student_provider.dart';
 import '../widget/module_widget.dart';
 
 class ModuleScreen extends StatefulWidget {
@@ -100,7 +95,19 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 48.0),
-                          child: addWidget(),
+                          child: ModuleForm(
+                            modules: selectedModule, 
+                            eleveRefController: eleveRefController, 
+                            moduleClassController: moduleClassController, 
+                            moduleDayDateController: moduleDayDateController, 
+                            moduleDescriptionController: moduleDescriptionController, 
+                            moduleNameController: moduleNameController, 
+                            moduleNumController: moduleNumController, 
+                            formKey: formKey, 
+                            moduleId: ModuleScreen.mode == Mode.moduleAdditionMode
+                              ? null
+                              : ModuleScreen.modId
+                          ) //addWidget(),
                         ),
                         //textButtonWidget()
                       ],
@@ -117,8 +124,20 @@ class _ModuleScreenState extends State<ModuleScreen> {
                   return Padding(
                     padding:
                         const EdgeInsets.only(left: 100, right: 100, top: 50),
-                    child: Center(child: addWidget()),
-                  );
+                    child: Center(child: ModuleForm(
+                            modules: selectedModule, 
+                            eleveRefController: eleveRefController, 
+                            moduleClassController: moduleClassController, 
+                            moduleDayDateController: moduleDayDateController, 
+                            moduleDescriptionController: moduleDescriptionController, 
+                            moduleNameController: moduleNameController, 
+                            moduleNumController: moduleNumController, 
+                            formKey: formKey, 
+                            moduleId: ModuleScreen.mode == Mode.moduleAdditionMode
+                              ? null
+                              : ModuleScreen.modId
+                          ) //addWidget()),
+                  ));
                 }
               }
 
@@ -192,35 +211,6 @@ class _ModuleScreenState extends State<ModuleScreen> {
       ),
       //Center(child: textButton(selectedModule, moduleProvider, index: index)),
     ]);
-  }
-
-  Widget? textButton(Module selectedModule, ModuleProvider moduleProvider,
-      {int index = 0}) {
-    if (moduleProvider.modules.length > 0 &&
-            index == moduleProvider.modules.length - 1 ||
-        moduleProvider.modules.length == 0) {
-      return TextButton(
-          onPressed: () {
-            moduleClassController.text = "";
-            moduleDescriptionController.text = "";
-            moduleDayDateController.text = "";
-            moduleNameController.text = "";
-            setState(() {
-              ModuleScreen.mode = Mode.moduleAdditionMode;
-            });
-          },
-          style: const ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(Colors.grey),
-          ),
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Ajouter un module',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30)),
-          ));
-    }
   }
 
   Widget addWidget() {

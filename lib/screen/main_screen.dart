@@ -8,10 +8,13 @@ import 'package:provider/provider.dart';
 import 'package:suivi_de_module/blocs/module/get_module_bloc/get_module_bloc.dart';
 import 'package:suivi_de_module/enum/stage.dart';
 import 'package:suivi_de_module/models/card_state.dart';
+import 'package:suivi_de_module/models/card_state.dart';
 import 'package:suivi_de_module/provider/module_provider.dart';
+import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/details_student_screen.dart';
 import 'package:suivi_de_module/screen/eleve_add_edit_screen.dart';
 import 'package:suivi_de_module/screen/module_screen.dart';
+import 'package:suivi_de_module/screen/student_list_screen.dart';
 import 'package:suivi_de_module/screen/student_list_screen.dart';
 import 'package:suivi_de_module/widget/app_bottom_nagiation_bar_widget.dart';
 import 'package:suivi_de_module/widget/pick_file.dart';
@@ -49,6 +52,7 @@ class _MainScreenState extends State<MainScreen> {
 
     MainScreen._refreshCode = () {
       setState(() {
+        MainScreen.appBarTitleContent = MainScreen.appBarTitleContent;
         MainScreen.appBarTitleContent = MainScreen.appBarTitleContent;
       });
     };
