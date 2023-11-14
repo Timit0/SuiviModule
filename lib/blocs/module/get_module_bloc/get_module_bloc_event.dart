@@ -7,4 +7,6 @@ sealed class GetModuleBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetModules extends GetModuleBlocEvent{}
+class GetModules extends GetModuleBlocEvent {
+  GetModules();
+}

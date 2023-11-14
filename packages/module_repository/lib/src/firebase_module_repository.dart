@@ -18,7 +18,7 @@ class FirebaseModuleRepository extends ModuleRepository{
     _ref = db.ref();
   }
 
-  final String modulesNode = "Modules";
+  final String modulesNode = "module";
 
   @override
   Future<Module> create({required Module module}) async {
@@ -42,13 +42,17 @@ class FirebaseModuleRepository extends ModuleRepository{
   }
   
   @override
-  Future<List<Module>> get({String? id = null}) async {
+  Future<List<Module>> get({String? id}) async {
     try {  
       List<Module> listModule = [];
       if(id.isNull){
         final data = await _ref.child(modulesNode).get();
         for(var v in data.children){
-          listModule.add(v as Module);
+          try{
+          listModule.add(Module.fromJson(v.value as Map<dynamic, dynamic>));
+          }catch(e){
+            dev.log(e.toString());
+          }
         }
       }else{
         listModule.add(await _ref.child("$modulesNode/$id").get() as Module);

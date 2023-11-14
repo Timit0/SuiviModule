@@ -10,6 +10,7 @@ sealed class GetModuleBlocState extends Equatable {
 final class GetModuleBlocInitial extends GetModuleBlocState {}
 
 final class GetModuleBlocLoading extends GetModuleBlocState {}
+
 final class GetModuleBlocSuccess extends GetModuleBlocState {
   final List<Module> module;
 

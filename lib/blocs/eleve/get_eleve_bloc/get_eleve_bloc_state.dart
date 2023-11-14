@@ -11,8 +11,8 @@ final class GetEleveBlocInitial extends GetEleveBlocState {}
 
 final class GetEleveBlocLoading extends GetEleveBlocState {}
 final class GetEleveBlocSuccess extends GetEleveBlocState {
-  final List<Eleve> eleves;
-  const GetEleveBlocSuccess({required this.eleves});
+  final List<Eleve>? eleves;
+  const GetEleveBlocSuccess({this.eleves});
 }
 final class GetEleveBlocFailure extends GetEleveBlocState {
   final String errorMessage;

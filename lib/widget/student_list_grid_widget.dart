@@ -49,7 +49,7 @@ class _StudentListGridWidgetState extends State<StudentListGridWidget> {
     }else{
       return const Center(
         child: Text(
-          "Aucun élève n'a encore été créer",
+          "Aucun élève n'a encore été crée",
           style: TextStyle(
             fontSize: 30
           )

@@ -1,0 +1,205 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "SuiviModule",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "SuiviModule (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "SuiviModule (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "component_library",
+            "cwd": "packages\\component_library",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "component_library (profile mode)",
+            "cwd": "packages\\component_library",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "component_library (release mode)",
+            "cwd": "packages\\component_library",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "devoir_reference_repository",
+            "cwd": "packages\\devoir_reference_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "devoir_reference_repository (profile mode)",
+            "cwd": "packages\\devoir_reference_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "devoir_reference_repository (release mode)",
+            "cwd": "packages\\devoir_reference_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "devoir_repository",
+            "cwd": "packages\\devoir_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "devoir_repository (profile mode)",
+            "cwd": "packages\\devoir_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "devoir_repository (release mode)",
+            "cwd": "packages\\devoir_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "eleve_reference_repository",
+            "cwd": "packages\\eleve_reference_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "eleve_reference_repository (profile mode)",
+            "cwd": "packages\\eleve_reference_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "eleve_reference_repository (release mode)",
+            "cwd": "packages\\eleve_reference_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "eleve_repository",
+            "cwd": "packages\\eleve_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "eleve_repository (profile mode)",
+            "cwd": "packages\\eleve_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "eleve_repository (release mode)",
+            "cwd": "packages\\eleve_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "module_repository",
+            "cwd": "packages\\module_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "module_repository (profile mode)",
+            "cwd": "packages\\module_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "module_repository (release mode)",
+            "cwd": "packages\\module_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "test_reference_repository",
+            "cwd": "packages\\test_reference_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "test_reference_repository (profile mode)",
+            "cwd": "packages\\test_reference_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "test_reference_repository (release mode)",
+            "cwd": "packages\\test_reference_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "test_repository",
+            "cwd": "packages\\test_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "test_repository (profile mode)",
+            "cwd": "packages\\test_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "test_repository (release mode)",
+            "cwd": "packages\\test_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "component_library_storybook",
+            "cwd": "packages\\component_library\\component_library_storybook",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "component_library_storybook (profile mode)",
+            "cwd": "packages\\component_library\\component_library_storybook",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "component_library_storybook (release mode)",
+            "cwd": "packages\\component_library\\component_library_storybook",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
