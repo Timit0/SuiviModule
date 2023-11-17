@@ -1,4 +1,3 @@
-
 import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
@@ -9,8 +8,6 @@ import 'package:suivi_de_module/widget/eleve_gestion_form.dart';
 import 'package:suivi_de_module/widget/student_list_grid_widget.dart';
 
 import '../enum/eleve_state.dart';
-
-
 
 class EleveAddEditScreen extends StatefulWidget {
   EleveAddEditScreen({super.key});
@@ -37,23 +34,12 @@ class _EleveAddEditScreenState extends State<EleveAddEditScreen> {
 
   bool disposeOption = false;
 
-  
-  // @override
-  // void dispose() {
-  //   // Clean up the controller when the widget is disposed.
-  //   getCp.dispose();
-  //   getName.dispose();
-  //   getNickName.dispose();
-  //   getPicture.dispose();
-  // }
-
-  
-
   @override
   void didChangeDependencies() async {
     if (_isInit) {
       _isLoading = true;
-      await Provider.of<StudentProvider>(context, listen: false).fetchAndSetAllStudents();
+      await Provider.of<StudentProvider>(context, listen: false)
+          .fetchAndSetAllStudents();
       setState(() {
         _isLoading = false;
       });
@@ -69,14 +55,14 @@ class _EleveAddEditScreenState extends State<EleveAddEditScreen> {
         StudentListGridWidget(),
         Flexible(
           child: EleveGestionForm(
-            disposeOption: disposeOption, 
-            formState: formState, 
-            form: _form, 
-            getCp: getCp, 
-            getName: getName, 
-            getNickName: getNickName, 
+            disposeOption: disposeOption,
+            formState: formState,
+            form: _form,
+            getCp: getCp,
+            getName: getName,
+            getNickName: getNickName,
             getPicture: getPicture,
-            ),
+          ),
         ),
       ],
     );
